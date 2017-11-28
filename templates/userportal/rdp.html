@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<link rel="icon" href="/static/imgs/icon-userportal.png" type="image/x-icon">
+	<title>RDP云桌面</title>
+</head>
+
+<body>
+
+<div id="MsRdpClientDiv">
+	<object id="MsRdpClient" classid="CLSID:7584c670-2274-4efb-b00b-d6aaba6d3850"
+			codebase="/static/msrdp.cab#version=5,2,3790,0">
+	</object>
+</div>
+
+<script type="text/javascript">
+
+	var ip = "{{ ADDRESS }}";
+	var user = "{{ USER }}";
+	var password = "{{ PASSWORD }}";
+
+	MsRdpClient.server = ip;
+	MsRdpClient.UserName = user;
+	MsRdpClient.AdvancedSettings.ClearTextPassword = password;
+
+	width = screen.width;
+	height = screen.height;
+	MsRdpClient.width = width;
+	MsRdpClient.height = height;
+
+	MsRdpClient.AdvancedSettings2.RDPPort = "3389";
+	MsRdpClient.FullScreen = true;
+	MsRdpClient.FullScreenTitle = "{{ FULLSCREENTITLE }}";
+
+	MsRdpClient.AdvancedSettings2.RedirectDrives = false;
+	MsRdpClient.AdvancedSettings2.RedirectPrinters = false;
+	MsRdpClient.AdvancedSettings2.RedirectPorts = false;
+	MsRdpClient.AdvancedSettings2.RedirectClipboard = true;
+	MsRdpClient.AdvancedSettings2.RedirectSmartCards = false;
+
+	MsRdpClient.Connect();
+
+</script>
+
+</body>
+</html>

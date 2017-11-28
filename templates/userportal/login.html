@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="description" content="RVM V5 UserPortal Login Panel">
+	<meta name="author" content="Henry.Ma">
+
+	<title>V5用户面板</title>
+
+	<link href="/static/bootstrap334/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/static/userportal/signin.css" rel="stylesheet">
+	<link rel="icon" href="/static/imgs/icon-userportal.png" type="image/x-icon">
+	<script src="/static/js/base64.js"></script>
+
+	<style>
+
+		a {
+			cursor: pointer;
+		}
+
+		input {
+			height: 35px;
+			width: 300px;
+			position: absolute;
+			padding-left: 5px;
+			left: 100px;
+		}
+
+		.commitbutton {
+			position: absolute;
+			left: 38px;
+			width: 363px;
+			height: 40px;
+		}
+
+		.label {
+			font-size: 90%;
+			left: 30px;
+			position: absolute;
+		}
+
+		#rvmlogin {
+			position: relative;
+			display: inline-block;
+			width: 450px;
+			background-color: #265a88;
+			height: 300px;
+			text-align: center;
+			top: 150px;
+			border-radius: 10px;
+		}
+
+		#rvmlogin img {
+			position: absolute;
+			left: 0;
+			display: inline-block;
+			height: 60px;
+			border-radius: inherit;
+		}
+
+		#login-header {
+			position: absolute;
+			background-color: #265a88;
+			width: 100%;
+			height: 80px;
+			border-radius: inherit;
+		}
+
+		#login-prompt {
+			position: absolute;
+			height: 50px;
+			left: 33px;
+			right: 0;
+			color: #fff;
+			line-height: 60px;
+			font-size: 21px;
+			align-content: center;
+			padding-right: 45px;
+			border-radius: inherit;
+		}
+
+		.form-login {
+			height: 35px;
+			margin-bottom: 10px;
+			background-color: red;
+		}
+
+		.form-login label {
+			line-height: 35px;
+			font-size: 1.2em;
+			font-weight: normal;
+		}
+
+		#loginForm {
+			position: absolute;
+			align-content: center;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			padding-top: 5px;
+			padding-left: 100px;
+			padding-right: 100px;
+			height: auto;
+			top: 81px;
+			width: 100%;
+		}
+
+	</style>
+
+</head>
+
+<body style="height: 100%; text-align: center">
+
+<div id="rvmlogin">
+	<div id="login-header">
+		<img src="/static/imgs/logo.png">
+		<div id="login-prompt">
+			RVM私有云用户面板5.0
+		</div>
+	</div>
+	<div style="position:absolute; display: {{ ACTION }} ; color: red; height: 30px; top: 60px; width: 100%; left: 0; text-align: center">
+		{{ PROMPT }}
+	</div>
+	<div style="position: absolute; height: 30px; top: 57px; right: 20px; font-size: 1.3em;">
+		<a style="color: wheat; text-decoration: underline;" id="switchLoginType" onclick="switchLogin();">切换登录方式</a>
+	</div>
+
+	<form class="" action="/userportal/login/" id="loginForm" method="POST" style="">
+
+		<div class="form-login">
+			<label for="inputAccount" class="label">账号名</label>
+			<input type="text" id="inputAccount" name="accountname" placeholder="账号名" value="admin"
+			       required>
+		</div>
+		<div class="form-login">
+			<label id="userLabel" for="inputUser" class="label">用户名</label>
+			<input type="text" id="inputUser" name="username" placeholder="用户名" required>
+		</div>
+
+		<div class="form-login">
+			<label for="inputPassword" class="label">密  码</label>
+			<input type="password" id="inputPassword" name="password" placeholder="密码" required>
+		</div>
+
+		<div>
+			<input title="" type="text" id="loginType" name="logintype" hidden>
+		</div>
+
+		<button id="loginButton" class="btn btn-lg btn-primary btn-block commitbutton" onclick="toCommit();">本地用户登录</button>
+	</form>
+
+	<div style="position:absolute; text-align: center; color: grey; bottom: 1px; line-height: 20px; width: 100%; font-size: 12px">
+		版权所有 © 2011-2017 北京信联云通科技有限责任公司
+	</div>
+
+</div>
+
+<script>
+
+	g_login_type = "localdb";
+
+	function toCommit() {
+		password = document.getElementById("inputPassword").value;
+		document.getElementById("inputPassword").value = new Base64().encode(password);
+		var form = document.getElementById("loginForm");
+		form.submit();
+
+		document.getElementById("loginType").value = g_login_type;
+	}
+
+	function switchLogin() {
+		doc = document.getElementById("loginButton");
+		userInput = document.getElementById("inputUser");
+		lable = document.getElementById("userLabel");
+
+		if (g_login_type === "localdb") {
+			g_login_type = "ldap";
+			doc.innerHTML = "LDAP用户登录";
+			userInput.placeholder = "UID";
+			lable.innerHTML = "UID";
+		} else {
+			g_login_type = "localdb";
+			doc.innerHTML = "本地用户登录";
+			userInput.placeholder = "用户名";
+			lable.innerHTML = "用户名";
+		}
+	}
+</script>
+
+</body>
+
+</html>

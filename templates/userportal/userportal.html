@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<link href="/static/bootstrap334/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/bootstrap334/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/userportal/userportal.css" rel="stylesheet" type="text/css"/>
+	<link rel="icon" href="/static/imgs/icon-userportal.png" type="image/x-icon">
+	<title>RVM 用户面板 V5</title>
+
+	<script>
+		var g_isIE = !!window.ActiveXObject || "ActiveXObject" in window;
+		if (g_isIE === true) {
+			console = {};
+			console.log = function () {
+				return null;
+			}
+		}
+	</script>
+
+	<style>
+		.name {
+			display: inline-block;
+			padding-left: 0;
+			width: 160px;
+			background-color: #33aa99;
+			color: #fff;
+			vertical-align: top;
+			line-height: 55px;
+			font-size: 1.3em;
+			border-radius: 0 0 0 10px;
+		}
+
+		.logo {
+			display: inline-block;
+			height: 55px;
+		}
+
+		#logo-left {
+			display: inline-block;
+			padding-left: 10px;
+			position: relative;
+			height: 55px;
+			left: 0;
+			top: 0;
+			background-color: #33aa99;
+		}
+
+		.user_prompt {
+			color: #c8e5bc;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 380px;
+			text-align: center;
+			line-height: 55px;
+		}
+
+		.user_value {
+			color: #e8e8e8;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 440px;
+			text-align: center;
+			line-height: 55px;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+<header id="header" class="header">
+	<div id="logo-left">
+		<img class="logo" src="/static/imgs/logo.png">
+		<div class="name" style="">RVM用户面板V5.0</div>
+	</div>
+	<div class="user-info">
+		<div class="user_prompt">
+			欢迎您：
+		</div>
+		<div class="user_value">
+			{{ USER_NAME }} / {{ ACCOUNT_NAME }}
+		</div>
+
+	</div>
+
+</header>
+
+<div id="main" class="main-frame">
+
+	<div class="left-menu" id="memu">
+		<div>
+			<button class="btn btn-primary btn-lg menu-item" id="vm-menu-button" onclick="switchToVmPage(null)">
+				我的虚拟机
+			</button>
+			<button class="btn btn-primary btn-lg menu-item" id="service-menu-button" onclick="switchToServicePage()">
+				我的服务
+			</button>
+			<div class="btn btn-primary btn-lg menu-item" id="account-menu-button" onclick="switchToAccountPage()">
+				账号设置
+			</div>
+			<div class="btn btn-primary btn-lg menu-item" id="logout-menu-button" onclick="logout();">
+				退出
+			</div>
+		</div>
+	</div>
+
+	<div id="account-manage" class="right-content" style="display: none">
+		<div style="position:absolute; left: 0;width:100%; right:0;background-color: white; height: 50px;line-height: 50px;">
+			<button class="btn btn-primary btn-lg" onclick="editUserForm();">
+				编辑
+			</button>
+			<div class="btn btn-primary btn-lg" onclick="updateUserPass();">
+				修改密码
+			</div>
+
+		</div>
+
+		<div id="user-content" style="position: absolute; top: 50px; width: 100%">
+			<table id="user-detail-table" class="table table-striped table-hover">
+			</table>
+		</div>
+	</div>
+
+	<div id="service-manage" class="right-content" style="display: none">
+		<div style="position:absolute; left: 0; width:100%; right:0;background-color: #eee; height: 50px;line-height: 50px;">
+			<div class="btn btn-primary btn-lg" id="servicePowerOn" onclick="servicePowerManage(SERVICE_POWER_ON);">
+				开启
+			</div>
+			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="servicePowerManage(SERVICE_POWER_OFF);">
+				关闭
+			</div>
+			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="serviceApply();">
+				申请服务
+			</div>
+		</div>
+		<div>
+			<table id="service-list-tab" class="table table-striped table-hover" style="position: absolute; top: 50px; margin-top: 10px">
+			</table>
+		</div>
+	</div>
+
+	<div id="vm-manage" class="right-content" style="display: none">
+		<div style="position:absolute; left: 0;width:100%; right:0;background-color: #eee; height: 50px;line-height: 50px;">
+			<div class="btn btn-primary btn-lg" id="vmPowerOn" onclick="vmPowerManage(VM_POWER_ON);">
+				开启
+			</div>
+			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="vmPowerManage(VM_POWER_OFF);">
+				关闭
+			</div>
+			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="vmPowerManage(VM_POWER_REBOOT);">
+				重启
+			</div>
+			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="vmPowerManage(VM_POWER_FORCEOFF);">
+				强制关闭
+			</div>
+			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="vmPowerManage(VM_POWER_FORCEREBOOT);">
+				强制重启
+			</div>
+		</div>
+		<div>
+			<table id="vm-list-tab" class="table table-striped table-hover" style="position: absolute; top: 50px; margin-top: 10px">
+			</table>
+		</div>
+	</div>
+
+	<div id="vmdetail-manage" class="right-content" style="display: none">
+
+		<div style="position: absolute;margin-left: 0;" class="row">
+			<div class="span6">
+				<ul class="nav nav-pills" style="font-size: 1.4em;">
+					<li id="vmdetail-button-main" class="active"><a  onclick="switchVmDetail_main()">基本信息</a></li>
+					<li id="vmdetail-button-nic"><a onclick="switchVmDetail_nic()">网卡</a></li>
+					<li id="vmdetail-button-disk"><a onclick="switchVmDetail_disk()">磁盘</a></li>
+					<li id="vmdetail-button-cdrom"><a onclick="switchVmDetail_cdrom()">光驱</a></li>
+					<li id="vmdetail-button-app"><a onclick="switchVmDetail_app()">应用</a></li>
+					<li id="vmdetail-button-attrs"><a onclick="switchVmDetail_attrs()">其他属性</a></li>
+					<li id="vmdetail-button-back" ><a onclick="switchToVmPage(g_refresh_service_id)">返回</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="vmdetail-content" style="position: absolute; top: 50px; width: 100%">
+			<table id="vm-detail-table" class="table table-striped table-hover">
+				<tr>
+					<th>属性</th>
+					<th>内容</th>
+				</tr>
+				<tr>
+					<td>名称</td>
+					<td>vm</td>
+				</tr>
+				<tr>
+					<td>状态</td>
+					<td style="color: green">Running</td>
+				</tr>
+				<tr>
+					<td>UUID</td>
+					<td>41566882-5c64-49e5-b38d-d891442a6269</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalUserEditor" tabindex="-1" role="dialog" aria-labelledby="modalUserEditorLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalUserEditorLabel">
+					编辑个人信息
+				</h4>
+			</div>
+			<div id="userFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="userEditName" class="col-sm-2 control-label">用户名</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control disabled" id="userEditName" value="test" readonly>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="userEditEmail" class="col-sm-2 control-label">邮箱</label>
+						<div class="col-sm-10">
+							<input type="email" class="form-control" id="userEditEmail" value="" placeholder="电子邮件">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="userEditPhoneNumber" class="col-sm-2 control-label">电话</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="userEditPhoneNumber" value=""
+							       placeholder="电话号码">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="userEditDesc" class="col-sm-2 control-label">描述</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="userEditDesc" rows="4" placeholder="描述"></textarea>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="updateUser();">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalAddApp" tabindex="-1" role="dialog" aria-labelledby="modalAddAppLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalAddAppLabel">
+					添加虚拟机应用映射
+				</h4>
+			</div>
+			<div id="appFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="appName" class="col-sm-2 control-label">应用名</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control disabled" id="appName" value="" placeholder="应用名">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="appPath" class="col-sm-2 control-label">应用路径</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="appPath" value="" placeholder="执行程序路径">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="appParas" class="col-sm-2 control-label">执行参数</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="appParas" rows="4" placeholder="应用执行参数"></textarea>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="addApp();">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalAddService" tabindex="-1" role="dialog" aria-labelledby="modalAddServiceLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalAddServiceLabel">
+					添加服务
+				</h4>
+			</div>
+			<div id="serviceFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="serviceName" class="col-sm-2 control-label">服务名</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control disabled" id="serviceName" value="" placeholder="服务名">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="serviceOffering" class="col-sm-2 control-label">服务规格</label>
+						<select style="height: 40px; font-size: 120%; width: 210px; margin-left: 114px" class="form-control" id="serviceOffering">
+							<option value="1">serviceOffering1</option>
+							<option value="2" selected>serviceOffering2</option>
+							<option value="3">serviceOffering3</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="serviceDesc" class="col-sm-2 control-label">描述</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="serviceDesc" rows="4" placeholder="描述"></textarea>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="addService();">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalEditApp" tabindex="-1" role="dialog" aria-labelledby="modalEditAppLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalEditAppLabel">
+					编辑虚拟机应用
+				</h4>
+			</div>
+			<div id="appFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="appName" class="col-sm-2 control-label">应用名</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control disabled" id="appNewName" value="" placeholder="应用名" readonly>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="appPath" class="col-sm-2 control-label">应用路径</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="appNewPath" value="" placeholder="执行程序路径">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="appParas" class="col-sm-2 control-label">执行参数</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="appNewParas" rows="4" placeholder="应用执行参数"></textarea>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="updateApp();">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalChangePass" tabindex="-1" role="dialog" aria-labelledby="modalUserPassEditorLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalUserPassEditorLabel">
+					修改密码
+				</h4>
+			</div>
+			<div id="userPassFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="userEditOldPass" class="col-sm-2 control-label">旧密码</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="userEditOldPass" placeholder="旧密码" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="userEditNewPass" class="col-sm-2 control-label">新密码</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="userEditNewPass" placeholder="新密码" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="userEditNewPassConfirm" class="col-sm-2 control-label">确认密码</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" id="userEditNewPassConfirm" placeholder="确认密码"
+							       required autofocus>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="changeUserPass();">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalDelCdrom" tabindex="-1" role="dialog" aria-labelledby="modalDelCdromLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalDelCdromLabel ">
+					光驱操作
+				</h4>
+			</div>
+			<div id="delCdomFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="divider" id="cdRomPrompt">
+						你确定删除该光驱吗？
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" id="cdRomModalFooter">
+				<button type="button" class="btn btn-primary" onclick="removeCdrom();">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalDelApp" tabindex="-1" role="dialog" aria-labelledby="modalDelAppLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalDelAppLabel ">
+					虚拟机应用
+				</h4>
+			</div>
+			<div id="delCdomFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="divider" id="appPrompt">
+						你确定删除该应用吗？
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" id="cdRomModalFooter">
+				<button type="button" class="btn btn-primary" onclick="removeApp();">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalServiceManage" tabindex="-1" role="dialog" aria-labelledby="modalServiceManageLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalServiceManageLabel ">
+					服务操作
+				</h4>
+			</div>
+			<div id="modalServiceManageFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="divider" id="modalServiceManagePrompt">
+						你确定删除该应用吗？
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" id="modalServiceManageFooter">
+				<button type="button" class="btn btn-primary" onclick="serviceManage();">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalServicePower" tabindex="-1" role="dialog" aria-labelledby="modalServicePowerLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalServicePowerLabel ">
+					服务电源操作
+				</h4>
+			</div>
+			<div id="servicePowerFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="divider" id="servicePowerPrompt">
+						你确定关闭如下虚拟机吗？
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" id="servicePowerModalFooter">
+				<button type="button" class="btn btn-primary" onclick="servicePower();">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalPower" tabindex="-1" role="dialog" aria-labelledby="modalPowerLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalPowerLabel ">
+					电源操作
+				</h4>
+			</div>
+			<div id="vmPowerFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="divider" id="vmPowerPrompt">
+						你确定关闭如下虚拟机吗？
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" id="vmPowerModalFooter">
+				<button type="button" class="btn btn-primary" onclick="vmPower();">确定</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalAlarm" tabindex="-1" role="dialog" aria-labelledby="modalAlarmLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalAlarmLabel" style="color: darkred">
+					错误提示
+				</h4>
+			</div>
+			<div id="alarmModalBoday" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="divider" id="alarmBodyContent" style="color: red">
+						你确定关闭如下虚拟机吗？
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" id="alarmModelFooter">
+				<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalPrompt" tabindex="-1" role="dialog" aria-labelledby="modalPromptLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalPromptLabel" style="color: green">
+					提示
+				</h4>
+			</div>
+			<div id="promptModalBoday" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="divider" id="promptBodyContent" style="color: green">
+						操作正在进行中，请稍候！
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer" id="promptModelFooter">
+				<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalVmDetail" tabindex="-1" role="dialog" aria-labelledby="modalVmDetailLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalVmDetailLabel">
+					虚拟机详细
+				</h4>
+			</div>
+			<div id="vmDetailBody" class="modal-body">
+				<table class="table table-striped table-hover">
+					<tr>
+						<th>属性</th>
+						<th>内容</th>
+					</tr>
+					<tr>
+						<td>虚拟机名</td>
+						<td>Vm1999</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalIsoManage" tabindex="-1" role="dialog" aria-labelledby="modalIsoManageLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalIsoManageLabel">
+					虚拟机可用ISO列表
+				</h4>
+			</div>
+
+			<div id="isoManageBody" class="modal-body">
+				<select style="height: 40px; font-size: 120%" class="form-control" id="vmIsoSelectorItem">
+					<option>1.iso</option>
+					<option>2.iso</option>
+					<option>3.iso</option>
+					<option selected>4.iso</option>
+					<option>5.iso</option>
+				</select>
+			</div>
+
+			<div class="modal-footer" id="modalVmIsoSelectorFooter">
+				<button id="btnVmIsoSelector" type="button" class="btn btn-default">确定</button>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalCdromDetail" tabindex="-1" role="dialog" aria-labelledby="modalCdromDetailLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalAppDetailLabel">
+					光驱详情
+				</h4>
+			</div>
+			<div class="modal-body">
+				<table id="cdromDetailBody" class="table table-striped table-hover">
+					<tr>
+						<th>属性</th>
+						<th>内容</th>
+					</tr>
+					<tr>
+						<td>虚拟机名</td>
+						<td>Vm1999</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalAppDetail" tabindex="-1" role="dialog" aria-labelledby="modalAppDetailLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalAppDetailLabel">
+					编辑应用
+				</h4>
+			</div>
+			<div class="modal-body">
+				<table id="appDetailBody" class="table table-striped table-hover">
+					<tr>
+						<th>属性</th>
+						<th>内容</th>
+					</tr>
+					<tr>
+						<td>虚拟机名</td>
+						<td>Vm1999</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalVmBootLoader" tabindex="-1" role="dialog" aria-labelledby="modalVmBootLoaderLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalVmBootLoaderLabel">
+					虚拟机启动顺序
+				</h4>
+			</div>
+
+			<div id="modalVmBootLoaderBody" class="modal-body">
+				<div class="form-group">
+					<label for="userEditOldPass" class="control-label">第一启动项</label>
+					<select style="height: 40px; font-size: 120%" class="form-control" id="vmBootLoaderFirst">
+						<option selected>硬盘</option>
+						<option>CDROM</option>
+						<option>网络</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="userEditOldPass" class="control-label">第二启动项</label>
+					<select style="height: 40px; font-size: 120%" class="form-control" id="vmBootLoaderSecond">
+						<option selected>无</option>
+						<option>硬盘</option>
+						<option>CDROM</option>
+						<option>网络</option>
+					</select>
+				</div>
+
+				<div class="form-group">
+					<label for="userEditOldPass" class="control-label">第三启动项</label>
+					<select style="height: 40px; font-size: 120%" class="form-control" id="vmBootLoaderThird">
+						<option selected>无</option>
+						<option>硬盘</option>
+						<option>CDROM</option>
+						<option>网络</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="modal-footer" id="modalVmBootLoaderFooter">
+				<button id="btnVmBootLoader" type="button" class="btn btn-default">确定</button>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<div class="modal fade" id="modalBindUSB" tabindex="-1" role="dialog" aria-labelledby="modalBindUSBLable"
+     aria-hidden="true">
+	<div style="width:65%" class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalBindUSBLable">
+					绑定USB
+				</h4>
+			</div>
+			<div id="bindUSBBody" class="modal-body">
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalVmPassword" tabindex="-1" role="dialog" aria-labelledby="modalVmPasswordLable"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalVmPasswordLable">
+					修改密码
+				</h4>
+			</div>
+			<div id="vmPasswordBody" class="modal-body">
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modalVmAttr" tabindex="-1" role="dialog" aria-labelledby="modalVmAttrLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalVmAttrLabel">
+					虚拟机属性
+				</h4>
+			</div>
+			<div id="vmAttrBody" class="modal-body">
+				<table class="table table-striped table-hover">
+					<tr>
+						<th>属性</th>
+						<th>内容</th>
+						<th>操作</th>
+					</tr>
+					<tr style="height: 42px">
+						<td style="font-weight: bold">CDROM</td>
+						<td>1fadsfjkdfasdf.iso</td>
+						<td><span class='attr operationButton'>设置ISO</span></td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="footer" class="footer-item">
+	<p>版权所有 © 2011-2017 北京信联云通科技有限责任公司</p>
+</div>
+
+<script src="/static/jquery-1.11.3.min.js"></script>
+<script src="/static/userportal/userportal.js"></script>
+<script src="/static/bootstrap334/js/bootstrap.min.js"></script>
+<script src="/static/js/base64.js"></script>
+<script src="/static/userportal/AJAX.js"></script>
+<script src="/static/userportal/API.js"></script>
+<script src="/static/userportal/utils.js"></script>
+
+<script>
+	var g_current_user_id;
+	var g_current_user_name;
+
+	API_UUID = "{{ SESSION_ID }}";
+	g_current_user_id = "{{ USER_ID  }}";
+	g_current_user_name = "{{ USER_NAME }}";
+
+	switchToVmPage(null);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+body {
+	background-color: white;
+	height: inherit;
+	position: relative;
+}
+
+.logo-picture {
+	height: 55px;
+	width: 215px;
+	left: 0px;
+	right: 0px;
+}
+
+.left-menu {
+	position: absolute;
+	background-color: #eeeeee;
+	width: 222px;
+	left: 0px;
+	top: 0px;
+	bottom: 0px;
+	padding-top: 20px;
+}
+
+.main-frame {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 55px;
+	bottom: 30px;
+}
+
+header {
+	background-color: #265a88;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	height: 55px;
+}
+
+.right-content {
+	position: absolute;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	left: 215px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	height: inherit;
+	overflow: auto;
+}
+
+.menu-item {
+	text-align: center;
+	height: 60px;
+	line-height: 40px;
+	width: 100%;
+	font-size: 150%;
+}
+
+/*.menu-item:hover {
+    background-color: #337ab7;
+    color: white;
+    #337ab7 0,#265a88;
+} */
+
+.menu-item.active {
+	color: white;
+	background-color: #5bc0de;
+}
+
+.footer-item {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	height: 30px;
+	width: 100%;
+	text-align: center;
+	line-height: 20px;
+	background-color: #265a88;
+	color: #bce8f1;
+}
+
+html {
+	height: 100%;
+}
+
+.vm-table-header {
+	position: relative;
+	background-color: #cccccc;
+	text-align: center;
+	font-size: 100%;
+	border: solid white 1px;
+}
+
+.tr_odd {
+	/*background-color: #c7ddef;*/
+	background-color: white;
+	border: solid #eeeeee 1px;
+}
+
+.tr_even {
+	background-color: #eeeeee;
+	border: solid white 1px;
+}
+
+table#vm-list-tab tbody tr td {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table#vm-list-tab tbody tr th {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table#service-list-tab tbody tr td {
+	text-align: center;
+	vertical-align: middle;
+}
+
+table#service-list-tab tbody tr th {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.mouse_color {
+	background-color: #c4e3f3;
+	/*color: white;*/
+}
+
+.user-line-item {
+	height: 35px;
+}
+
+.option-button {
+	display: inline-block;
+	font-size: 120%;
+	background-color: #888888;
+	color: #fff;
+	height: 40px;
+	line-height: 40px;
+	width: 100px;
+	text-align: center;
+	margin-left: 20px;
+	cursor: pointer;
+	border-radius: 5%;
+}
+
+.user-key-item {
+	position: absolute;
+	left: 0px;
+	width: 215px;
+	height: 35px;
+	text-align: right;
+	line-height: 35px;
+	padding-right: 10px;
+	text-align: right;
+	border: solid white 1px;;
+}
+
+.user-value-item {
+	position: absolute;
+	left: 215px;
+	height: 35px;
+	line-height: 35px;
+	text-align: left;
+	right: 0;
+	padding-left: 10px;
+	border: solid #eeeeee 1px
+}
+
+.user-key-odd {
+	background-color: #cccccc;
+}
+
+.user-key-even {
+	background-color: #eeeeee;
+}
+
+.user-value-odd {
+	background-color: white;
+}
+
+.user-value-even {
+	background-color: white;
+}
+
+.option-button:hover {
+	background-color: #265a88;
+}
+
+.vnc {
+	background-color: #265a88;
+	color: white;
+	border: 1px solid #0066bb;
+}
+
+.operationButton:hover {
+	background-color: #0066bb;
+	color: white;
+	cursor: pointer;
+}
+
+.operationButton:active {
+	background-color: #0066bb;
+	color: white;
+}
+
+.operationButton {
+	display: inline-block;
+	padding: 5px 10px;
+	margin-right: 5px;
+	border-radius: 5px;
+}
+
+.spice {
+	background-color: #eeeeee;
+	color: black;
+	border: 1px solid #0066bb;
+}
+
+.addisobutton {
+	background-color: #265a88;
+	color: white;
+	border: 1px solid #0066bb;
+}
+
+.delcdrombutton {
+	background-color: #265a88;
+	color: white;
+	border: 1px solid #0066bb;
+}
+
+.addcdrombutton {
+	background-color: #265a88;
+	color: white;
+	border: 1px solid #0066bb;
+    position: absolute;
+    right: 152px;
+    margin-top: 10px;
+}
+
+.cdromtabledata {
+	line-height: 32px;
+}
+
+.rdp {
+	background-color: #265a88;
+	color: white;
+	border: 1px solid #0066bb;
+}
+
+.attr {
+	background-color: #eeeeee;
+	color: black;
+	border: 1px solid #0066bb;
+}
+
+.password {
+	background-color: #eeeeee;
+	color: black;
+	border: 1px solid #0066bb;
+}
+
+.bindUSB {
+	background-color: #eeeeee;
+	color: black;
+	border: 1px solid #0066bb;
+}
+
+.lastSelected {
+	color: green;
+	background-color: #eeeeee;
+}
+
+#vm-detail-table {
+	width: 100%;
+	margin-top: 10px;
+}
+
+#user-detail-table {
+	width: 100%;
+	margin-top: 10px;
+}
+
+a {
+    cursor:pointer;
+}
+
+.btn-primary.active {
+	background-color: #5bc0de;
+}
+
+.commonbutton {
+	background-color: #265a88;
+	color: white;
+	border: 1px solid #0066bb;
+}
+
+.addbutton {
+	background-color: #265a88;
+	color: white;
+	border: 1px solid #0066bb;
+    position: absolute;
+    right: 152px;
+    margin-top: 10px;
+}
+
+.applogo {
+	height: 25px;
+	width: 25px;
+}
