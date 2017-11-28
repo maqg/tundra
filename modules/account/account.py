@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from core.err_code import USER_ALREADY_EXIST, INVALID_PARAS
+from core import dbmysql
+from core.err_code import USER_ALREADY_EXIST, INVALID_PARAS, USER_NOT_EXIST
 from models.Account import *
 from models.Common import DEFAULT_ACCOUNT
 from utils.commonUtil import b64_decode
