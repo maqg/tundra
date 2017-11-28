@@ -1,10 +1,7 @@
-#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-
-from conf.config import LVL_ERROR
-from core.err_code import OCT_SUCCESS, USER_PASSWD_ERR, DB_ERR, USER_NOT_EXIST
-from core.log import LVL_NOTIFY, ERROR
+from core.err_code import OCT_SUCCESS, USER_PASSWD_ERR, USER_NOT_EXIST
+from core.log import ERROR
 from modules.account import account as userService
 from utils.commonUtil import buildRetObj, b64_decode
 from utils.sessionUtil import newSession, getSession
@@ -35,30 +32,6 @@ def web_del_user(db, env, arg):
 	return buildRetObj(ret)
 
 
-def web_login_byldap(db, env, arg):
-	
-	paras = arg["paras"]
-	user = userService.getAccountByLdapId(db, paras.get("uid"))
-	if (not user):
-		return buildRetObj(USER_NOT_EXIST, None)
-	
-	ret = user.login_byLdap(b64_decode(paras.get("password")))
-	if ret == 0:
-		data = {
-			"id": user.myId,
-			"name": user.name,
-			"role": user.role,
-			"accountId": user.myId
-		}
-		sessionObj = newSession(db, data)
-		data["session"] = sessionObj
-		
-		return buildRetObj(OCT_SUCCESS, data)
-	else:
-		
-		return buildRetObj(USER_PASSWD_ERR)
-
-
 def web_login(db, env, arg):
 	paras = arg["paras"]
 	user = userService.getAccountByName(db, paras.get("account"))
@@ -81,33 +54,7 @@ def web_login(db, env, arg):
 		return buildRetObj(USER_PASSWD_ERR)
 
 
-def web_ukeylogin(db, env, arg):
-	user = userService.getAccountByUkey(db, str(arg["paras"].get("ukey")))
-	if (not user):
-		return buildRetObj(USER_NOT_EXIST, None)
-	
-	ret = user.authUkey(arg["paras"].get("ukey"))
-	if ret == 0:
-		data = {
-			"id": user.myId,
-			"name": user.name,
-			"role": user.role,
-			"accountId": user.myId,
-			"ukey": user.ukey
-		}
-		
-		return buildRetObj(OCT_SUCCESS, data)
-	
-	elif ret == -2:
-		return buildRetObj(USER_PASSWD_ERR)
-	else:
-		return buildRetObj(DB_ERR)
-
-
 def web_logout(db, env, arg):
-	
-	# paras = arg["paras"]
-	# sessionId = paras.get("sessionUuid")
 	sessionId = arg.get("centerSessionID")
 	if not sessionId:
 		ERROR("no session uuid to logout %s" % str(arg))
@@ -133,29 +80,4 @@ def web_reset_password(db, env, arg):
 
 def web_update_user(db, env, arg):
 	ret = userService.update_user(db, arg)
-	return buildRetObj(ret)
-
-
-def web_update_quota(db, env, arg):
-	ret = userService.update_quota(db, arg)
-	return buildRetObj(ret)
-
-
-def web_bind_ldapuid(db, env, arg):
-	ret = userService.bind_ldapuid(db, arg)
-	return buildRetObj(ret)
-
-
-def web_unbind_ldapuid(db, env, arg):
-	ret = userService.unbind_ldapuid(db, arg)
-	return buildRetObj(ret)
-
-
-def web_bind_ukey(db, env, arg):
-	ret = userService.bind_ukey(db, arg)
-	return buildRetObj(ret)
-
-
-def web_unbind_ukey(db, env, arg):
-	ret = userService.unbind_ukey(db, arg)
 	return buildRetObj(ret)

@@ -1,5 +1,5 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 from conf.dbconfig import TB_APITRACE
 from core.err_code import DB_ERR, OCT_SUCCESS
 from core.log import WARNING

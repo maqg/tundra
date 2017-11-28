@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import time
 
 from conf.config import MAX_USING_TIMEOUT, LVL_DEBUG
-from core.modules_code import MOD_OTHER, MOD_WEBUI
+from core.modules_code import MOD_WEBUI
 from utils.commonUtil import isSystemWindows
 from utils.octlog import get_debug_level
 
