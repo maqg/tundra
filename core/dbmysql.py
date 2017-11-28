@@ -4,7 +4,7 @@ import pymysql as mysql
 
 from conf.dbconfig import DB_USER, DB_PASSWORD, DB_NAME, DB_SERVER, get_sock_file
 from core.membank import memcache
-from utils.commonUtil import isSystemWindows
+from utils.commonUtil import isSystemWindows, getSystemType, SYSTEM_TYPE_LINUX
 
 membody = memcache.get_mem()
 tablelist = membody.get('tablelist', {})
@@ -21,15 +21,15 @@ def row_to_dict(tabname, row, dbname=DB_NAME):
 class mysqldb():
 	def __init__(self):
 		self.connlist = {}
-	
+
 	def __del__(self):
 		for conn in list(self.connlist.values()):
 			conn.close()
-	
+
 	def connect(self, dbname):
 		conn = self.connlist.get(dbname, None)
 		if conn == None:
-			if (isSystemWindows()):
+			if (getSystemType() != SYSTEM_TYPE_LINUX):
 				conn = mysql.Connect(user=DB_USER,
 				                     passwd=DB_PASSWORD,
 				                     host=DB_SERVER,

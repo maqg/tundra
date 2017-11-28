@@ -7,6 +7,7 @@ import os
 import socket
 import struct
 import time
+import platform
 import uuid
 from binascii import crc32
 from random import Random
@@ -22,6 +23,12 @@ PLATFORM_DEBIAN7 = "debian7"
 PLATFORM_DEBIAN9 = "debian9"
 PLATFORM_REDCENT6 = "redcent6"
 PLATFORM_REDCENT7 = "redcent7"
+
+
+SYSTEM_TYPE_WINDOWS = "Windows"
+SYSTEM_TYPE_MAC = "Darwin"
+SYSTEM_TYPE_LINUX = "Linux"
+
 
 # generate random str which len is randomlength.
 def random_str(randomlength=8):
@@ -143,11 +150,14 @@ def getStrTime(milisecs=None):
 
 
 def isSystemWindows():
-	import platform
 	if (platform.system() == "Windows"):
 		return True
 	else:
 		return False
+
+
+def getSystemType():
+	return platform.system()
 
 
 def transToStr(obj, indent=False):
@@ -251,7 +261,10 @@ def getErrorMsg(error):
 def b64_decode(src):
 	if not src:
 		return ""
-	return base64.b64decode(src.encode()).decode()
+	try:
+		return base64.b64decode(src.encode()).decode()
+	except:
+		return ""
 
 
 def b64_encode(src):
