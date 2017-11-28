@@ -4,15 +4,13 @@
 import http.client
 import json
 import ssl
+import sys
 import time
 
-import sys
+from views.api.api import PARAM_NOT_NULL
+
 sys.path.append("/OCT/OCTFrame")
 
-from conf.config import VR_PORT, SERVER_PORT, OCTBS_PORT, API_TEST_KEY, CONSOLEPROXY_PORT, CEPHPS_PORT
-from models.ApiResponse import ApiResponse
-from utils.commonUtil import buildRetObj
-from views.api.center.api import PARAM_NOT_NULL
 from core.err_code import CONNECT_SERVER_ERR
 
 
@@ -32,10 +30,6 @@ def api_result(address, port, task_id, https=False):
 	return (0, rsp)
 
 
-def api_result_server(address, port, task_id, https=False):
-	return api_result(address, port, task_id, https)
-
-
 def api_call(address, port, api_id, api_content, session_key, async=False, server=False, https=False):
 
 	if https:
@@ -46,8 +40,6 @@ def api_call(address, port, api_id, api_content, session_key, async=False, serve
 		conn = http.client.HTTPSConnection(address, port, context=sslContext, check_hostname=None, timeout=30)
 	else:
 		conn = http.client.HTTPConnection(address, port, timeout=30)
-
-	headers = { "Content-Type": "application/json" }
 
 	api_body = {
 		"api": api_id,
@@ -115,56 +107,6 @@ def parse_paras(paras, api_proto):
 			return False, errorMsg
 	return 0, None
 
-
-def get_server_key():
-	return API_TEST_KEY
-
-
-def api_call_server(address, paras, api_proto, port=SERVER_PORT, async=False, https=False):
-	(ret, errorLog) = parse_paras(paras, api_proto)
-	if (ret):
-		retObj = buildRetObj(ret, data=None, errorLog=errorLog)
-		return ApiResponse(ret, retObj)
-	(ret, resp) = api_call(address, port, api_proto["apikey"], paras, get_server_key(), async, server=True, https=https)
-	return ApiResponse(ret, resp)
-
-
-def api_call_vr(address, paras, api_proto, port=VR_PORT, async=False, https=False):
-	(ret, errorLog) = parse_paras(paras, api_proto)
-	if (ret):
-		retObj = buildRetObj(ret, data=None, errorLog=errorLog)
-		return ApiResponse(ret, retObj)
-
-	(ret, resp) = api_call(address, port, api_proto["apikey"], paras, get_server_key(), async, server=True, https=https)
-	return ApiResponse(ret, resp)
-
-
-def api_call_octbs(address, paras, api_proto, port=OCTBS_PORT, async=False, https=False):
-	(ret, errorLog) = parse_paras(paras, api_proto)
-	if (ret):
-		retObj = buildRetObj(ret, data=None, errorLog=errorLog)
-		return ApiResponse(ret, retObj)
-
-	(ret, resp) = api_call(address, port, api_proto["apikey"], paras, get_server_key(), async, server=True, https=https)
-	return ApiResponse(ret, resp)
-
-def api_call_consoleproxy(address, paras, api_proto, port=CONSOLEPROXY_PORT, async=False, https=False):
-	(ret, errorLog) = parse_paras(paras, api_proto)
-	if (ret):
-		retObj = buildRetObj(ret, data=None, errorLog=errorLog)
-		return ApiResponse(ret, retObj)
-
-	(ret, resp) = api_call(address, port, api_proto["apikey"], paras, get_server_key(), async, server=True, https=https)
-	return ApiResponse(ret, resp)
-
-def api_call_cephps(address, paras, api_proto, port=CEPHPS_PORT, async=False, https=False):
-	(ret, errorLog) = parse_paras(paras, api_proto)
-	if (ret):
-		retObj = buildRetObj(ret, data=None, errorLog=errorLog)
-		return ApiResponse(ret, retObj)
-
-	(ret, resp) = api_call(address, port, api_proto["apikey"], paras, get_server_key(), async, server=True, https=https)
-	return ApiResponse(ret, resp)
 
 if __name__ == "__main__":
 	api = "octlink.tundra.v1.host.APISyncHostAddr"

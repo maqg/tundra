@@ -5,7 +5,7 @@ import json
 
 from core.err_code import err_desc_ch, OCT_SUCCESS, err_desc_en
 from core.log import ERROR
-from views.api.api import PARAM_NOT_NULL, PARAM_TYPE_INT, PARAM_TYPE_STRING
+from views.api.api import PARAM_NOT_NULL, PARAM_TYPE_INT
 
 
 def appendBaseArg(argObj, request):

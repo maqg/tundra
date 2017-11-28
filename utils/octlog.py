@@ -1,13 +1,8 @@
-#!usr/bin/python
 # -*- coding: utf-8 -*-
 
 import sys
 
-from utils.commonUtil import isSystemWindows
-
 sys.path.append("../")
-
-import ctypes
 
 EV_LEVEL_EMERG = 0
 EV_LEVEL_ALERT = 1
