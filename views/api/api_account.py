@@ -1,5 +1,5 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 from models.Account import ROLE_SUPERADMIN, ROLE_ADMIN
 from views.api.api import *
 

@@ -1,22 +1,18 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import _thread
 import json
 import sys
 import traceback
 
 from core import dbmysql
-from core.dbmysql import mysqldb
 from core.err_code import NO_AUTH_SKEY, INVALID_PARAS, CONNECT_SERVER_ERR, OCT_SUCCESS
-from core.log import ERROR, DEBUG, INFO, oct_audit
+from core.log import ERROR, DEBUG, INFO
 from models.Account import ROLE_SUPERADMIN
 from models.Common import DEFAULT_ACCOUNT_ID
-from modules.api.api import updateApiReply
 from utils.commonUtil import getUuid, buildRetObj, isSystemWindows
 from utils.httpUtil import buildReply, getArgObj, buildFailureReply, appendBaseArg
 from utils.sessionUtil import getSessionObj
-from views.api.apiEngine import apiEngine
 from views.api.apiUtil import getApiResult
 from views.api.dispatch import doDispatching, IGNORE_SESSION_APIS
 
@@ -54,7 +50,6 @@ class Application(tornado.web.Application):
 			(r"/userportal/", UserPortalHandler),
 			(r"/userportal/login/", UserLoginHandler),
 			(r"/userportal/logout/", UserLogoutHandler),
-			(r"/userportal/vdu/", VduHandler),
 			(r"/src/templates/(.*)", SrcHandler),
 			(r"/css/(.*)", RedirectCSSHandler),
 			(r"/js/(.*)", RedirectJSHandler),
@@ -250,36 +245,8 @@ class UserLogoutHandler(tornado.web.RequestHandler):
 		cookie = self.get_cookie("rvmusercookie", "")
 		if not cookie:
 			self.clear_cookie("rvmusercookie")
-			
-		username = self.get_cookie("username", "")
-		accountname = self.get_cookie("accountname", "admin")
-		userid = self.get_cookie("userid", "")
+
 		self.redirect("/userportal/login/")
-
-
-class VduHandler(tornado.web.RequestHandler):
-	@tornado.web.asynchronous
-	@tornado.gen.coroutine
-	def get(self):
-
-		cookie = self.get_cookie("rvmusercookie", "")
-		userid = self.get_cookie("userid", "")
-
-		if not cookie:
-			self.redirect("/userportal/login/")
-			return
-
-		vmId = self.get_argument("vdid")
-		if not vmId:
-			ERROR("vdid not specified")
-			self.redirect("/userportal/")
-			return
-
-		db = dbmysql.mysqldb()
-
-		self.render("userportal/rdp.html", ADDRESS=vmNic["ip"],
-		            USER=authInfo["user"], PASSWORD=authInfo["password"],
-		            FULLSCREENTITLE="")
 
 
 class WSHandler(tornado.web.RequestHandler):
@@ -646,10 +613,6 @@ def init():
 	return True
 
 
-def startApiEngine():
-	_thread.start_new_thread(apiEngine, ("API Engine Thread", 20))
-
-
 if __name__ == "__main__":
 
 	if (float(tornado.version.split(".")[0]) < 3.0):
@@ -659,8 +622,6 @@ if __name__ == "__main__":
 	if (not init()):
 		print("init Center API Engine Failed")
 		exit(1)
-
-	startApiEngine()
 
 	if (len(sys.argv) != 3):
 		addr = LISTEN_ADDR

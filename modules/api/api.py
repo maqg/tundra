@@ -4,7 +4,7 @@
 from conf.dbconfig import TB_APITRACE
 from core import dbmysql
 from core.err_code import SEGMENT_NOT_EXIST, OCT_SUCCESS, err_desc_ch
-from core.log import ERROR, WARNING, LVL_DEBUG
+from core.log import ERROR, WARNING
 from models.Api import Api, API_STATE_NEW, API_STATE_FINISHED
 from models.Common import DEFAULT_ACCOUNT_ID
 from utils.commonUtil import CRC32
