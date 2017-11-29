@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.22, for osx10.10 (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.47, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: dbtundra
 -- ------------------------------------------------------
--- Server version	5.6.22
+-- Server version	5.5.47-0+deb7u1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -58,7 +58,7 @@ CREATE TABLE `tb_account` (
 
 LOCK TABLES `tb_account` WRITE;
 /*!40000 ALTER TABLE `tb_account` DISABLE KEYS */;
-INSERT INTO `tb_account` VALUES ('c0000000000000000000000000000000',1,7,'admin','','','292f137f691469948acd0e72b141e373','','',0,1511879432000,0,'');
+INSERT INTO `tb_account` VALUES ('c0000000000000000000000000000000',1,7,'admin','','','292f137f691469948acd0e72b141e373','','',0,1511948688000,0,'');
 /*!40000 ALTER TABLE `tb_account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -68,7 +68,7 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER trigger_delete_account AFTER DELETE ON tb_account FOR EACH ROW
 BEGIN
@@ -152,6 +152,37 @@ LOCK TABLES `tb_misc` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tb_product`
+--
+
+DROP TABLE IF EXISTS `tb_product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tb_product` (
+  `ID` varchar(36) NOT NULL DEFAULT '',
+  `P_State` varchar(16) NOT NULL DEFAULT 'Enabled' COMMENT 'Disabled,Enabled',
+  `P_Type` varchar(32) NOT NULL DEFAULT 'CPU' COMMENT 'CPU,MEMORY,DISK,RAID',
+  `P_TypeName` varchar(32) NOT NULL DEFAULT 'CPU' COMMENT 'CPU,内存,磁盘,RAID卡',
+  `P_Name` varchar(128) NOT NULL DEFAULT '',
+  `P_Info` varchar(1024) NOT NULL DEFAULT '{}',
+  `P_LastLogin` bigint(20) NOT NULL DEFAULT '0',
+  `P_CreateTime` bigint(20) NOT NULL DEFAULT '0',
+  `P_Description` varchar(1024) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ID`),
+  KEY `tb_product_id` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tb_product`
+--
+
+LOCK TABLES `tb_product` WRITE;
+/*!40000 ALTER TABLE `tb_product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tb_product` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tb_session`
 --
 
@@ -200,4 +231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-11-28 22:30:32
+-- Dump completed on 2017-11-29 17:44:48

@@ -86,6 +86,22 @@ ALTER TABLE tb_apitrace ADD INDEX tb_apitrace_createtime (AT_CreateTime);
 ALTER TABLE tb_apitrace ADD INDEX tb_apitrace_finishtime (AT_FinishTime);
 ALTER TABLE tb_apitrace ADD INDEX tb_apitrace_starttime (AT_StartTime);
 
+DROP TABLE IF EXISTS `tb_product`;
+CREATE TABLE `tb_product` (
+		`ID` VARCHAR(36) NOT NULL DEFAULT '',
+		`P_State` VARCHAR(16) NOT NULL DEFAULT 'Enabled' COMMENT 'Disabled,Enabled',
+		`P_Type` VARCHAR(32) NOT NULL DEFAULT 'CPU' COMMENT 'CPU,MEMORY,DISK,RAID',
+		`P_TypeName` VARCHAR(32) NOT NULL DEFAULT 'CPU' COMMENT 'CPU,内存,磁盘,RAID卡',
+		`P_Name` VARCHAR(128) NOT NULL DEFAULT '',
+		`P_Info` VARCHAR(1024) NOT NULL DEFAULT '{}',
+		`P_LastLogin` BIGINT NOT NULL DEFAULT '0',
+		`P_CreateTime` BIGINT NOT NULL DEFAULT '0',
+		`P_Description` VARCHAR(1024) NOT NULL DEFAULT '',
+		PRIMARY KEY (`ID`)
+) ENGINE=Innodb DEFAULT CHARSET=utf8;
+ALTER TABLE tb_product ADD INDEX tb_product_id (ID);
+
+
 DROP TRIGGER IF EXISTS trigger_delete_account;
 
 DELIMITER //

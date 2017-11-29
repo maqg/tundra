@@ -1,5 +1,5 @@
 {
-  "cpu": {
+  "CPU": {
 	"name": "CPU",
 	"products": [
 	  {
@@ -26,7 +26,7 @@
 	  }
 	]
   },
-  "disk": {
+  "DISK": {
 	"name": "磁盘",
 	"products": [
 	  {
@@ -49,7 +49,7 @@
 	  }
 	]
   },
-  "memory": {
+  "MEMORY": {
 	"name": "内存",
 	"products": [
 	  {
@@ -90,7 +90,7 @@
 	  }
 	]
   },
-  "infrastructure": {
+  "INFRASTRUCTURE": {
 	"name": "硬件基础架构",
 	"products": [
 	  {
@@ -121,7 +121,7 @@
 	  }
 	]
   },
-  "thinclient": {
+  "THINCLIENT": {
 	"name": "瘦客户机 云终端",
 	"products": [
 	  {
@@ -140,7 +140,7 @@
 	  }
 	]
   },
-  "monitor": {
+  "MONITOR": {
 	"name": "显示器",
 	"products": [
 	  {
@@ -172,7 +172,7 @@
 	  }
 	]
   },
-  "keymouse": {
+  "KEYMOUSE": {
 	"name": "键盘鼠标套装",
 	"products": [
 	  {
@@ -184,7 +184,7 @@
 	  }
 	]
   },
-  "wifirouter": {
+  "WIFIROUTER": {
 	"name": "无线路由器",
 	"products": [
 	  {
@@ -203,7 +203,7 @@
 	  }
 	]
   },
-  "switch": {
+  "SWITCH": {
 	"name": "交换机设备",
 	"products": [
 	  {
@@ -216,7 +216,7 @@
 	  }
 	]
   },
-  "software": {
+  "SOFTWARE": {
 	"name": "软件平台",
 	"products": [
 	  {
