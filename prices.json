@@ -1,0 +1,251 @@
+{
+  "cpu": {
+	"name": "CPU",
+	"products": [
+	  {
+		"id": "cpu-001",
+		"name": "E5 2620 v3 2.4GHz 6核12线程",
+		"provider": "Intel",
+		"version": "v3",
+		"model": "E5 2620",
+		"frequency": "2.4",
+		"cores": 6,
+		"threads": 12,
+		"price": 5500
+	  },
+	  {
+		"id": "cpu-002",
+		"name": "E5 2650 v3 2.3GHz 10核20线程",
+		"provider": "Intel",
+		"version": "v3",
+		"model": "E5 2650",
+		"frequency": "2.3",
+		"cores": 10,
+		"threads": 20,
+		"price": 6000
+	  }
+	]
+  },
+  "disk": {
+	"name": "磁盘",
+	"products": [
+	  {
+		"id": "disk-001",
+		"name": "Intel 企业级固态盘 480G",
+		"provider": "Intel",
+		"model": "S3500",
+		"capacity": 480,
+		"desc": "三年质保，淘宝",
+		"price": 1550
+	  },
+	  {
+		"id": "disk-002",
+		"name": "戴尔 企业级SAS机械硬盘 1T",
+		"provider": "DELL",
+		"model": "unknown",
+		"capacity": 1024,
+		"desc": "三年质保",
+		"price": 1049
+	  }
+	]
+  },
+  "memory": {
+	"name": "内存",
+	"products": [
+	  {
+		"id": "memory-001",
+		"name": "Smasung DDR3 服务器内存 16G",
+		"provider": "Samsung",
+		"model": "DDR3 1600",
+		"capacity": 16,
+		"desc": "",
+		"price": 1200
+	  },
+	  {
+		"id": "memory-002",
+		"name": "Smasung DDR3 服务器内存 8G",
+		"provider": "Samsung",
+		"model": "DDR3 1600",
+		"capacity": 8,
+		"desc": "",
+		"price": 600
+	  },
+	  {
+		"id": "memory-003",
+		"name": "Smasung DDR4 服务器内存 16G",
+		"provider": "Samsung",
+		"model": "DDR4",
+		"capacity": 16,
+		"desc": "",
+		"price": 1500
+	  },
+	  {
+		"id": "memory-004",
+		"name": "Smasung DDR4 服务器内存 8G",
+		"provider": "Samsung",
+		"model": "DDR4",
+		"capacity": 8,
+		"desc": "",
+		"price": 700
+	  }
+	]
+  },
+  "infrastructure": {
+	"name": "硬件基础架构",
+	"products": [
+	  {
+		"id": "infrastructure-001",
+		"name": "强氧 2U 双路平台 最大128G内存 不含RAID卡",
+		"provider": "强氧",
+		"desc": "含机箱、单电源（600w），主板，一代平台，支持3代CPU E5系列26XX V3，不带Raid阵列卡",
+		"price": 5000
+	  },
+	  {
+		"id": "infrastructure-002",
+		"name": "强氧 2U 双路平台 最大256G内存 不含RAID卡",
+		"provider": "强氧",
+		"desc": "含机箱、单电源（600w），主板，一代平台，支持一代CPU E5系列26XX，不带Raid卡，最大256G内存",
+		"price": 5800
+	  }
+	]
+  },
+  "RAID": {
+	"name": "RAID阵列卡",
+	"products": [
+	  {
+		"id": "raid-001",
+		"name": "高性能阵列卡",
+		"provider": "unknown",
+		"desc": "可与主机一同采购",
+		"price": 1500
+	  }
+	]
+  },
+  "thinclient": {
+	"name": "瘦客户机 云终端",
+	"products": [
+	  {
+		"id": "thinclient-001",
+		"name": "云终端 赛扬4核心 2G内存 16GSSD",
+		"provider": "华科",
+		"desc": "K700F 2G内存 16G SSD固态硬盘不带WIFI，VGA*1，HDMI*1，USB2.0*4",
+		"price": 620
+	  },
+	  {
+		"id": "thinclient-002",
+		"name": "云终端 赛扬4核心 2G内存 32GSSD",
+		"provider": "华科",
+		"desc": "K700F 2G内存 32G SSD固态硬盘不带WIFI，VGA*1，HDMI*1，USB2.0*4",
+		"price": 675
+	  }
+	]
+  },
+  "monitor": {
+	"name": "显示器",
+	"products": [
+	  {
+		"id": "monitor-001",
+		"name": "19.5寸 BENQ明基 显示器",
+		"provider": "京东 BEND",
+		"model": "unknown",
+		"size": 20,
+		"desc": "标准电源",
+		"price": 488
+	  },
+	  {
+		"id": "monitor-002",
+		"name": "19.9寸 ACER 显示器",
+		"provider": "京东 ACER",
+		"model": "S200HQL Hb 19.9",
+		"size": 20,
+		"desc": "12V笔记本电源，无HDMI对ARM架构盒子支持不算好",
+		"price": 499
+	  },
+	  {
+		"id": "monitor-002",
+		"name": "23寸 AOC 显示器",
+		"provider": "京东 AOC",
+		"model": "unknown",
+		"size": 23,
+		"desc": "",
+		"price": 679
+	  }
+	]
+  },
+  "keymouse": {
+	"name": "键盘鼠标套装",
+	"products": [
+	  {
+		"id": "keymouse-001",
+		"name": "罗技MK120 标准键鼠套装",
+		"provider": "京东 Logitech",
+		"desc": "",
+		"price": 79
+	  }
+	]
+  },
+  "wifirouter": {
+	"name": "无线路由器",
+	"products": [
+	  {
+		"id": "wifirouter-001",
+		"name": "飞鱼星 企业级无线路由器 40点",
+		"provider": "京东 飞鱼星",
+		"desc": "飞鱼星VE608W 1200M企业级无线路由器，无线带机量40",
+		"price": 399
+	  },
+	  {
+		"id": "wifirouter-002",
+		"name": "飞鱼星 企业级无线路由器 60点",
+		"provider": "京东 飞鱼星",
+		"desc": "飞鱼星 VE984GW+ 1200M企业级无线路由器，无线带机量60",
+		"price": 599
+	  }
+	]
+  },
+  "switch": {
+	"name": "交换机设备",
+	"products": [
+	  {
+		"id": "switch-001",
+		"name": "华为 24口 千兆 交换机",
+		"provider": "京东 华为",
+		"model": "S5700-52P-LI-AC",
+		"desc": "",
+		"price": 2750
+	  }
+	]
+  },
+  "software": {
+	"name": "软件平台",
+	"products": [
+	  {
+		"id": "software-001",
+		"name": "软件 私有云平台 开放全部功能",
+		"type": "private",
+		"basePrice": 0,
+		"hostPrice": 20000,
+		"cpuPrice": 10000,
+		"pointPrice": 0
+	  },
+	  {
+		"id": "software-002",
+		"name": "软件 云课堂软件 开放全部功能",
+		"type": "octclass",
+		"basePrice": 0,
+		"hostPrice": 0,
+		"cpuPrice": 0,
+		"pointPrice": 600
+	  },
+	  {
+		"id": "software-003",
+		"name": "软件 云桌面软件 开放全部功能",
+		"type": "octdesk",
+		"basePrice": 0,
+		"hostPrice": 0,
+		"cpuPrice": 0,
+		"pointPrice": 1000
+	  }
+	]
+  }
+}
