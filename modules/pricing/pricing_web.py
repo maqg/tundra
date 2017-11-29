@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from modules.pricing import *
+from modules.pricing.pricing import get_product_types
 from utils.commonUtil import buildRetObj
 
 
-def web_get_user(db, env, arg):
-	userId = arg["paras"].get("id")
-	if userId == None:
-		ret, data = userService.get_alluser(db, arg)
-	else:
-		ret, data = userService.get_user(db, userId)
-	
+def web_get_product_types(db, env, arg):
+	ret, data = get_product_types(db, arg)
 	return buildRetObj(ret, data)

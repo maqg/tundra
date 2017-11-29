@@ -16,6 +16,8 @@ TB_LOG = "tb_log"
 TB_SESSION = "tb_session"
 TB_APITRACE = "tb_apitrace"
 TB_REMOTELOG = "tb_remotelog"
+TB_PRODUCT = "tb_product"
+TB_QUERYRESULT = "tb_queryresult"
 
 def get_sock_file():
 	if (os.path.exists(UNIXSOCKET_DEBIAN)):
