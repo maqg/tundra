@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import json	
+import sys
 import time
-import sys 
 
 sys.path.append("../")
 
@@ -13,35 +12,26 @@ now = int(time.time() * 1000)
 
 def createSql(productType, obj):
 
-	sql = "INSERT INTO tb_product ('ID', 'P_Name', 'P_Type', 'P_TypeName') VALUES ("
-	sql += "'%s'" % getUuid()
+	header = "INSERT INTO tb_product (ID, P_Name, P_Type, P_TypeName, P_Info, "
+	header += "P_Description, P_LastSync, P_CreateTime) VALUES ("
 
 	typeName = obj["name"]
 	products = obj["products"]
 
 	for product in products:
+		sql = "'%s'" % getUuid()
 		sql += ",'%s'" % product["name"]
 		sql += ",'%s'" % productType
 		sql += ",'%s'" % typeName
-		print(transToStr(products))
-		print("ok")
-		sql += ",'%s'" % str(transToStr(products)),
-		print(transToStr(products))
+		sql += ",'%s'" % transToStr(product)
+		sql += ",'%s'" % product.get("desc") or ""
 		sql += ",'%ld'" % now
 		sql += ",'%ld'" % now
 
+		print(header + sql + ");")
 
-	sql += ");\n"
-
-	return sql
 
 if __name__ == '__main__':
-
-	sql = ""
-
 	prices = fileToObj("../prices.json")
-
 	for (k, v) in prices.items():
-		sql += createSql(k, v)
-
-	print(sql)
+		createSql(k, v)

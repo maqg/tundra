@@ -5,6 +5,7 @@ all::
 
 init::
 	./build_dbcache.pl dbtundra > mysql.xml
+	python3 initData.py > mysql.default.auto
 	python3 ../bin/initial.py
 	./init_db.sh
 	./dump.sh

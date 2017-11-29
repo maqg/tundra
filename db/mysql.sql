@@ -94,12 +94,28 @@ CREATE TABLE `tb_product` (
 		`P_TypeName` VARCHAR(32) NOT NULL DEFAULT 'CPU' COMMENT 'CPU,内存,磁盘,RAID卡',
 		`P_Name` VARCHAR(128) NOT NULL DEFAULT '',
 		`P_Info` VARCHAR(1024) NOT NULL DEFAULT '{}',
-		`P_LastLogin` BIGINT NOT NULL DEFAULT '0',
+		`P_LastSync` BIGINT NOT NULL DEFAULT '0',
 		`P_CreateTime` BIGINT NOT NULL DEFAULT '0',
 		`P_Description` VARCHAR(1024) NOT NULL DEFAULT '',
 		PRIMARY KEY (`ID`)
 ) ENGINE=Innodb DEFAULT CHARSET=utf8;
 ALTER TABLE tb_product ADD INDEX tb_product_id (ID);
+ALTER TABLE tb_product ADD INDEX tb_product_state (P_State);
+ALTER TABLE tb_product ADD INDEX tb_product_type (P_Type);
+ALTER TABLE tb_product ADD INDEX tb_product_name (P_Name);
+ALTER TABLE tb_product ADD INDEX tb_product_lastsync (P_LastSync);
+
+DROP TABLE IF EXISTS `tb_queryresult`;
+CREATE TABLE `tb_queryresult` (
+		`ID` VARCHAR(36) NOT NULL DEFAULT '',
+		`QR_Name` VARCHAR(128) NOT NULL DEFAULT '',
+		`QR_Info` VARCHAR(10240) NOT NULL DEFAULT '{}',
+		`QR_CreateTime` BIGINT NOT NULL DEFAULT '0',
+		`QR_Description` VARCHAR(1024) NOT NULL DEFAULT '',
+		PRIMARY KEY (`ID`)
+) ENGINE=Innodb DEFAULT CHARSET=utf8;
+ALTER TABLE tb_queryresult ADD INDEX tb_queryresult_id (ID);
+ALTER TABLE tb_queryresult ADD INDEX tb_queryresult_name (QR_Name);
 
 
 DROP TRIGGER IF EXISTS trigger_delete_account;
