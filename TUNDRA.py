@@ -164,7 +164,7 @@ class UserLogoutHandler(tornado.web.RequestHandler):
 	@tornado.gen.coroutine
 	def get(self):
 		cookie = self.get_cookie("rvmusercookie", "")
-		if not cookie:
+		if cookie:
 			self.clear_cookie("rvmusercookie")
 
 		self.redirect("/login/")
