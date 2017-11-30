@@ -19,12 +19,12 @@ function getServiceActionStr(action) {
 	return serviceActionList[action];
 }
 
-var serviceStateListStr = ["Registering", "Closed", "Abandoned", "Running", "Suspended", "Rejected", "Revoked"];
-var serviceStateListColorStr = ["black", "red", "gray", "green", "#f0f040", "#f04040", "grey"];
+var productStateListStr = ["Disabled", "Closed", "Enabled", "Ready"];
+var productStateListColorStr = ["red", "red", "green", "green"];
 
-function getServicetateColor(state) {
-	index = serviceStateListStr.indexOf(state);
-	return serviceStateListColorStr[index];
+function getProductStateColor(state) {
+	index = productStateListStr.indexOf(state);
+	return productStateListColorStr[index];
 }
 
 var stateListStr = ["已失效", "正常"];

@@ -4,7 +4,7 @@ from conf.dbconfig import TB_PRODUCT
 from core.err_code import DB_ERR
 from core.log import WARNING
 from utils.commonUtil import transToObj, transToStr
-from utils.timeUtil import get_current_time, howLongAgo, getStrTime
+from utils.timeUtil import get_current_time, getStrTime
 
 
 def getProduct(db, myId):
@@ -99,7 +99,7 @@ class Product:
 
 	
 	def toObj(self):
-		account = {
+		item = {
 			"id": self.myId,
 			"name": self.name,
 
@@ -111,28 +111,16 @@ class Product:
 			"info": self.info,
 			"desc": self.desc,
 
-			"lastSync": howLongAgo(self.lastSync),
+			"lastSync": getStrTime(self.lastSync),
 			"createTime": getStrTime(self.createTime),
 		}
 		
-		return account
+		return item
 	
 	def toObjBrief(self):
 		
 		return {
 			"id": self.myId,
-			"name": self.name,
-		}
-
-
-class ProductType:
-	def __init__(self, db=None, type="", name=""):
-		self.db = db
-		self.type = type
-		self.name = name
-
-	def toObj(self):
-		return {
 			"type": self.type,
-			"name": self.name
+			"name": self.name,
 		}

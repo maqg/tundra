@@ -1437,9 +1437,7 @@ function loadVmAppTableHeader() {
 	bodyStr += "<tr><th>名称</th>";
 	bodyStr += "<th>状态</th>";
 	bodyStr += "<th>图标</th>";
-	//bodyStr += "<th>ID</th>";
 	bodyStr += "<th>路径</th>";
-	//bodyStr += "<th>参数</th>";
 	bodyStr += "<th>添加时间</th>";
 	bodyStr += "<th>操作</th></tr>";
 
@@ -1518,14 +1516,6 @@ function switchVmDetail_app() {
 
 		update_vm_app(g_current_detail_vm_id, dataObj["apps"]);
 	})
-}
-
-function parseVideoConfig(video) {
-	return "驱动：" + video.model + "，RAM：" + video.ram + "，VRAM：" +  video.vram;
-}
-
-function parseDisplayConfig(display) {
-	return "连接方式：" + display.type + "，端口：" + display.running_port;
 }
 
 function update_vm_attrs(vm) {
@@ -1666,7 +1656,7 @@ function printServiceLine(obj, table) {
 	itemStr += "<tr><td><input type=\"checkbox\" name=\"serviceListItems\" style='width: 20px; height: 20px'></td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.name + "</td>";
 
-	itemStr += "<td style='line-height: 32px; color: " + getServicetateColor(obj.status) + "'>" + obj.status + "</td>";
+	itemStr += "<td style='line-height: 32px; color: " + getProductStateColor(obj.state) + "'>" + obj.state + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.typeName + "</td>";
 	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.info["id"] + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.createTime + "</td>";
@@ -1757,8 +1747,8 @@ function getProductsCallback(resultObj, paras) {
 	initServiceOperation(table);
 }
 
-function getProductList() {
-	ajaxPost(API_URL, JSON.stringify(createGetProductsParas()), getProductsCallback);
+function getProductList(type) {
+	ajaxPost(API_URL, JSON.stringify(createGetProductsParas(type)), getProductsCallback);
 }
 
 function getVmUSBCallback(resultObj, paras) {
@@ -1836,17 +1826,17 @@ function getUser(userId) {
 		var $userInfo = $("#user-detail-table");
 		$userInfo.data("userObj", dataObj);
 
-		user = dataObj;
+		obj = dataObj;
 
 		var bodyStr = "";
 		bodyStr += "<tr><th>属性</th><th>内容</th></tr>";
-		bodyStr += "<tr><td>名称</td><td>" + user.name + "</td></tr>";
-		bodyStr += "<tr><td>状态</td><td>" + user.stateCN + "</td></tr>";
-		bodyStr += "<tr><td>ID</td><td>" + user.id + "</td></tr>";
-		bodyStr += "<tr><td>Email</td><td>" + user.email + "</td></tr>";
-		bodyStr += "<tr><td>UKey</td><td>" + user.ukey + "</td></tr>";
-		bodyStr += "<tr><td>电话</td><td>" + user.phone + "</td></tr>";
-		bodyStr += "<tr><td>创建时间</td><td>" + user.createTime + "</td></tr>";
+		bodyStr += "<tr><td>名称</td><td>" + obj.name + "</td></tr>";
+		bodyStr += "<tr><td>状态</td><td>" + obj.stateCN + "</td></tr>";
+		bodyStr += "<tr><td>ID</td><td>" + obj.id + "</td></tr>";
+		bodyStr += "<tr><td>Email</td><td>" + obj.email + "</td></tr>";
+		bodyStr += "<tr><td>UKey</td><td>" + obj.ukey + "</td></tr>";
+		bodyStr += "<tr><td>电话</td><td>" + obj.phone + "</td></tr>";
+		bodyStr += "<tr><td>创建时间</td><td>" + obj.createTime + "</td></tr>";
 
 		$userInfo.html(bodyStr);
 	});
@@ -1888,20 +1878,6 @@ function updateUser() {
 		$("#modalUserEditor").modal("hide");
 		getUser(g_current_user_id);
 	});
-}
-
-function bindUSBCallback(resultObj, paras) {
-	$("#modalBindUSB").modal("hide");
-}
-
-function removeUSB(vmId, usbId) {
-	var url = URL_VM_REMOVEUSB.replace("__VMID__", vmId).replace("__USBID__", usbId) + "?skey=" + API_SKEY;
-	ajaxPost(url, null, bindUSBCallback, null);
-}
-
-function bindUSB(vmId, usbId) {
-	var url = URL_VM_BINDUSB.replace("__VMID__", vmId).replace("__USBID__", usbId) + "?skey=" + API_SKEY;
-	ajaxPost(url, null, bindUSBCallback, null);
 }
 
 function updateVmPassword(vmUuid) {

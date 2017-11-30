@@ -110,7 +110,7 @@
 	</div>
 
 	<div id="account-manage" class="right-content" style="display: none">
-		<div style="position:absolute; left: 0;width:100%; right:0;background-color: white; height: 50px;line-height: 50px;">
+		<div style="position:absolute; left: 0;width:100%; right:0;background-color: white; height: 50px;line-height: 49px;">
 			<button class="btn btn-primary btn-lg" onclick="editUserForm();">
 				编辑
 			</button>
@@ -127,15 +127,21 @@
 	</div>
 
 	<div id="service-manage" class="right-content" style="display: none">
-		<div style="position:absolute; left: 0; width:100%; right:0;background-color: #eee; height: 50px;line-height: 50px;">
+		<div style="position:absolute; left: 0; width:100%; right:0;background-color: #eee; height: 50px;line-height: 49px;">
 			<div class="btn btn-primary btn-lg" id="servicePowerOn" onclick="servicePowerManage(SERVICE_POWER_ON);">
-				开启
+				添加
 			</div>
 			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="servicePowerManage(SERVICE_POWER_OFF);">
-				关闭
+				删除
 			</div>
-			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="serviceApply();">
-				申请服务
+			<div style="float: right; display: block; right: 200px">
+				<label class="" style="position: absolute; width: auto; left: 153px;">选择API：</label>
+				<select id="apiList" onchange="updateParas();" title=""
+				        style="position: absolute; left: 220px; width: auto; margin: 8px;" class="form-control">
+					<option value="CPU">CPU</option>
+					<option value="INFRASTRUCTURE" selected>基础硬件架构</option>
+					<option value="DISK">磁盘</option>
+				</select>
 			</div>
 		</div>
 		<div>
@@ -145,7 +151,7 @@
 	</div>
 
 	<div id="vm-manage" class="right-content" style="display: none">
-		<div style="position:absolute; left: 0;width:100%; right:0;background-color: #eee; height: 50px;line-height: 50px;">
+		<div style="position:absolute; left: 0;width:100%; right:0;background-color: #eee; height: 50px;line-height: 49px;">
 			<div class="btn btn-primary btn-lg" id="vmPowerOn" onclick="vmPowerManage(VM_POWER_ON);">
 				新建
 			</div>

@@ -56,7 +56,7 @@ function switchToProductPage() {
 	closeOtherPages("#service-manage");
 	closeOtherButtons("#service-menu-button");
 
-	getProductList();
+	getProductList("CPU");
 
 	openPage("#service-manage");
 }

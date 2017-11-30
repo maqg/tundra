@@ -55,7 +55,7 @@ function createGetProductsParas(type) {
 		"module": "pricing",
 		"api": API_GET_PRODUCTS,
 		"paras": {
-			"type": type,
+			"type": type
 		},
 		"async": false,
 		"session": {
