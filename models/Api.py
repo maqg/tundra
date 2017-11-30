@@ -3,6 +3,7 @@
 from conf.dbconfig import TB_APITRACE
 from core.err_code import DB_ERR, OCT_SUCCESS
 from core.log import WARNING
+from models.Common import DEFAULT_ACCOUNT_ID
 from utils.commonUtil import getUuid, transToStr, transToObj, CRC32
 from utils.timeUtil import get_current_time, getStrTime
 
@@ -58,7 +59,7 @@ class Api:
 
 		obj = {
 			"ID": self.myId,
-			"AT_AccountId": self.accountId,
+			"AT_AccountId": self.accountId or DEFAULT_ACCOUNT_ID,
 			"AT_ApiId": self.apiId,
 			"AT_Type": self.type,
 			"AT_Name": self.name,

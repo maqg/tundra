@@ -44,32 +44,14 @@ function openPage(pageId) {
 	$(pageId).addClass("active");
 }
 
-function closeVmAutoRefresh() {
-	if (getRefreshVmListId() !== -1) {
-		clearInterval(getRefreshVmListId());
-		setRefreshVmListId(-1);
-	}
-}
-
 function switchToVmPage(serviceId) {
-
-	g_refresh_service_id = serviceId;
-
 	closeOtherPages("vm-manage");
 	closeOtherButtons("#vm-menu-button");
-
 	getVmList(serviceId);
-
 	openPage("#vm-manage");
-
-	closeVmAutoRefresh();
-
-	setRefreshVmListId(setInterval(refreshVmList, VMLIST_REFRESH_TIMEOUT));
 }
 
 function switchToServicePage() {
-
-	closeVmAutoRefresh();
 
 	closeOtherPages("#service-manage");
 	closeOtherButtons("#service-menu-button");
@@ -80,8 +62,6 @@ function switchToServicePage() {
 }
 
 function switchToAccountPage() {
-
-	closeVmAutoRefresh();
 
 	closeOtherPages("#account-manage");
 	closeOtherButtons("#account-menu-button");

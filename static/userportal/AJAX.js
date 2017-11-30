@@ -2,16 +2,6 @@ var g_userInfo;
 var g_power_action = "start";
 var g_vmSelected = [];
 var g_vmSelectedName = [];
-var g_refreshVmListId = -1;
-var g_cdromManageList = [];
-
-function getRefreshVmListId() {
-	return g_refreshVmListId;
-}
-
-function setRefreshVmListId(id) {
-	g_refreshVmListId = id;
-}
 
 function ErrorObjClass(errorObj) {
 
@@ -1579,8 +1569,6 @@ var g_vm_app = null;
 function switchVmDetail(vmId) {
 
 	g_current_detail_vm_id = vmId;
-
-	closeVmAutoRefresh();
 
 	closeOtherPages("#vmdetail-manage");
 

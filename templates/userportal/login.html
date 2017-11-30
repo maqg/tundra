@@ -9,7 +9,7 @@
 	<meta name="description" content="RVM V5 UserPortal Login Panel">
 	<meta name="author" content="Henry.Ma">
 
-	<title>V5用户面板</title>
+	<title>OCT产品管理平台</title>
 
 	<link href="/static/bootstrap334/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/static/userportal/signin.css" rel="stylesheet">
@@ -23,7 +23,7 @@
 		}
 
 		input {
-			height: 35px;
+			height: 40px;
 			width: 300px;
 			position: absolute;
 			padding-left: 5px;
@@ -75,6 +75,7 @@
 			height: 50px;
 			left: 33px;
 			right: 0;
+			top: 10px;
 			color: #fff;
 			line-height: 60px;
 			font-size: 21px;
@@ -84,13 +85,13 @@
 		}
 
 		.form-login {
-			height: 35px;
-			margin-bottom: 10px;
+			height: 40px;
+			margin-bottom: 25px;
 			background-color: red;
 		}
 
 		.form-login label {
-			line-height: 35px;
+			line-height: 40px;
 			font-size: 1.2em;
 			font-weight: normal;
 		}
@@ -119,23 +120,15 @@
 	<div id="login-header">
 		<img src="/static/imgs/logo.png">
 		<div id="login-prompt">
-			RVM私有云用户面板5.0
+			OCT产品管理平台V1
 		</div>
 	</div>
 	<div style="position:absolute; display: {{ ACTION }} ; color: red; height: 30px; top: 60px; width: 100%; left: 0; text-align: center">
 		{{ PROMPT }}
 	</div>
-	<div style="position: absolute; height: 30px; top: 57px; right: 20px; font-size: 1.3em;">
-		<a style="color: wheat; text-decoration: underline;" id="switchLoginType" onclick="switchLogin();">切换登录方式</a>
-	</div>
 
-	<form class="" action="/userportal/login/" id="loginForm" method="POST" style="">
+	<form class="" action="/login/" id="loginForm" method="POST" style="">
 
-		<div class="form-login">
-			<label for="inputAccount" class="label">账号名</label>
-			<input type="text" id="inputAccount" name="accountname" placeholder="账号名" value="admin"
-			       required>
-		</div>
 		<div class="form-login">
 			<label id="userLabel" for="inputUser" class="label">用户名</label>
 			<input type="text" id="inputUser" name="username" placeholder="用户名" required>
@@ -150,10 +143,10 @@
 			<input title="" type="text" id="loginType" name="logintype" hidden>
 		</div>
 
-		<button id="loginButton" class="btn btn-lg btn-primary btn-block commitbutton" onclick="toCommit();">本地用户登录</button>
+		<button id="loginButton" class="btn btn-lg btn-primary btn-block commitbutton" onclick="toCommit();">用户登录</button>
 	</form>
 
-	<div style="position:absolute; text-align: center; color: grey; bottom: 1px; line-height: 20px; width: 100%; font-size: 12px">
+	<div style="position:absolute; text-align: center; color: grey; bottom: 3px; line-height: 20px; width: 100%; font-size: 12px">
 		版权所有 © 2011-2017 北京信联云通科技有限责任公司
 	</div>
 
@@ -172,23 +165,6 @@
 		document.getElementById("loginType").value = g_login_type;
 	}
 
-	function switchLogin() {
-		doc = document.getElementById("loginButton");
-		userInput = document.getElementById("inputUser");
-		lable = document.getElementById("userLabel");
-
-		if (g_login_type === "localdb") {
-			g_login_type = "ldap";
-			doc.innerHTML = "LDAP用户登录";
-			userInput.placeholder = "UID";
-			lable.innerHTML = "UID";
-		} else {
-			g_login_type = "localdb";
-			doc.innerHTML = "本地用户登录";
-			userInput.placeholder = "用户名";
-			lable.innerHTML = "用户名";
-		}
-	}
 </script>
 
 </body>

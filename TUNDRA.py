@@ -46,10 +46,9 @@ MAX_STREAMED_SIZE = 1 * TB  # Max. size streamed in one request!
 class Application(tornado.web.Application):
 	def __init__(self):
 		handlers = [
-			(r"/", MainHandler),
-			(r"/userportal/", UserPortalHandler),
-			(r"/userportal/login/", UserLoginHandler),
-			(r"/userportal/logout/", UserLogoutHandler),
+			(r"/", UserPortalHandler),
+			(r"/login/", UserLoginHandler),
+			(r"/logout/", UserLogoutHandler),
 			(r"/src/templates/(.*)", SrcHandler),
 			(r"/css/(.*)", RedirectCSSHandler),
 			(r"/js/(.*)", RedirectJSHandler),
@@ -163,14 +162,14 @@ class UserPortalHandler(tornado.web.RequestHandler):
 		accountname = self.get_cookie("accountname", "admin")
 
 		if not cookie:
-			self.redirect("/userportal/login/")
+			self.redirect("/login/")
 			return
 
 		self.db = dbmysql.mysqldb()
 		session = getSessionObj(self.db, sessionId=cookie)
 		del self.db
 		if not session:
-			self.redirect("/userportal/login/")
+			self.redirect("/login/")
 			return
 
 		self.render("userportal/userportal.html", USER_NAME=username,
@@ -197,27 +196,13 @@ class UserLoginHandler(tornado.web.RequestHandler):
 	def post(self):
 
 		# Step 1, Login with default account
-		logintype = self.get_argument("logintype")
 		argObj = getArgObj(self.request)
-		if logintype == LOGIN_TYPE_LDAP:
-			paras = {
-				"account": self.get_argument("accountname"),
-				"uid": self.get_argument("username"),
-				"password": self.get_argument("password"),
-				"role": 7,
-				"accountId": DEFAULT_ACCOUNT_ID
-			}
-			argObj["api"] = "octlink.tundra.v1.enduser.APIEnduserLoginByLdap"
-		else:
-			paras = {
-				"account": self.get_argument("accountname"),
-				"name": self.get_argument("username"),
-				"password": self.get_argument("password"),
-				"role": 7,
-				"accountId": DEFAULT_ACCOUNT_ID
-			}
-			argObj["api"] = "octlink.tundra.v1.enduser.APIEnduserLogin"
-
+		paras = {
+			"account": self.get_argument("username"),
+			"password": self.get_argument("password"),
+			"role": 7,
+		}
+		argObj["api"] = "octlink.tundra.v1.account.APILoginByAccount"
 		argObj["paras"] = paras
 
 		self.db = dbmysql.mysqldb()
@@ -228,14 +213,13 @@ class UserLoginHandler(tornado.web.RequestHandler):
 		retObj = doDispatching(argObj, session, API_PROTOS)
 		if retObj["RetCode"] != OCT_SUCCESS:
 			ERROR("login error %s" % str(retObj))
-			self.redirect("/userportal/login/?error=true")
+			self.redirect("/login/?error=true")
 		else:
 			sessionObj = retObj["RetObj"]["session"]
 			self.set_cookie("rvmusercookie", sessionObj["id"])
 			self.set_cookie("username", retObj["RetObj"]["name"])
-			self.set_cookie("accountname", self.get_argument("accountname"))
 			self.set_cookie("userid", retObj["RetObj"]["id"])
-			self.redirect("/userportal/")
+			self.redirect("/")
 
 
 class UserLogoutHandler(tornado.web.RequestHandler):
@@ -246,7 +230,7 @@ class UserLogoutHandler(tornado.web.RequestHandler):
 		if not cookie:
 			self.clear_cookie("rvmusercookie")
 
-		self.redirect("/userportal/login/")
+		self.redirect("/login/")
 
 
 class WSHandler(tornado.web.RequestHandler):
