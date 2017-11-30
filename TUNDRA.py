@@ -11,7 +11,7 @@ from core.log import ERROR, DEBUG, INFO
 from models.Account import ROLE_SUPERADMIN
 from models.Common import DEFAULT_ACCOUNT_ID
 from utils.commonUtil import getUuid, buildRetObj, isSystemWindows
-from utils.httpUtil import buildReply, getArgObj, buildFailureReply, appendBaseArg
+from utils.httpUtil import buildReply, getArgObj, buildFailureReply
 from utils.sessionUtil import getSessionObj
 from views.api.apiUtil import getApiResult
 from views.api.dispatch import doDispatching, IGNORE_SESSION_APIS
@@ -50,14 +50,8 @@ class Application(tornado.web.Application):
 			(r"/login/", UserLoginHandler),
 			(r"/logout/", UserLogoutHandler),
 			(r"/src/templates/(.*)", SrcHandler),
-			(r"/css/(.*)", RedirectCSSHandler),
-			(r"/js/(.*)", RedirectJSHandler),
-			(r"/img/(.*)", RedirectIMGHandler),
 			(r"/api/", ApiHandler),
 			(r"/api/test/", ApiTestHandler),
-			(r'^/ws/', WSHandler),
-			(r"/api/result/(.*)/", ApiResultHandler),
-			(r"/files/upload/", FileUploadWithApiHandler),
 			(r"/files/commonupload/", FileUploadHandler),
 		]
 		settings = dict(
@@ -69,16 +63,6 @@ class Application(tornado.web.Application):
 			xsrf_cookies=False,
 		)
 		tornado.web.Application.__init__(self, handlers, **settings)
-
-
-class MainHandler(tornado.web.RequestHandler):
-	def get(self):
-		self.render("index.html")
-
-
-class FontHandler(tornado.web.RequestHandler):
-	def get(self, filepath=None):
-		self.redirect("/static/less/font/%s" % (filepath))
 
 
 class SrcHandler(tornado.web.RequestHandler):
@@ -102,53 +86,6 @@ class ClassUIHandler(tornado.web.RequestHandler):
 				self.redirect("/static/classui/%s?%s" % (filepath, query))
 			else:
 				self.redirect("/static/classui/%s" % filepath)
-
-
-class RedirectCSSHandler(tornado.web.RequestHandler):
-	def get(self, filepath=None):
-		query = self.request.query
-		if (query):
-			self.redirect("/static/classui/css/%s?%s" % (filepath, query))
-		else:
-			self.redirect("/static/classui/css/%s" % filepath)
-
-
-class RedirectJSHandler(tornado.web.RequestHandler):
-	def get(self, filepath=None):
-		query = self.request.query
-		if (query):
-			self.redirect("/static/classui/js/%s?%s" % (filepath, query))
-		else:
-			self.redirect("/static/classui/js/%s" % filepath)
-
-
-class RedirectIMGHandler(tornado.web.RequestHandler):
-	def get(self, filepath=None):
-		query = self.request.query
-		if (query):
-			self.redirect("/static/classui/img/%s?%s" % (filepath, query))
-		else:
-			self.redirect("/static/classui/img/%s" % filepath)
-
-
-class RedirectPOLYHandler(tornado.web.RequestHandler):
-	def get(self, filepath=None):
-		query = self.request.query
-		if (query):
-			self.redirect("/static/classui/polyfills/%s?%s" % (filepath, query))
-		else:
-			self.redirect("/static/classui/polyfills/%s" % filepath)
-
-
-class VNCHandler(tornado.web.RequestHandler):
-	@tornado.web.asynchronous
-	@tornado.gen.coroutine
-	def get(self, filepath=None):
-		query = self.request.query
-		if (query):
-			self.redirect("/static/noVNC/%s?%s" % (filepath, query))
-		else:
-			self.redirect("/static/noVNC/%s" % filepath)
 
 
 class UserPortalHandler(tornado.web.RequestHandler):
@@ -233,11 +170,6 @@ class UserLogoutHandler(tornado.web.RequestHandler):
 		self.redirect("/login/")
 
 
-class WSHandler(tornado.web.RequestHandler):
-	def get(self):
-		self.render("ws.html")
-
-
 class ApiTestHandler(tornado.web.RequestHandler):
 	result = {
 		"moduleSelected": "account",
@@ -311,83 +243,6 @@ def getSessionId(argObj):
 		return None
 
 
-class ApiResultHandler(tornado.web.RequestHandler):
-	SUPPORTED_METHODS = ("GET")
-
-	db = None
-
-	def __init__(self, application, request, **kwargs):
-		super(ApiResultHandler, self).__init__(application, request, **kwargs)
-		self.db = dbmysql.mysqldb()
-
-	@tornado.web.asynchronous
-	def get(self, apiId=None):
-		# need do cookie checking here
-		argObj = {
-			"paras": {
-				"id": apiId,
-			}
-		}
-		retObj = getApiResult(self.db, argObj)
-		self.write(buildReply(retObj))
-		self.finish()
-
-
-UPLOAD_API_MAP = {
-	"APISystemUpgrade": "octlink.tundra.v1.upgrade.APISystemUpgrade",
-	"APIUploadLicense": "octlink.tundra.v1.license.APIUploadLicense"
-}
-
-
-class FileUploadWithApiHandler(tornado.web.RequestHandler):
-	@tornado.web.asynchronous
-	@tornado.gen.coroutine
-	def post(self):
-
-		self.db = dbmysql.mysqldb()
-
-		if isSystemWindows():
-			filePath = "var/tmp/" + getUuid()
-		else:
-			filePath = "/tmp/" + getUuid()
-
-		# get the request file to cache path
-		try:
-			file_metas = self.request.files['file']
-		except:
-			file_metas = self.request.files['filename']
-
-		for meta in file_metas:
-			with open(filePath, 'wb') as up:
-				up.write(meta['body'])
-
-		argObj = appendBaseArg({}, self.request)
-		argObj["paras"]["role"] = 7
-		argObj["paras"]["accountId"] = DEFAULT_ACCOUNT_ID
-
-		api_key = self.get_argument("api", None)
-		if (not api_key):
-			self.write(buildFailureReply(INVALID_PARAS, errorMsg="api key error"))
-			self.finish()
-			return
-
-		argObj["paras"]["filePath"] = filePath
-		argObj["api"] = UPLOAD_API_MAP.get(api_key)
-		if (not argObj["api"]):
-			self.write(buildFailureReply(INVALID_PARAS, errorMsg=api_key))
-			self.finish()
-			return
-
-		session = getSessionObj(self.db, sessionId="00000000000000000000000000000000")
-
-		del self.db
-
-		argObj["session"] = session
-		retObj = doDispatching(argObj, session, API_PROTOS)
-		self.write(buildReply(retObj))
-		self.finish()
-		
-		
 class FileUploadHandler(tornado.web.RequestHandler):
 	@tornado.web.asynchronous
 	@tornado.gen.coroutine

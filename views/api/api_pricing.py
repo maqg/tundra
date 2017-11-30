@@ -23,7 +23,7 @@ funcList = {
 				"type": PARAM_TYPE_STRING,
 				"desc": "Product Type",
 				"descCN": "产品类型, CPU,MEMORY,DISK",
-				"default": PARAM_NOT_NULL
+				"default": ""
 			},
 		}
 	},

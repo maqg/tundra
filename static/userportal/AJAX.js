@@ -1416,9 +1416,7 @@ function printAppLine(obj, table) {
 	} else {
 		itemStr += "<td style='line-height: 32px'><img class='applogo' src='data:image/png;base64," + obj.icon + "'></td>";
 	}
-	//itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.id + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.path + "</td>";
-	//itemStr += "<td style='line-height: 32px'>" + obj.paras + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.createTime + "</td>";
 	itemStr += "<td class='manager'><span class='editappbutton commonbutton operationButton'>编辑</span><span class='syncappbutton commonbutton operationButton'>同步</span><span class='delappbutton commonbutton operationButton'>删除</span></td></tr>";
 
@@ -1591,7 +1589,6 @@ function printVmLine(vm, vmTable) {
 	vmItem += "<td>" + vm.osVersion + "</td>";
 
 	vmItem += "<td class='vmAttr'>" + "<span class='attr operationButton'>启动顺序</span><span class='password operationButton'>修改密码</span></td>";
-	//vmItem += "<span class='bindUSB operationButton'>绑定USB</span></td>";
 	vmItem += "<td class='manager'>" + "<span class='vnc operationButton'>VNC</span><span class='rdp operationButton'>RDP</span>" + "</td>";
 	vmItem += "</tr>";
 
@@ -1649,10 +1646,10 @@ function loadServiceTableHeader() {
 
 	header += "<tr class=\"vm-table-header\">";
 	header += "<th><input type=\"checkbox\" style='width: 20px; height: 20px'></th>";
-	header += "<th>服务名</th>";
+	header += "<th>产品名称</th>";
 	header += "<th>状态</th>";
-	header += "<th>规格</th>";
-	header += "<th>UUID</th>";
+	header += "<th>类型</th>";
+	header += "<th>编号</th>";
 	header += "<th>创建时间</th>";
 	header += "<th>修改时间</th>";
 	header += "<th>管理</th></tr>";
@@ -1667,29 +1664,16 @@ function printServiceLine(obj, table) {
 	var itemStr = "";
 
 	itemStr += "<tr><td><input type=\"checkbox\" name=\"serviceListItems\" style='width: 20px; height: 20px'></td>";
-	if (obj.status === SERVICE_STATE_STOPPED || obj.status === SERVICE_STATE_RUNNING) {
-		itemStr += "<td style='line-height: 32px'>" + obj.name + " <a onclick='switchToPricingPage()'>虚拟机</a></td>";
-	} else {
-		itemStr += "<td style='line-height: 32px'>" + obj.name + "</td>";
-	}
+	itemStr += "<td style='line-height: 32px'>" + obj.name + "</td>";
+
 	itemStr += "<td style='line-height: 32px; color: " + getServicetateColor(obj.status) + "'>" + obj.status + "</td>";
-	itemStr += "<td style='line-height: 32px'>" + obj.offeringName + "</td>";
-	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.id + "</td>";
+	itemStr += "<td style='line-height: 32px'>" + obj.typeName + "</td>";
+	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.info["id"] + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.createTime + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.lastSync + "</td>";
 
 	itemStr += "<td class='manager'>";
-
-	if (obj.status === SERVICE_STATE_REGISTERING) {
-		itemStr += "<span class='cancelservicebutton commonbutton operationButton'>撤销</span>";
-	} else if (obj.status === SERVICE_STATE_REVOKED || obj.status === SERVICE_STATE_REJECTED) {
-		itemStr += "<span class='delservicebutton commonbutton operationButton'>删除</span>";
-	} else if (obj.status === SERVICE_STATE_ABANDONED) {
-		itemStr += "<span class='resumeservicebutton commonbutton operationButton'>恢复</span>";
-	} else if (obj.status === SERVICE_STATE_STOPPED) {
-		itemStr += "<span class='abandonservicebutton commonbutton operationButton'>放弃</span>";
-	}
-
+	itemStr += "<span class='cancelservicebutton commonbutton operationButton'>编辑</span>";
 	itemStr += "</td></tr>";
 
 	var $tr = $(itemStr);
@@ -1757,7 +1741,7 @@ function getProductsCallback(resultObj, paras) {
 	}
 
 	count = dataObj.total;
-	services = dataObj.list;
+	services = dataObj.items;
 
 	var table = $("#service-list-tab");
 	table.html(loadServiceTableHeader());

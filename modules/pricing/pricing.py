@@ -10,8 +10,11 @@ AUTHKEY_TIMEOUT = 24 * 30 * 60
 
 
 def get_products(db, arg):
-	items = []
-	type = arg["type"]
+	listObj = {
+		"items": [],
+		"total": 0,
+	}
+	type = arg["paras"]["type"]
 	
 	cond = "WHERE 1=1 "
 	if type:
@@ -27,9 +30,11 @@ def get_products(db, arg):
 		product = Product(db, dbObj=obj)
 		product.loadFromObj()
 		
-		items.append(product.toObj())
+		listObj["items"].append(product.toObj())
 	
-	return (OCT_SUCCESS, items)
+	listObj["total"] = len(listObj["items"])
+	
+	return (OCT_SUCCESS, listObj)
 
 
 def get_product_types(db, arg):
