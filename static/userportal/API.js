@@ -7,24 +7,27 @@ API_PREFIX = "octlink.tundra.v1.";
 URL_LOGIN = "/logout/";
 
 // USER
-API_GET_USER = API_PREFIX + "enduser.APIShowEnduser";
-API_UPDATE_USER = API_PREFIX + "enduser.APIUpdateEnduser";
-API_CHANGE_USER_PASS = API_PREFIX + "enduser.APIUpdateEnduserPassword";
+API_GET_USER = API_PREFIX + "account.APIShowAccount";
+API_UPDATE_USER = API_PREFIX + "account.APIUpdateAccount";
+API_CHANGE_USER_PASS = API_PREFIX + "account.APIUpdateAccountPassword";
 
-// offering
-API_GET_OFFERING_LIST = API_PREFIX + "offering.APIShowAllServiceOffering";
+// pricing
+API_GET_QUERY_RESULTS = API_PREFIX + "pricing.APIShowAllQueyResults";
+
+API_GET_PRODUCTS = API_PREFIX + "pricing.APIShowAllProducts";
 
 
 API_URL = "/api/";
 API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
 
-function createSyncVmAppStatusParas(vmId) {
+
+function createGetUserParas(userId) {
 	return {
-		"module": "vm",
-		"api": API_SYNC_VMAPP_STATUS,
+		"module": "account",
+		"api": API_GET_USER,
 		"paras": {
-			"id": vmId
+			"id": userId
 		},
 		"async": false,
 		"session": {
@@ -34,14 +37,11 @@ function createSyncVmAppStatusParas(vmId) {
 	};
 }
 
-function createSetVmAppStatusParas(vmId, state) {
+function createGetQueryResultsParas() {
 	return {
-		"module": "vm",
-		"api": API_SET_VMAPP_STATUS,
-		"paras": {
-			"id": vmId,
-			"state": state
-		},
+		"module": "pricing",
+		"api": API_GET_QUERY_RESULTS,
+		"paras": { },
 		"async": false,
 		"session": {
 			"uuid": API_UUID,
@@ -50,12 +50,12 @@ function createSetVmAppStatusParas(vmId, state) {
 	};
 }
 
-function createGetServiceVmListParas(serviceId) {
+function createGetProductsParas(type) {
 	return {
-		"module": "service",
-		"api": API_GET_SERVICE_VMLIST,
+		"module": "pricing",
+		"api": API_GET_PRODUCTS,
 		"paras": {
-			"id": serviceId
+			"type": type,
 		},
 		"async": false,
 		"session": {

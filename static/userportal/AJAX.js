@@ -1273,7 +1273,7 @@ function serviceManage() {
 			return raiseErrorAlarm("#modalServiceManage", errorMsg);
 		}
 		$("#modalServiceManage").modal("hide");
-		switchToServicePage();
+		switchToProductPage();
 	});
 }
 
@@ -1668,7 +1668,7 @@ function printServiceLine(obj, table) {
 
 	itemStr += "<tr><td><input type=\"checkbox\" name=\"serviceListItems\" style='width: 20px; height: 20px'></td>";
 	if (obj.status === SERVICE_STATE_STOPPED || obj.status === SERVICE_STATE_RUNNING) {
-		itemStr += "<td style='line-height: 32px'>" + obj.name + " <a onclick='switchToVmPage(\"" + obj.id + "\")'>虚拟机</a></td>";
+		itemStr += "<td style='line-height: 32px'>" + obj.name + " <a onclick='switchToPricingPage()'>虚拟机</a></td>";
 	} else {
 		itemStr += "<td style='line-height: 32px'>" + obj.name + "</td>";
 	}
@@ -1742,7 +1742,7 @@ function initServiceOperation(table) {
 	});
 }
 
-function getServicesCallback(resultObj, paras) {
+function getProductsCallback(resultObj, paras) {
 
 	var apiResponse = doResponseCheck(resultObj);
 	if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
@@ -1773,8 +1773,8 @@ function getServicesCallback(resultObj, paras) {
 	initServiceOperation(table);
 }
 
-function getServiceList() {
-	ajaxPost(API_URL, JSON.stringify(createGetAllServiceParas(g_current_user_id)), getServicesCallback);
+function getProductList() {
+	ajaxPost(API_URL, JSON.stringify(createGetProductsParas()), getProductsCallback);
 }
 
 function getVmUSBCallback(resultObj, paras) {
@@ -1796,12 +1796,8 @@ function getVmUSBCallback(resultObj, paras) {
 	}
 }
 
-function getVmList(serviceId) {
-	if (serviceId === "" || serviceId === null) {
-		paras = createGetBindVmsParas(g_current_user_id);
-	} else {
-		paras = createGetServiceVmListParas(serviceId);
-	}
+function getAllQueryResults() {
+	paras = createGetQueryResultsParas(g_current_user_id);
 	ajaxPost(API_URL, JSON.stringify(paras), getVmListCallback);
 }
 
@@ -1861,14 +1857,12 @@ function getUser(userId) {
 		var bodyStr = "";
 		bodyStr += "<tr><th>属性</th><th>内容</th></tr>";
 		bodyStr += "<tr><td>名称</td><td>" + user.name + "</td></tr>";
-		bodyStr += "<tr><td>状态</td><td>" + userState_d2s(user.state) + "</td></tr>";
+		bodyStr += "<tr><td>状态</td><td>" + user.stateCN + "</td></tr>";
 		bodyStr += "<tr><td>ID</td><td>" + user.id + "</td></tr>";
 		bodyStr += "<tr><td>Email</td><td>" + user.email + "</td></tr>";
 		bodyStr += "<tr><td>UKey</td><td>" + user.ukey + "</td></tr>";
-		bodyStr += "<tr><td>LDAP用户ID</td><td>" + user.ldapUid + "</td></tr>";
 		bodyStr += "<tr><td>电话</td><td>" + user.phone + "</td></tr>";
 		bodyStr += "<tr><td>创建时间</td><td>" + user.createTime + "</td></tr>";
-		bodyStr += "<tr><td>描述</td><td>" + user.desc + "</td></tr>";
 
 		$userInfo.html(bodyStr);
 	});
@@ -2202,6 +2196,6 @@ function addService() {
 			return raiseErrorAlarm("#modalAddService", errorMsg);
 		}
 		$("#modalAddService").modal("hide");
-		switchToServicePage();
+		switchToProductPage();
 	});
 }

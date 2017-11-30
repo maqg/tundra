@@ -44,19 +44,19 @@ function openPage(pageId) {
 	$(pageId).addClass("active");
 }
 
-function switchToVmPage(serviceId) {
+function switchToPricingPage() {
 	closeOtherPages("vm-manage");
 	closeOtherButtons("#vm-menu-button");
-	getVmList(serviceId);
+	getAllQueryResults();
 	openPage("#vm-manage");
 }
 
-function switchToServicePage() {
+function switchToProductPage() {
 
 	closeOtherPages("#service-manage");
 	closeOtherButtons("#service-menu-button");
 
-	getServiceList();
+	getProductList();
 
 	openPage("#service-manage");
 }
