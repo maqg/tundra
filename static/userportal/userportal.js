@@ -44,11 +44,35 @@ function openPage(pageId) {
 	$(pageId).addClass("active");
 }
 
+function getSelectedPricingType() {
+	return getSelectedOption("#pricingtype");
+}
+
+function updatePricingList() {
+	selected = getSelectedPricingType();
+	getAllQueryResults(selected);
+}
+
 function switchToPricingPage() {
 	closeOtherPages("vm-manage");
 	closeOtherButtons("#vm-menu-button");
-	getAllQueryResults();
+
+	getAllQueryResults(PRICING_TYPE_OCTDESK);
+
 	openPage("#vm-manage");
+}
+
+function updateProductTypes() {
+
+
+}
+
+function updateProductList() {
+	getProductList(getSelectedProductType());
+}
+
+function getSelectedProductType() {
+	return getSelectedOption("#producttype");
 }
 
 function switchToProductPage() {
@@ -56,7 +80,9 @@ function switchToProductPage() {
 	closeOtherPages("#service-manage");
 	closeOtherButtons("#service-menu-button");
 
-	getProductList("CPU");
+	updateProductTypes();
+
+	getProductList(getSelectedProductType());
 
 	openPage("#service-manage");
 }
