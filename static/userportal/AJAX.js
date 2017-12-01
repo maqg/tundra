@@ -899,6 +899,7 @@ function loadProductTableHeader() {
 	header += "<th>产品名称</th>";
 	header += "<th>状态</th>";
 	header += "<th>类型</th>";
+	header += "<th>单价</th>";
 	header += "<th>编号</th>";
 	header += "<th>创建时间</th>";
 	header += "<th>修改时间</th>";
@@ -907,7 +908,9 @@ function loadProductTableHeader() {
 	return header;
 }
 
-var g_refresh_service_id = "";
+function getSoftwarePrice(obj) {
+	return "基础包：" + obj.basePrice + "<br>每物理主机：" + obj.hostPrice + "<br>每CPU：" + obj.cpuPrice + "<br>每点位授权：" + obj.pointPrice;
+}
 
 function printProductLine(obj, table) {
 
@@ -918,6 +921,11 @@ function printProductLine(obj, table) {
 
 	itemStr += "<td style='line-height: 32px; color: " + getProductStateColor(obj.state) + "'>" + obj.state + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.typeName + "</td>";
+	if (obj.info.hasOwnProperty("price") === false) {
+		itemStr += "<td style='line-height: 18px'>" + getSoftwarePrice(obj.info) + "</td>";
+	} else {
+		itemStr += "<td style='line-height: 32px'>" + obj.info["price"] + "</td>";
+	}
 	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.info["id"] + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.createTime + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.lastSync + "</td>";

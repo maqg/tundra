@@ -13,7 +13,6 @@ from models.Common import DEFAULT_ACCOUNT_ID
 from utils.commonUtil import getUuid, buildRetObj, isSystemWindows
 from utils.httpUtil import buildReply, getArgObj, buildFailureReply
 from utils.sessionUtil import getSessionObj
-from views.api.apiUtil import getApiResult
 from views.api.dispatch import doDispatching, IGNORE_SESSION_APIS
 
 sys.path.append("../")

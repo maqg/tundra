@@ -62,9 +62,37 @@ function switchToPricingPage() {
 	openPage("#vm-manage");
 }
 
+function getProductTypesCallback(resultObj, paras) {
+
+	var apiResponse = doResponseCheck(resultObj);
+	if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
+		console.log(apiResponse ? apiResponse.getErrorMsg() : "Connect to API server Error");
+		return;
+	}
+
+	var dataObj = apiResponse.getDataObj();
+	if (dataObj === null) {
+		alert("no user data returned\n");
+		return;
+	}
+
+	var $productTypeList = $("#producttype");
+	var bodyStr = "";
+
+	for (var i = 0; i < dataObj.length; i++) {
+		node = dataObj[i];
+		if (node["type"] === "INFRASTRUCTURE") {
+			bodyStr += "<option value='" + node["type"] + "' selected>" + node["name"] + "</option>"
+		} else {
+			bodyStr += "<option value='" + node["type"] + "'>" + node["name"] + "</option>"
+		}
+	}
+
+	$productTypeList.html(bodyStr);
+}
+
 function updateProductTypes() {
-
-
+	ajaxPost(API_URL, JSON.stringify(createGetProductTypesParas()), getProductTypesCallback);
 }
 
 function updateProductList() {

@@ -19,7 +19,8 @@ def get_products(db, paras):
 	
 	cond = "WHERE 1=1 "
 	if type:
-		cond += "AND P_Type='%s'" % type
+		cond += "AND P_Type='%s' " % type
+	cond += "ORDER BY P_CreateTime "
 	
 	ret = db.select(TB_PRODUCT, cond=cond)
 	if ret == -1:
@@ -33,7 +34,10 @@ def get_products(db, paras):
 		
 		listObj["items"].append(product.toObj())
 	
+	listObj["items"].sort(key=lambda x:x["info"]["id"])
+	
 	listObj["total"] = len(listObj["items"])
+	
 	
 	return (OCT_SUCCESS, listObj)
 

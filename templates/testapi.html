@@ -143,8 +143,8 @@
         apiListObj = JsonObj[selectedModule];
 
         for (var i = 0; i < apiListObj.length; i++) {
-            apiNode = apiListObj[i];
-            bodyStr += "<option value='" + apiNode["key"] + "'>" + apiNode["name"] + "</option>"
+            node = apiListObj[i];
+            bodyStr += "<option value='" + node["key"] + "'>" + node["name"] + "</option>"
         }
 
         $apiList.html(bodyStr);

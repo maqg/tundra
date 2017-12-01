@@ -162,7 +162,7 @@
 		"price": 499
 	  },
 	  {
-		"id": "monitor-002",
+		"id": "monitor-003",
 		"name": "23寸 AOC 显示器",
 		"provider": "京东 AOC",
 		"model": "unknown",
@@ -181,6 +181,18 @@
 		"provider": "京东 Logitech",
 		"desc": "",
 		"price": 79
+	  }
+	]
+  },
+  "UKEY": {
+	"name": "UKEY",
+	"products": [
+	  {
+		"id": "ukey-001",
+		"name": "UKEY2000",
+		"provider": "淘宝 ukey2000型",
+		"desc": "",
+		"price": 100
 	  }
 	]
   },
