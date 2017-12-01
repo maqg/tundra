@@ -51,10 +51,22 @@ class PricingResult:
 		self.info = {}
 		self.price = 0
 		self.points = 0
+		self.withHareware = 1
 		self.desc = ""
 		self.createTime = 0
 		
 		self.paras = {}
+		
+		self.summary = ""
+		
+	def createSummary(self):
+		
+		self.summary = "总价：%s<br>" % self.price
+		
+		if not self.withHareware:
+			self.summary += "不含硬件<br>"
+			
+		return self.summary
 	
 	def init(self):
 		cond = "WHERE ID='%s' " % (self.myId)
@@ -77,6 +89,9 @@ class PricingResult:
 			"ID": self.myId,
 			"QR_Name": self.name,
 			"QR_Type": self.type,
+			"QR_WithHardware": self.withHareware,
+			"QR_Price": self.price,
+			"QR_Points": self.points,
 			"QR_Paras": transToStr(self.paras),
 			"QR_CreateTime": get_current_time(),
 			"QR_Description": self.desc,
@@ -90,6 +105,10 @@ class PricingResult:
 		DEBUG(obj)
 		
 		return OCT_SUCCESS
+	
+	def pricing(self):
+		if not self.withHareware:
+			self.price += self.points * 1000
 	
 	def loadFromObj(self):
 		self.myId = self.dbObj["ID"]
@@ -106,6 +125,7 @@ class PricingResult:
 		return 0
 	
 	def toObj(self):
+		
 		item = {
 			"id": self.myId,
 			"name": self.name,
@@ -116,6 +136,7 @@ class PricingResult:
 			"info": self.info,
 			"desc": self.desc,
 			"paras": self.paras,
+			"summary": self.createSummary(),
 			"createTime": getStrTime(self.createTime),
 		}
 		

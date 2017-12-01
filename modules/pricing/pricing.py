@@ -6,7 +6,6 @@ from core.err_code import DB_ERR, OCT_SUCCESS
 from core.log import ERROR
 from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK
 from models.Product import Product
-from utils.commonUtil import getUuid
 from utils.timeUtil import getCurrentStrDate
 
 AUTHKEY_TIMEOUT = 24 * 30 * 60
@@ -120,6 +119,10 @@ def query_desk_price(db, paras):
 	pricing.paras = paras
 	pricing.type = PRICING_TYPE_OCTDESK
 	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
+	pricing.withHareware = paras["withHardware"] and 1 or 0
+	pricing.points = paras["point"]
+	
+	pricing.pricing()
 	
 	ret = pricing.add()
 	

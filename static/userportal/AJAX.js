@@ -197,9 +197,9 @@ function loadPricingTableHeader() {
 	header += "<tr class=\"vm-table-header\">";
 	header += "<th><input type=\"checkbox\" style='width: 20px; height: 20px'></th>";
 	header += "<th>名称</th>";
-	header += "<th>类型</th>";
 	header += "<th>点位数</th>";
 	header += "<th>报价</th>";
+	header += "<th>报价小结</th>";
 	header += "<th>报价生成时间</th>";
 	header += "<th>管理</th></tr>";
 
@@ -839,9 +839,9 @@ function printPricingLine(item, vmTable) {
 	vmItem += "<tr>";
 	vmItem += "<td> <input type=\"checkbox\" name=\"vmListItems\" style='width: 20px; height: 20px'> </td>";
 	vmItem += "<td>" + item.name +"</a></td>";
-	vmItem += "<td>" + item.typeCN + "</td>";
-	vmItem += "<td>" + item.points + "</td>";
-	vmItem += "<td>" + item.price + "</td>";
+	vmItem += "<td style='color: blue'>" + item.points + "</td>";
+	vmItem += "<td style='color: red'>" + item.price + "</td>";
+	vmItem += "<td>" + item.summary + "</td>";
 	vmItem += "<td>" + item.createTime + "</td>";
 
 	vmItem += "<td class='vmAttr'>" + "<span class='attr operationButton'>详情</span><span class='password operationButton'>导出</span></td>";
