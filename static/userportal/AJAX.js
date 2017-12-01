@@ -897,11 +897,10 @@ function loadProductTableHeader() {
 	header += "<tr class=\"vm-table-header\">";
 	header += "<th><input type=\"checkbox\" style='width: 20px; height: 20px'></th>";
 	header += "<th>产品名称</th>";
-	header += "<th>状态</th>";
+	header += "<th>编号</th>";
 	header += "<th>类型</th>";
 	header += "<th>单价</th>";
-	header += "<th>编号</th>";
-	header += "<th>创建时间</th>";
+	header += "<th>状态</th>";
 	header += "<th>修改时间</th>";
 	header += "<th>管理</th></tr>";
 
@@ -918,16 +917,14 @@ function printProductLine(obj, table) {
 
 	itemStr += "<tr><td><input type=\"checkbox\" name=\"serviceListItems\" style='width: 20px; height: 20px'></td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.name + "</td>";
-
-	itemStr += "<td style='line-height: 32px; color: " + getProductStateColor(obj.state) + "'>" + obj.state + "</td>";
+	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.info["id"] + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.typeName + "</td>";
 	if (obj.info.hasOwnProperty("price") === false) {
-		itemStr += "<td style='line-height: 18px'>" + getSoftwarePrice(obj.info) + "</td>";
+		itemStr += "<td style='line-height: 18px; color: red'>" + getSoftwarePrice(obj.info) + "</td>";
 	} else {
-		itemStr += "<td style='line-height: 32px'>" + obj.info["price"] + "</td>";
+		itemStr += "<td style='line-height: 32px; color: red'>" + obj.info["price"] + "</td>";
 	}
-	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.info["id"] + "</td>";
-	itemStr += "<td style='line-height: 32px'>" + obj.createTime + "</td>";
+	itemStr += "<td style='line-height: 32px; color: " + getProductStateColor(obj.state) + "'>" + obj.state + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.lastSync + "</td>";
 
 	itemStr += "<td class='manager'>";

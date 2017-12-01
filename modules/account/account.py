@@ -128,6 +128,7 @@ def update_user(db, arg):
 	
 	user.email = arg["paras"].get("email") or ""
 	user.phone = arg["paras"].get("phoneNumber") or ""
+	user.desc = arg["paras"].get("desc") or ""
 	
 	return user.update()
 

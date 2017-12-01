@@ -98,6 +98,8 @@ class Account:
 		self.lastSync = 0
 		self.createTime = 0
 		
+		self.desc = ""
+		
 		self.ukey = ""
 		self.ldapUid = ""
 	
@@ -133,6 +135,7 @@ class Account:
 		self.lastSync = self.dbObj["U_LastSync"]
 		self.createTime = self.dbObj["U_CreateTime"]
 		self.ukey = self.dbObj["U_UKey"]
+		self.desc = self.dbObj["U_Description"]
 		self.ldapUid = self.dbObj["U_LdapUid"]
 		
 		return 0
@@ -216,6 +219,7 @@ class Account:
 			"U_PhoneNumber": self.phone,
 			"U_UKey": self.ukey,
 			"U_LastSync": get_current_time(),
+			"U_Description": self.desc
 		}
 		
 		cond = "WHERE ID='%s'" % self.myId
@@ -332,6 +336,7 @@ class Account:
 			"createTime": getStrTime(self.createTime),
 			"ukey": self.ukey,
 			"ldapUid": self.ldapUid,
+			"desc": self.desc,
 			"role": self.role,
 			"roleCN": self.roleCN,
 			"stateCN": self.stateCN

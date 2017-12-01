@@ -172,6 +172,12 @@ funcList = {
 				"desc": "phone number for account",
 				"descCN": "电话号码",
 				"default": ""
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "描述",
+				"default": ""
 			}
 		}
 	},
