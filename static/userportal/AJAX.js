@@ -197,10 +197,10 @@ function loadPricingTableHeader() {
 	header += "<tr class=\"vm-table-header\">";
 	header += "<th><input type=\"checkbox\" style='width: 20px; height: 20px'></th>";
 	header += "<th>名称</th>";
-	header += "<th>UUID</th>";
 	header += "<th>类型</th>";
+	header += "<th>点位数</th>";
 	header += "<th>报价</th>";
-	header += "<th>时间</th>";
+	header += "<th>报价生成时间</th>";
 	header += "<th>管理</th></tr>";
 
 	return header;
@@ -840,6 +840,7 @@ function printPricingLine(item, vmTable) {
 	vmItem += "<td> <input type=\"checkbox\" name=\"vmListItems\" style='width: 20px; height: 20px'> </td>";
 	vmItem += "<td>" + item.name +"</a></td>";
 	vmItem += "<td>" + item.typeCN + "</td>";
+	vmItem += "<td>" + item.points + "</td>";
 	vmItem += "<td>" + item.price + "</td>";
 	vmItem += "<td>" + item.createTime + "</td>";
 
@@ -858,7 +859,7 @@ function printPricingLine(item, vmTable) {
 }
 
 
-function getVmListCallback(resultObj, paras) {
+function getQueryResultsCallback(resultObj, paras) {
 
 	var apiResponse = doResponseCheck(resultObj);
 	if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
@@ -873,7 +874,7 @@ function getVmListCallback(resultObj, paras) {
 	}
 
 	count = dataObj.total;
-	vms = dataObj.items;
+	items = dataObj.items;
 
 	var vmTable = $("#vm-list-tab");
 	vmTable.html(loadPricingTableHeader());
@@ -882,7 +883,7 @@ function getVmListCallback(resultObj, paras) {
 		vmTable.html("");
 	} else {
 		for (i = 0; i < count; i++) {
-			printPricingLine(vms[i], vmTable);
+			printPricingLine(items[i], vmTable);
 		}
 	}
 
@@ -1010,9 +1011,9 @@ function getProductList(type) {
 	ajaxPost(API_URL, JSON.stringify(createGetProductsParas(type)), getProductsCallback);
 }
 
-function getAllQueryResults() {
-	paras = createGetQueryResultsParas(g_current_user_id);
-	ajaxPost(API_URL, JSON.stringify(paras), getVmListCallback);
+function getAllQueryResults(type) {
+	paras = createGetQueryResultsParas(type);
+	ajaxPost(API_URL, JSON.stringify(paras), getQueryResultsCallback);
 }
 
 function doResponseCheck(resultObj) {

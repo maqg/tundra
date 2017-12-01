@@ -15,6 +15,10 @@ function getServiceActionStr(action) {
 	return serviceActionList[action];
 }
 
+function getSelectedOption(id) {
+    return $(id + " option:selected").val();
+}
+
 var productStateListStr = ["Disabled", "Closed", "Enabled", "Ready"];
 var productStateListColorStr = ["red", "red", "green", "green"];
 

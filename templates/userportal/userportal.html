@@ -135,8 +135,8 @@
 				删除
 			</div>
 			<div style="float: right; display: block; right: 200px">
-				<label class="" style="position: absolute; width: auto; left: 153px;">选择API：</label>
-				<select id="apiList" onchange="updateParas();" title=""
+				<label class="" style="position: absolute; width: auto; left: 153px;">选择产品：</label>
+				<select id="producttype" onchange="updateProductList();" title=""
 				        style="position: absolute; left: 220px; width: auto; margin: 8px;" class="form-control">
 					<option value="CPU">CPU</option>
 					<option value="INFRASTRUCTURE" selected>基础硬件架构</option>
@@ -158,6 +158,15 @@
 			</div>
 			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="vmPowerManage(VM_POWER_OFF);">
 				删除
+			</div>
+			<div style="float: right; display: block; right: 200px">
+				<label class="" style="position: absolute; width: auto; left: 153px;">选择产品：</label>
+				<select id="pricingtype" onchange="updatePricingList();" title=""
+				        style="position: absolute; left: 220px; width: auto; margin: 8px;" class="form-control">
+					<option value="PLATFORM">私有云平台</option>
+					<option value="OCTDESK" selected>云桌面产品</option>
+					<option value="OCTCLASS">云课堂产品</option>
+				</select>
 			</div>
 		</div>
 		<div>

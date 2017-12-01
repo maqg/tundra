@@ -6,6 +6,10 @@
 API_PREFIX = "octlink.tundra.v1.";
 URL_LOGIN = "/logout/";
 
+PRICING_TYPE_PLATFORM = "PLATFORM";
+PRICING_TYPE_OCTCLASS = "OCTCLASS";
+PRICING_TYPE_OCTDESK = "OCTDESK";
+
 // USER
 API_GET_USER = API_PREFIX + "account.APIShowAccount";
 API_UPDATE_USER = API_PREFIX + "account.APIUpdateAccount";
@@ -13,7 +17,7 @@ API_CHANGE_USER_PASS = API_PREFIX + "account.APIUpdateAccountPassword";
 
 // pricing
 API_GET_QUERY_RESULTS = API_PREFIX + "pricing.APIShowQueryResults";
-
+API_GET_PRODUCT_TYPES = API_PREFIX + "pricing.APIShowProductTypes";
 API_GET_PRODUCTS = API_PREFIX + "pricing.APIShowProducts";
 
 
@@ -37,11 +41,13 @@ function createGetUserParas(userId) {
 	};
 }
 
-function createGetQueryResultsParas() {
+function createGetQueryResultsParas(type) {
 	return {
 		"module": "pricing",
 		"api": API_GET_QUERY_RESULTS,
-		"paras": { },
+		"paras": {
+			"type": type
+		},
 		"async": false,
 		"session": {
 			"uuid": API_UUID,
@@ -57,6 +63,19 @@ function createGetProductsParas(type) {
 		"paras": {
 			"type": type
 		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
+
+function createGetProductTypesParas() {
+	return {
+		"module": "pricing",
+		"api": API_GET_PRODUCT_TYPES,
+		"paras": {	},
 		"async": false,
 		"session": {
 			"uuid": API_UUID,

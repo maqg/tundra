@@ -4,7 +4,7 @@
     <title>RVM V5 API UNITEST</title>
     <link rel="icon" href="/static/imgs/logo.png" type="image/x-icon">
     <script src="/static/jquery-1.11.3.min.js"></script>
-    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/apitest_utils.js"></script>
     <link href="/static/css/common.css" rel="stylesheet" type="text/css"/>
     <link href="/static/bootstrap334/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="/static/bootstrap334/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
@@ -205,24 +205,6 @@
         httpPost("/api/", bodyStr, function(resJson){
             $("#requestBody").html(JSON.stringify(json, null, 4));
             $("#responseBody").html(JSON.stringify(resJson, null, 4));
-        });
-    }
-
-    function commint_request_old() {
-
-        selectedModule = getSelectedOption("#apiModuleList");
-        selectedApi = getSelectedOption("#apiList");
-
-        json = {
-            "module": selectedModule,
-            "api": selectedApi,
-            "paras": fetch_api_paras()
-        };
-
-        bodyStr = JSON.stringify(json);
-
-        httpPost("/api/test/", bodyStr, function(){
-            window.location.href = "/api/test/" + window.location.search;
         });
     }
 

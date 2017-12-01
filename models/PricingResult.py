@@ -6,6 +6,19 @@ from utils.commonUtil import transToObj
 from utils.timeUtil import getStrTime
 
 
+PRICING_TYPES = {
+	"PLATFORM": {
+		"name": "八爪鱼私有云管理平台软件",
+	},
+	"OCTCLASS": {
+		"name": "八爪鱼云课堂软件"
+	},
+	"OCTDESK": {
+		"name": "八爪鱼云桌面软件"
+	}
+}
+
+
 def getPricingResult(db, myId):
 	cond = "WHERE ID='%s'" % (myId)
 	
@@ -31,6 +44,8 @@ class PricingResult:
 		self.typeName = ""
 		
 		self.info = {}
+		self.price = 0
+		self.points = 0
 		self.desc = ""
 		self.createTime = 0
 	
@@ -51,6 +66,8 @@ class PricingResult:
 		self.myId = self.dbObj["ID"]
 		self.name = self.dbObj["QR_Name"]
 		self.type = self.dbObj["QR_Type"]
+		self.price = self.dbObj["QR_Price"]
+		self.points = self.dbObj["QR_Points"]
 		
 		self.info = transToObj(self.dbObj["QR_Info"])
 		self.desc = self.dbObj["QR_Description"]
@@ -63,6 +80,9 @@ class PricingResult:
 			"id": self.myId,
 			"name": self.name,
 			"type": self.type,
+			"price": self.price,
+			"points": self.points,
+			"typeCN": PRICING_TYPES[self.type]["name"],
 			"info": self.info,
 			"desc": self.desc,
 			"createTime": getStrTime(self.createTime),
