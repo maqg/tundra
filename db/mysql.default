@@ -2,4 +2,4 @@ INSERT INTO tb_account (ID,U_CreateTime,U_Type,U_Name,U_UKey,U_Password,U_Descri
 
 INSERT INTO tb_session (S_ExpireTime,S_UserType,S_UserId,S_UserName,S_Cookie,S_CreateTime,ID) VALUES (1826789620148,7,'c0000000000000000000000000000000','admin','{"role": 7, "id": "c0000000000000000000000000000000", "name": "admin"}',1511429620148,'00000000000000000000000000000000');
 
-INSERT INTO tb_queryresult VALUES ('292f137f691469948acd0e72b141e373', '大中华-20171201', 'OCTDESK', '{}', '12000', '60', 1826789620148, '不含运费');
+INSERT INTO tb_queryresult VALUES ('292f137f691469948acd0e72b141e373', '大中华-20171201', 'OCTDESK', '{}', '{}', '12000', '60', 1826789620148, '不含运费');
