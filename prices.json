@@ -222,7 +222,7 @@
 	  {
 		"id": "software-001",
 		"name": "软件 私有云平台 开放全部功能",
-		"type": "private",
+		"type": "PLATFORM",
 		"basePrice": 0,
 		"hostPrice": 20000,
 		"cpuPrice": 10000,
@@ -231,7 +231,7 @@
 	  {
 		"id": "software-002",
 		"name": "软件 云课堂软件 开放全部功能",
-		"type": "octclass",
+		"type": "OCTCLASS",
 		"basePrice": 0,
 		"hostPrice": 0,
 		"cpuPrice": 0,
@@ -240,7 +240,7 @@
 	  {
 		"id": "software-003",
 		"name": "软件 云桌面软件 开放全部功能",
-		"type": "octdesk",
+		"type": "OCTDESK",
 		"basePrice": 0,
 		"hostPrice": 0,
 		"cpuPrice": 0,
