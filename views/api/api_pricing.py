@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from views.api.api import PARAM_TYPE_STRING, PARAM_TYPE_INT
+from views.api.api import PARAM_TYPE_STRING, PARAM_TYPE_INT, PARAM_NOT_NULL, PARAM_TYPE_BOOLEAN
 
 moduleName = "pricing"
 
@@ -39,14 +39,26 @@ funcList = {
 	},
 	
 	"APIQueryDeskPrice": {
-		"name": "查询云桌面报价",
+		"name": "生成云桌面报价",
 		"serviceName": "pricing.pricing_web.web_query_deskprice",
 		"paras": {
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "客户名称",
+				"default": PARAM_NOT_NULL
+			},
 			"point": {
 				"type": PARAM_TYPE_INT,
 				"desc": "Point Count",
 				"descCN": "点位数",
 				"default": 50
+			},
+			"withHardware": {
+				"type": PARAM_TYPE_BOOLEAN,
+				"desc": "",
+				"descCN": "是否有硬件",
+				"default": True
 			},
 			"disk": {
 				"type": PARAM_TYPE_INT,
@@ -135,6 +147,12 @@ funcList = {
 				"desc": "",
 				"descCN": "交换机数量",
 				"default": 0
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "其他补充说明",
+				"default": ""
 			},
 		}
 	},

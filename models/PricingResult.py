@@ -1,19 +1,24 @@
 # -*- coding: utf-8 -*-
 
 from conf.dbconfig import TB_QUERYRESULT
-from core.log import WARNING
-from utils.commonUtil import transToObj
-from utils.timeUtil import getStrTime
+from core.err_code import DB_ERR, OCT_SUCCESS
+from core.log import WARNING, DEBUG
+from utils.commonUtil import transToObj, getUuid, transToStr
+from utils.timeUtil import getStrTime, get_current_time
+
+PRICING_TYPE_PLATFORM = "PLATFORM"
+PRICING_TYPE_OCTCLASS = "OCTCLASS"
+PRICING_TYPE_OCTDESK = "OCTDESK"
 
 
 PRICING_TYPES = {
-	"PLATFORM": {
+	PRICING_TYPE_PLATFORM: {
 		"name": "八爪鱼私有云管理平台软件",
 	},
-	"OCTCLASS": {
+	PRICING_TYPE_OCTCLASS: {
 		"name": "八爪鱼云课堂软件"
 	},
-	"OCTDESK": {
+	PRICING_TYPE_OCTDESK: {
 		"name": "八爪鱼云桌面软件"
 	}
 }
@@ -40,7 +45,7 @@ class PricingResult:
 		self.dbObj = dbObj
 		
 		self.name = ""
-		self.type = ""
+		self.type = PRICING_TYPE_PLATFORM
 		self.typeName = ""
 		
 		self.info = {}
@@ -48,6 +53,8 @@ class PricingResult:
 		self.points = 0
 		self.desc = ""
 		self.createTime = 0
+		
+		self.paras = {}
 	
 	def init(self):
 		cond = "WHERE ID='%s' " % (self.myId)
@@ -62,6 +69,28 @@ class PricingResult:
 		
 		return 0
 	
+	def add(self):
+		
+		self.myId = getUuid()
+		
+		obj = {
+			"ID": self.myId,
+			"QR_Name": self.name,
+			"QR_Type": self.type,
+			"QR_Paras": transToStr(self.paras),
+			"QR_CreateTime": get_current_time(),
+			"QR_Description": self.desc,
+		}
+		
+		ret = self.db.insert(TB_QUERYRESULT, obj)
+		if (ret == -1):
+			WARNING("add user %s error for db operation" % self.name)
+			return DB_ERR
+		
+		DEBUG(obj)
+		
+		return OCT_SUCCESS
+	
 	def loadFromObj(self):
 		self.myId = self.dbObj["ID"]
 		self.name = self.dbObj["QR_Name"]
@@ -70,6 +99,7 @@ class PricingResult:
 		self.points = self.dbObj["QR_Points"]
 		
 		self.info = transToObj(self.dbObj["QR_Info"])
+		self.paras = transToObj(self.dbObj["QR_Paras"])
 		self.desc = self.dbObj["QR_Description"]
 		self.createTime = self.dbObj["QR_CreateTime"]
 		
@@ -85,6 +115,7 @@ class PricingResult:
 			"typeCN": PRICING_TYPES[self.type]["name"],
 			"info": self.info,
 			"desc": self.desc,
+			"paras": self.paras,
 			"createTime": getStrTime(self.createTime),
 		}
 		

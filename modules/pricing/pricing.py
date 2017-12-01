@@ -4,8 +4,10 @@ from conf.dbconfig import TB_PRODUCT, TB_QUERYRESULT
 from core import dbmysql
 from core.err_code import DB_ERR, OCT_SUCCESS
 from core.log import ERROR
-from models.PricingResult import PricingResult
+from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK
 from models.Product import Product
+from utils.commonUtil import getUuid
+from utils.timeUtil import getCurrentStrDate
 
 AUTHKEY_TIMEOUT = 24 * 30 * 60
 
@@ -87,3 +89,41 @@ def get_queryresults(db, paras):
 	listObj["total"] = len(listObj["items"])
 	
 	return (OCT_SUCCESS, listObj)
+
+
+PARAS_EXAMPLE = {
+	"name": "中国银行",
+	"point": 50,
+	"withHardware": False,
+	"disk": 100,
+	"cpu": 2,
+	"memory": 2048,
+	"thinClient": "",
+	"thinClientCount": 0,
+	"monitor": "",
+	"monitorCount": 0,
+	"keyMouse": "",
+	"keyMouseCount": 0,
+	"ukey": "",
+	"ukeyCount": 0,
+	"wifiRouter": "",
+	"wifiRouterCount": 0,
+	"switch": "",
+	"switchCount": 0,
+	"desc": "",
+	"timeout": 0
+}
+def query_desk_price(db, paras):
+	
+	pricing = PricingResult(db)
+	
+	pricing.paras = paras
+	pricing.type = PRICING_TYPE_OCTDESK
+	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
+	
+	ret = pricing.add()
+	
+	return ret, pricing.toObj()
+	
+	
+	
