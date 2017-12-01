@@ -29,18 +29,6 @@ funcList = {
 		"name": "查看所有报价结果",
 		"serviceName": "pricing.pricing_web.web_get_queryresults",
 		"paras": {
-			"start": {
-				"type": PARAM_TYPE_INT,
-				"desc": "",
-				"descCN": "开始于，缺省为0",
-				"default": 0
-			},
-			"limit": {
-				"type": PARAM_TYPE_INT,
-				"desc": "",
-				"descCN": "每次返回结果，缺省为15",
-				"default": 15
-			},
 			"type": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",

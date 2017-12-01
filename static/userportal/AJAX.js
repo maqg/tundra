@@ -196,13 +196,11 @@ function loadPricingTableHeader() {
 
 	header += "<tr class=\"vm-table-header\">";
 	header += "<th><input type=\"checkbox\" style='width: 20px; height: 20px'></th>";
-	header += "<th>虚拟机名</th>";
+	header += "<th>名称</th>";
 	header += "<th>UUID</th>";
-	header += "<th>IP地址</th>";
-	header += "<th>状态</th>";
-	header += "<th>模板</th>";
-	header += "<th>操作系统</th>";
-	header += "<th>属性</th>";
+	header += "<th>类型</th>";
+	header += "<th>报价</th>";
+	header += "<th>时间</th>";
 	header += "<th>管理</th></tr>";
 
 	return header;
@@ -834,29 +832,26 @@ function switchVmDetail(vmId) {
 	openPage("#vmdetail-manage");
 }
 
-function printVmLine(vm, vmTable) {
+function printPricingLine(item, vmTable) {
 
 	var vmItem = "";
 
 	vmItem += "<tr>";
 	vmItem += "<td> <input type=\"checkbox\" name=\"vmListItems\" style='width: 20px; height: 20px'> </td>";
-	vmItem += "<td><a onclick=\"switchVmDetail('" + vm.id + "');\">" + vm.name +"</a></td>";
-	vmItem += "<td style='font-family: Consolas'>" + vm.id + "</td>";
-	vmItem += "<td>" + vm.ip + "</td>";
-	vmItem += "<td class='classVmStata' style='color: " + getVmStateColor(vm.status) + "'>" + vm.status + "</td>";
-	vmItem += "<td>" + vm.imageName + "</td>";
-	vmItem += "<td>" + vm.osVersion + "</td>";
+	vmItem += "<td>" + item.name +"</a></td>";
+	vmItem += "<td>" + item.typeCN + "</td>";
+	vmItem += "<td>" + item.price + "</td>";
+	vmItem += "<td>" + item.createTime + "</td>";
 
-	vmItem += "<td class='vmAttr'>" + "<span class='attr operationButton'>启动顺序</span><span class='password operationButton'>修改密码</span></td>";
-	vmItem += "<td class='manager'>" + "<span class='vnc operationButton'>VNC</span><span class='rdp operationButton'>RDP</span>" + "</td>";
+	vmItem += "<td class='vmAttr'>" + "<span class='attr operationButton'>详情</span><span class='password operationButton'>导出</span></td>";
 	vmItem += "</tr>";
 
 	var $tr = $(vmItem);
-	$tr.data("vmObj", vm);
+	$tr.data("vmObj", item);
 
 	// set double click function
 	$tr.dblclick(function () {
-		raiseDetail(vm);
+		raiseDetail(item);
 	});
 
 	vmTable.append($tr);
@@ -878,11 +873,7 @@ function getVmListCallback(resultObj, paras) {
 	}
 
 	count = dataObj.total;
-	if (dataObj.hasOwnProperty("vms")) {
-		vms = dataObj.vms;
-	} else {
-		vms = dataObj.vmList;
-	}
+	vms = dataObj.items;
 
 	var vmTable = $("#vm-list-tab");
 	vmTable.html(loadPricingTableHeader());
@@ -891,7 +882,7 @@ function getVmListCallback(resultObj, paras) {
 		vmTable.html("");
 	} else {
 		for (i = 0; i < count; i++) {
-			printVmLine(vms[i], vmTable);
+			printPricingLine(vms[i], vmTable);
 		}
 	}
 
