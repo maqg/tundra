@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from models.Account import ROLE_SUPERADMIN, ROLE_ADMIN
-from views.api.api import PARAM_TYPE_STRING, PARAM_NOT_NULL, PARAM_TYPE_INT
+from views.api.api import PARAM_TYPE_STRING, PARAM_TYPE_INT
 
 moduleName = "pricing"
 
@@ -10,14 +9,12 @@ funcList = {
 	"APIShowProductTypes": {
 		"name": "查看所有产品类型",
 		"serviceName": "pricing.pricing_web.web_get_product_types",
-		"roles": [ROLE_SUPERADMIN, ROLE_ADMIN],
 		"paras": {}
 	},
 	
 	"APIShowProducts": {
 		"name": "查看所有产品",
 		"serviceName": "pricing.pricing_web.web_get_products",
-		"roles": [ROLE_SUPERADMIN, ROLE_ADMIN],
 		"paras": {
 			"type": {
 				"type": PARAM_TYPE_STRING,
@@ -28,10 +25,34 @@ funcList = {
 		}
 	},
 	
+	"APIShowQueryResults": {
+		"name": "查看所有报价结果",
+		"serviceName": "pricing.pricing_web.web_get_queryresults",
+		"paras": {
+			"start": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "开始于，缺省为0",
+				"default": 0
+			},
+			"limit": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "每次返回结果，缺省为15",
+				"default": 15
+			},
+			"type": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "产品类型, PLATFORM,OCTCLASS,OCTDESK",
+				"default": ""
+			},
+		}
+	},
+	
 	"APIQueryDeskPrice": {
 		"name": "查询云桌面报价",
 		"serviceName": "pricing.pricing_web.web_query_deskprice",
-		"roles": [ROLE_SUPERADMIN, ROLE_ADMIN],
 		"paras": {
 			"point": {
 				"type": PARAM_TYPE_INT,
