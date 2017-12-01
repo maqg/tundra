@@ -84,20 +84,37 @@ function createGetProductTypesParas() {
 	};
 }
 
-function createAddServiceParas(userId, name, offering, desc) {
-	return {
-		"module": "service",
-		"api": API_ADD_SERVICE,
-		"paras": {
-			"offeringId": offering,
-			"userId": userId,
-			"name": name,
-			"desc": desc
-		},
-		"async": false,
-		"session": {
-			"uuid": API_UUID,
-			"skey": API_SKEY
-		}
-	};
+function createUpdateUserParas(userId, email, phoneNumber, desc) {
+    return {
+        "module": "enduser",
+        "api": API_UPDATE_USER,
+        "paras": {
+            "id": g_current_user_id,
+            "email": email,
+            "phoneNumber": phoneNumber,
+            "desc": desc
+        },
+        "async": false,
+        "session": {
+            "uuid": API_UUID,
+            "skey": API_SKEY
+        }
+    };
+}
+
+function createChangeUserPassParaqs(userId, oldPassword, newPassword) {
+    return {
+        "module": "enduser",
+        "api": API_CHANGE_USER_PASS,
+        "async": false,
+        "paras": {
+            "id": userId,
+            "oldPassword": new Base64().encode(oldPassword),
+            "newPassword": new Base64().encode(newPassword)
+        },
+        "session": {
+            "uuid": API_UUID,
+            "skey": API_SKEY
+        }
+    };
 }
