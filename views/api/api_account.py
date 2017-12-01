@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from models.Account import ROLE_SUPERADMIN, ROLE_ADMIN
 from views.api.api import *
 
 moduleName = "account"
@@ -10,7 +9,6 @@ funcList = {
 	"APIAddAccount": {
 		"name": "添加账号",
 		"serviceName": "account.account_web.web_add_user",
-		"roles": [ROLE_SUPERADMIN],
 		"paras": {
 			"account": {
 				"type": PARAM_TYPE_STRING,
@@ -61,7 +59,6 @@ funcList = {
 	"APIShowAccount": {
 		"name": "获取单个账号信息",
 		"serviceName": "account.account_web.web_get_user",
-		"roles": [ROLE_SUPERADMIN, ROLE_ADMIN],
 		"paras": {
 			"id": {
 				"type": PARAM_TYPE_STRING,
@@ -75,7 +72,6 @@ funcList = {
 	"APIShowAllAccount": {
 		"name": "获取所有账号信息",
 		"serviceName": "account.account_web.web_get_user",
-		"roles": [ROLE_SUPERADMIN],
 		"paras": {
 			"start": {
 				"type": PARAM_TYPE_INT,
@@ -94,14 +90,12 @@ funcList = {
 
 	"APIShowAccountList": {
 		"name": "获取账号列表",
-		"roles": [ROLE_SUPERADMIN],
 		"serviceName": "account.account_web.web_get_userlist",
 		"paras": {}
 	},
 
 	"APIDeleteAccount": {
 		"name": "删除单个账号信息",
-		"roles": [ROLE_SUPERADMIN],
 		"serviceName": "account.account_web.web_del_user",
 		"paras": {
 			"id": {
@@ -115,7 +109,6 @@ funcList = {
 
 	"APIResetAccountPassword": {
 		"name": "重置账号密码",
-		"roles": [ROLE_SUPERADMIN],
 		"serviceName": "account.account_web.web_reset_password",
 		"paras": {
 			"id": {
@@ -135,7 +128,6 @@ funcList = {
 
 	"APIUpdateAccountPassword": {
 		"name": "更新账号密码",
-		"roles": [ROLE_SUPERADMIN, ROLE_ADMIN],
 		"serviceName": "account.account_web.web_modify_password",
 		"paras": {
 			"id": {
@@ -161,7 +153,6 @@ funcList = {
 
 	"APIUpdateAccount": {
 		"name": "编辑账号信息",
-		"roles": [ROLE_SUPERADMIN, ROLE_ADMIN],
 		"serviceName": "account.account_web.web_update_user",
 		"paras": {
 			"id": {
@@ -187,7 +178,6 @@ funcList = {
 
 	"APILogOut": {
 		"name": "退出登录",
-		"roles": [ROLE_SUPERADMIN, ROLE_ADMIN],
 		"serviceName": "account.account_web.web_logout",
 		"paras": {
 			"sessionUuid": {

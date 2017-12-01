@@ -12,7 +12,7 @@ API_UPDATE_USER = API_PREFIX + "account.APIUpdateAccount";
 API_CHANGE_USER_PASS = API_PREFIX + "account.APIUpdateAccountPassword";
 
 // pricing
-API_GET_QUERY_RESULTS = API_PREFIX + "pricing.APIShowAllQueyResults";
+API_GET_QUERY_RESULTS = API_PREFIX + "pricing.APIShowQueryResults";
 
 API_GET_PRODUCTS = API_PREFIX + "pricing.APIShowProducts";
 
