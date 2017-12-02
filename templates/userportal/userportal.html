@@ -154,18 +154,20 @@
 	<div id="vm-manage" class="right-content" style="display: none">
 		<div style="position:absolute; left: 0;width:100%; right:0;background-color: #eee; height: 50px;line-height: 49px;">
 			<div class="btn btn-primary btn-lg" id="vmPowerOn" onclick="vmPowerManage(VM_POWER_ON);">
-				新建
+				新建报价
 			</div>
 			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="vmPowerManage(VM_POWER_OFF);">
 				删除
 			</div>
 			<div style="float: right; display: block; right: 200px">
-				<label class="" style="position: absolute; width: auto; left: 153px;">选择产品：</label>
+				<label class="" style="position: absolute; width: auto; left: 185px;">报价方式：</label>
 				<select id="pricingtype" onchange="updatePricingList();" title=""
-				        style="position: absolute; left: 220px; width: auto; margin: 8px;" class="form-control">
-					<option value="PLATFORM">私有云平台</option>
-					<option value="OCTDESK" selected>云桌面产品</option>
-					<option value="OCTCLASS">云课堂产品</option>
+				        style="position: absolute; left: 242px; width: auto; margin: 8px;" class="form-control">
+					<option value="OCTDESK" selected>云桌面-软硬一体</option>
+					<option value="OCTCLASS">云课堂-软硬一体</option>
+					<option value="PLATFORM">私有云-软硬一体</option>
+					<option value="THINCLIENT">云终端-硬件</option>
+					<option value="SERVER">服务器-硬件</option>
 				</select>
 			</div>
 		</div>

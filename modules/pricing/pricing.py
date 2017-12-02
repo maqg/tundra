@@ -4,7 +4,7 @@ from conf.dbconfig import TB_PRODUCT, TB_QUERYRESULT
 from core import dbmysql
 from core.err_code import DB_ERR, OCT_SUCCESS
 from core.log import ERROR
-from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK
+from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT
 from models.Product import Product
 from utils.timeUtil import getCurrentStrDate
 
@@ -35,7 +35,7 @@ def get_products(db, paras):
 		
 		listObj["items"].append(product.toObj())
 	
-	listObj["items"].sort(key=lambda x:x["info"]["id"])
+	listObj["items"].sort(key=lambda x:x["infoObj"]["id"])
 	
 	listObj["total"] = len(listObj["items"])
 	
@@ -90,7 +90,7 @@ def get_queryresults(db, paras):
 	return (OCT_SUCCESS, listObj)
 
 
-PARAS_EXAMPLE = {
+DESK_PARAS = {
 	"name": "中国银行",
 	"point": 50,
 	"withHardware": False,
@@ -127,6 +127,34 @@ def query_desk_price(db, paras):
 	ret = pricing.add()
 	
 	return ret, pricing.toObj()
-	
+
+
+THINCLIENT_PARAS = {
+	"name": "",
+	"point": 50,
+	"thinClient": "",
+	"monitor": "",
+	"keyMouse": "",
+	"desc": "",
+	"timeout": 0
+}
+def query_thinclient_price(db, paras):
+
+	pricing = PricingResult(db)
+
+	pricing.paras = paras
+	pricing.type = PRICING_TYPE_THINCLIENT
+	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
+	pricing.points = paras["point"]
+
+	pricing.thinClient = paras["thinClient"]
+	pricing.monitor = paras["monitor"]
+	pricing.keyMouse = paras["keyMouse"]
+
+	pricing.pricing_thinclient()
+
+	ret = pricing.add()
+
+	return ret, pricing.toObj()
 	
 	

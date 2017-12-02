@@ -156,4 +156,47 @@ funcList = {
 			},
 		}
 	},
+
+	"APIQueryThinClientPrice": {
+		"name": "生成瘦客户端硬件报价",
+		"serviceName": "pricing.pricing_web.web_query_thinclientprice",
+		"paras": {
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "客户名称",
+				"default": PARAM_NOT_NULL
+			},
+			"point": {
+				"type": PARAM_TYPE_INT,
+				"desc": "Point Count",
+				"descCN": "点位数",
+				"default": 50
+			},
+			"thinClient": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "Thin Client Type",
+				"descCN": "瘦终端类型，空表示无",
+				"default": PARAM_NOT_NULL
+			},
+			"monitor": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "Monitor Type",
+				"descCN": "显示器类型，空表示无",
+				"default": ""
+			},
+			"keyMouse": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "键鼠套装类型，空表示无",
+				"default": ""
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "其他补充说明",
+				"default": ""
+			},
+		}
+	},
 }

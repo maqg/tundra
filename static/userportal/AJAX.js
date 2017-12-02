@@ -917,12 +917,12 @@ function printProductLine(obj, table) {
 
 	itemStr += "<tr><td><input type=\"checkbox\" name=\"serviceListItems\" style='width: 20px; height: 20px'></td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.name + "</td>";
-	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.info["id"] + "</td>";
+	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.infoObj["id"] + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.typeName + "</td>";
-	if (obj.info.hasOwnProperty("price") === false) {
-		itemStr += "<td style='line-height: 18px; color: red'>" + getSoftwarePrice(obj.info) + "</td>";
+	if (obj.infoObj.hasOwnProperty("price") === false) {
+		itemStr += "<td style='line-height: 18px; color: red'>" + getSoftwarePrice(obj.infoObj) + "</td>";
 	} else {
-		itemStr += "<td style='line-height: 32px; color: red'>" + obj.info["price"] + "</td>";
+		itemStr += "<td style='line-height: 32px; color: red'>" + obj.infoObj["price"] + "</td>";
 	}
 	itemStr += "<td style='line-height: 32px; color: " + getProductStateColor(obj.state) + "'>" + obj.state + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.lastSync + "</td>";

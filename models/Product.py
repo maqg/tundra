@@ -35,7 +35,9 @@ class Product:
 		self.type = ""
 		self.typeName = ""
 
-		self.info = {}
+		self.info = None
+		self.infoObj = {}
+
 		self.desc = ""
 
 		self.lastSync = 0
@@ -65,7 +67,8 @@ class Product:
 
 		self.type = self.dbObj["P_Type"]
 		self.typeName = self.dbObj["P_TypeName"]
-		self.info = transToObj(self.dbObj["P_Info"])
+		self.infoObj = transToObj(self.dbObj["P_Info"])
+		self.info = ProductInfo(self.type, self.infoObj)
 		self.desc = self.dbObj["P_Description"]
 		self.state = self.dbObj["P_State"]
 
@@ -108,7 +111,7 @@ class Product:
 
 			"state": self.state,
 
-			"info": self.info,
+			"infoObj": self.infoObj,
 			"desc": self.desc,
 
 			"lastSync": getStrTime(self.lastSync),
@@ -124,3 +127,21 @@ class Product:
 			"type": self.type,
 			"name": self.name,
 		}
+
+
+class ProductInfo:
+	def __init__(self, type, infoObj):
+
+		self.info = infoObj
+
+		self.myid = infoObj["id"]
+		self.name = infoObj["name"]
+		self.type = type
+		self.provider = infoObj.get("providor") or "未知"
+		self.model = infoObj.get("model") or ""
+		self.capacity = infoObj.get("capacity") or ""
+		self.desc = infoObj.get("desc") or ""
+		self.price = infoObj.get("price") or 0
+
+	def toObj(self):
+		return self.info

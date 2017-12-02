@@ -14,7 +14,7 @@ def load_errormodule(moduleFile):
 	fd_errmod.close()
 
 def print_head(f_out):
-	f_out.write("#!/usr/bin/python\n# -*- coding: utf-8 -*-\n\n")
+	f_out.write("# -*- coding: utf-8 -*-\n\n")
 	return
 
 def print_tail(f_out):

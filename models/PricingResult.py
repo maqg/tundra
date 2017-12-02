@@ -3,23 +3,32 @@
 from conf.dbconfig import TB_QUERYRESULT
 from core.err_code import DB_ERR, OCT_SUCCESS
 from core.log import WARNING, DEBUG
+from models.Product import getProduct
 from utils.commonUtil import transToObj, getUuid, transToStr
 from utils.timeUtil import getStrTime, get_current_time
 
 PRICING_TYPE_PLATFORM = "PLATFORM"
 PRICING_TYPE_OCTCLASS = "OCTCLASS"
 PRICING_TYPE_OCTDESK = "OCTDESK"
+PRICING_TYPE_THINCLIENT = "THINCLIENT"
+PRICING_TYPE_SERVER = "SERVER"
 
 
 PRICING_TYPES = {
 	PRICING_TYPE_PLATFORM: {
-		"name": "八爪鱼私有云管理平台软件",
+		"name": "私有云软硬一体",
 	},
 	PRICING_TYPE_OCTCLASS: {
-		"name": "八爪鱼云课堂软件"
+		"name": "云课堂软硬一体"
 	},
 	PRICING_TYPE_OCTDESK: {
-		"name": "八爪鱼云桌面软件"
+		"name": "云桌面软硬一体"
+	},
+	PRICING_TYPE_THINCLIENT: {
+		"name": "云终端硬件"
+	},
+	PRICING_TYPE_SERVER: {
+		"name": "服务器硬件"
 	}
 }
 
@@ -52,6 +61,16 @@ class PricingResult:
 		self.price = 0
 		self.points = 0
 		self.withHareware = 1
+
+		self.thinClient = None
+		self.thinclientCount = 0
+
+		self.monitor = None
+		self.monitorCount = 0
+
+		self.keyMouse = None
+		self.keymouseCount = 0
+
 		self.desc = ""
 		self.createTime = 0
 		
@@ -109,6 +128,31 @@ class PricingResult:
 	def pricing(self):
 		if not self.withHareware:
 			self.price += self.points * 1000
+		return self.price
+
+	def pricing_thinclient(self):
+		self.summary += "终端数:%d" % self.points
+
+		thinclient = getProduct(self.db, self.thinClient)
+		if thinclient:
+			self.summary += "<br>%s单价:%d" % (thinclient.name, thinclient.info.price)
+			self.price += self.points * thinclient.info.price
+
+		if self.monitor:
+			monitor = getProduct(self.db, self.monitor)
+			if monitor:
+				self.summary += "<br>%s,单价:%d" % (monitor.info.name, monitor.info.price)
+				self.price += self.points * monitor.info.price
+
+		if self.keyMouse:
+			keymouse = getProduct(self.db, self.keyMouse)
+			if keymouse:
+				self.summary += "<br>%s,单价:%d" % (keymouse.info.name, keymouse.info.price)
+				self.price += self.points * keymouse.info.price
+
+		self.summary += "<br>总价:%d" % self.price
+
+		return self.price
 	
 	def loadFromObj(self):
 		self.myId = self.dbObj["ID"]
@@ -136,7 +180,7 @@ class PricingResult:
 			"info": self.info,
 			"desc": self.desc,
 			"paras": self.paras,
-			"summary": self.createSummary(),
+			"summary": self.summary,
 			"createTime": getStrTime(self.createTime),
 		}
 		
