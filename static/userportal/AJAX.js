@@ -263,7 +263,7 @@ function initPricingOperation(vmTable) {
 			var $remove = $tr.children(".manager").children(".deletepricingbutton");
 			if ($remove !== null) {
 				$remove.click(function () {
-					alert("delete pricing");
+					raisePricingDelete($tr.data("dataObj"));
 				});
 			}
 
@@ -408,34 +408,52 @@ function raiseRemoveApp(app) {
 	$("#modalDelApp").modal("show");
 }
 
-function serviceManage() {
+function pricingRemove() {
 
-	service = $("#modalServiceManage").data("serviceObj");
+	item = $("#modalPricingManage").data("dataObj");
 
-	paras = createServiceManageParas(service.id, getServiceApi(service.action));
+	paras = createPricingRemoveParas(item.id);
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
 		var apiResponse = doResponseCheck(resultObj);
 		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
 			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
-			return raiseErrorAlarm("#modalServiceManage", errorMsg);
+			return raiseErrorAlarm("#modalPricingManage", errorMsg);
 		}
-		$("#modalServiceManage").modal("hide");
+		$("#modalPricingManage").modal("hide");
+		switchToPricingPage();
+	});
+}
+
+function productRemove() {
+
+	item = $("#modalProductManage").data("dataObj");
+
+	paras = createProductRemoveParas(item.id);
+	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
+		var apiResponse = doResponseCheck(resultObj);
+		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
+			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
+			return raiseErrorAlarm("#modalProductManage", errorMsg);
+		}
+		$("#modalProductManage").modal("hide");
 		switchToProductPage();
 	});
 }
 
-function raiseServiceManage(action, service) {
+function raisePricingDelete(item) {
+	var prompt = "你确定要<span style='color: red; font-size: 120%'>删除</span>如下报价结果吗？</br>";
+	prompt += item.name;
+	$("#modalPricingManagePrompt").html(prompt);
+	$("#modalPricingManage").data("dataObj", item);
+	$("#modalPricingManage").modal("show");
+}
 
-	actionStr = getServiceActionStr(action);
-
-	var prompt = "你确定要<span style='color: red; font-size: 120%'>" + actionStr + "</span>如下服务吗？</br>";
-	prompt += service.name;
-
-	service["action"] = action;
-
-	$("#modalServiceManagePrompt").html(prompt);
-	$("#modalServiceManage").data("serviceObj", service);
-	$("#modalServiceManage").modal("show");
+function raiseProductDelete(item) {
+	var prompt = "你确定要<span style='color: red; font-size: 120%'>删除</span>如下产品吗？</br>";
+	prompt += item.name;
+	$("#modalProductManagePrompt").html(prompt);
+	$("#modalProductManage").data("dataObj", item);
+	$("#modalProductManage").modal("show");
 }
 
 function updateApp() {
@@ -779,7 +797,7 @@ function printPricingLine(item, vmTable) {
 	vmItem += "</td></tr>";
 
 	var $tr = $(vmItem);
-	$tr.data("vmObj", item);
+	$tr.data("dataObj", item);
 
 	// set double click function
 	$tr.dblclick(function () {
@@ -876,8 +894,7 @@ function initProductOperation(table) {
 			var $remove = $tr.children(".manager").children(".productdeltebutton");
 			if ($remove !== null) {
 				$remove.click(function () {
-					alert("delete product");
-					//raiseServiceManage(SERVICE_MANAGE_DELETE, $tr.data("dataObj"));
+					raiseProductDelete($tr.data("dataObj"));
 				});
 			}
 

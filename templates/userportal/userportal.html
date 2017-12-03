@@ -420,7 +420,7 @@
 
 </div>
 
-<div class="modal fade" id="modalDelApp" tabindex="-1" role="dialog" aria-labelledby="modalDelAppLabel"
+<div class="modal fade" id="modalPricingManage" tabindex="-1" role="dialog" aria-labelledby="modalPricingManageLabel"
      aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -428,53 +428,26 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
 				</button>
-				<h4 class="modal-title" id="modalDelAppLabel ">
-					虚拟机应用
-				</h4>
-			</div>
-			<div id="delCdomFormBody" class="modal-body">
-				<form class="form-horizontal" role="form">
-					<div class="divider" id="appPrompt">
-						你确定删除该应用吗？
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer" id="cdRomModalFooter">
-				<button type="button" class="btn btn-primary" onclick="removeApp();">确定</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="modalServiceManage" tabindex="-1" role="dialog" aria-labelledby="modalServiceManageLabel"
-     aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="modalServiceManageLabel ">
+				<h4 class="modal-title" id="modalPricingManageLabel ">
 					服务操作
 				</h4>
 			</div>
-			<div id="modalServiceManageFormBody" class="modal-body">
+			<div id="modalPricingManageFormBody" class="modal-body">
 				<form class="form-horizontal" role="form">
-					<div class="divider" id="modalServiceManagePrompt">
+					<div class="divider" id="modalPricingManagePrompt">
 						你确定删除该应用吗？
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer" id="modalServiceManageFooter">
-				<button type="button" class="btn btn-primary" onclick="serviceManage();">确定</button>
+			<div class="modal-footer" id="modalPricingManageFooter">
+				<button type="button" class="btn btn-primary" onclick="pricingRemove();">确定</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div class="modal fade" id="modalServicePower" tabindex="-1" role="dialog" aria-labelledby="modalServicePowerLabel"
+<div class="modal fade" id="modalProductManage" tabindex="-1" role="dialog" aria-labelledby="modalProductManageLabel"
      aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -482,75 +455,20 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
 				</button>
-				<h4 class="modal-title" id="modalServicePowerLabel ">
-					服务电源操作
+				<h4 class="modal-title" id="modalProductManageLabel ">
+					服务操作
 				</h4>
 			</div>
-			<div id="servicePowerFormBody" class="modal-body">
+			<div id="modalProductManageFormBody" class="modal-body">
 				<form class="form-horizontal" role="form">
-					<div class="divider" id="servicePowerPrompt">
-						你确定关闭如下虚拟机吗？
+					<div class="divider" id="modalProductManagePrompt">
+						你确定删除该应用吗？
 					</div>
 				</form>
 			</div>
-			<div class="modal-footer" id="servicePowerModalFooter">
-				<button type="button" class="btn btn-primary" onclick="servicePower();">确定</button>
+			<div class="modal-footer" id="modalProductManageFooter">
+				<button type="button" class="btn btn-primary" onclick="productRemove();">确定</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-			</div>
-		</div>
-	</div>
-
-</div>
-
-<div class="modal fade" id="modalPower" tabindex="-1" role="dialog" aria-labelledby="modalPowerLabel"
-     aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="modalPowerLabel ">
-					电源操作
-				</h4>
-			</div>
-			<div id="vmPowerFormBody" class="modal-body">
-				<form class="form-horizontal" role="form">
-					<div class="divider" id="vmPowerPrompt">
-						你确定关闭如下虚拟机吗？
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer" id="vmPowerModalFooter">
-				<button type="button" class="btn btn-primary" onclick="vmPower();">确定</button>
-				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-			</div>
-		</div>
-	</div>
-
-</div>
-
-<div class="modal fade" id="modalAlarm" tabindex="-1" role="dialog" aria-labelledby="modalAlarmLabel"
-     aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="modalAlarmLabel" style="color: darkred">
-					错误提示
-				</h4>
-			</div>
-			<div id="alarmModalBoday" class="modal-body">
-				<form class="form-horizontal" role="form">
-					<div class="divider" id="alarmBodyContent" style="color: red">
-						你确定关闭如下虚拟机吗？
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer" id="alarmModelFooter">
-				<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
 			</div>
 		</div>
 	</div>

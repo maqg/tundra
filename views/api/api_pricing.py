@@ -125,6 +125,19 @@ funcList = {
 		}
 	},
 	
+	"APIRemovePricing": {
+		"name": "删除报价结果",
+		"serviceName": "pricing.pricing_web.web_remove_pricing",
+		"paras": {
+			"id": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "报价ID",
+				"default": PARAM_NOT_NULL
+			},
+		}
+	},
+	
 	"APIQueryDeskPrice": {
 		"name": "生成云桌面报价",
 		"serviceName": "pricing.pricing_web.web_query_deskprice",

@@ -119,6 +119,11 @@ class PricingResult:
 		
 		return 0
 	
+	def remove(self):
+		cond = "WHERE ID='%s'" % (self.myId)
+		self.db.delete(TB_QUERYRESULT, cond=cond)
+		return 0
+	
 	def add(self):
 		
 		self.myId = getUuid()

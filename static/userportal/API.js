@@ -27,12 +27,43 @@ API_CHANGE_USER_PASS = API_PREFIX + "account.APIUpdateAccountPassword";
 API_GET_QUERY_RESULTS = API_PREFIX + "pricing.APIShowQueryResults";
 API_GET_PRODUCT_TYPES = API_PREFIX + "pricing.APIShowProductTypes";
 API_GET_PRODUCTS = API_PREFIX + "pricing.APIShowProducts";
+API_REMOVE_PRODUCT = API_PREFIX + "pricing.APIRemoveProduct";
+API_REMOVE_PRICING = API_PREFIX + "pricing.APIRemovePricing";
 
 
 API_URL = "/api/";
 API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
 
+function createPricingRemoveParas(id) {
+	return {
+		"module": "pricing",
+		"api": API_REMOVE_PRICING,
+		"paras": {
+			"id": id
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
+
+function createProductRemoveParas(id) {
+	return {
+		"module": "pricing",
+		"api": API_REMOVE_PRODUCT,
+		"paras": {
+			"id": id
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
 
 function createGetUserParas(userId) {
 	return {

@@ -5,7 +5,7 @@ from core import dbmysql
 from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST
 from core.log import ERROR
 from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT, \
-	PRODUCT_TYPE_PLATFORM_SOFT, PRODUCT_TYPE_OCTCLASS_SOFT, PRODUCT_TYPE_OCTDESK_SOFT
+	PRODUCT_TYPE_PLATFORM_SOFT, PRODUCT_TYPE_OCTCLASS_SOFT, PRODUCT_TYPE_OCTDESK_SOFT, getPricingResult
 from models.Product import Product, getProduct
 from utils.timeUtil import getCurrentStrDate
 
@@ -203,4 +203,9 @@ def query_thinclient_price(db, paras):
 
 	return ret, pricing.toObj()
 	
-	
+
+def remove_pricing(db, paras):
+	pricing = getPricingResult(db, paras["id"])
+	if not pricing:
+		return SEGMENT_NOT_EXIST, None
+	return pricing.remove(), None
