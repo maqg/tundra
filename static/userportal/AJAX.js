@@ -645,31 +645,104 @@ function raiseAddApp(vmId) {
 	$("#modalAddApp").modal("show");
 }
 
-function raiseAppDetail(app) {
+function parseProductParas(infoObj, type) {
+
+	$str = "编号：" + infoObj.id;
+	$str += "<br>名称：" + infoObj.name;
+
+	if (infoObj.hasOwnProperty("frenquency")) {
+		$str += "<br>频率：" + infoObj.frequency;
+	}
+	if (infoObj.hasOwnProperty("cores")) {
+		$str += "<br>核心数：" + infoObj.cores;
+	}
+	if (infoObj.hasOwnProperty("threads")) {
+		$str += "<br>线程线：" + infoObj.threads;
+	}
+	if (infoObj.hasOwnProperty("capacity")) {
+		$str += "<br>线程线：" + infoObj.capacity + "G";
+	}
+	if (infoObj.hasOwnProperty("size")) {
+		$str += "<br>线程线：" + infoObj.size + "寸";
+	}
+	if (infoObj.hasOwnProperty("model")) {
+		$str += "<br>型号：" + infoObj.model;
+	}
+	if (infoObj.hasOwnProperty("provider")) {
+		$str += "<br>厂商：" + infoObj.provider;
+	}
+
+	return $str;
+}
+
+function parseProductPrice(infoObj) {
+	$str = "";
+	start = false;
+
+	if (infoObj.hasOwnProperty("price")) {
+		$str += infoObj.price;
+	}
+
+	if (infoObj.hasOwnProperty("basePrice") && infoObj.basePrice > 0) {
+		if (start === false) {
+			start = true;
+		}
+		$str += "软件平台价格：" + infoObj.basePrice;
+	}
+
+	if (infoObj.hasOwnProperty("hostPrice") && infoObj.hostPrice > 0) {
+		if (start === false) {
+			start = true;
+		} else {
+			$str += "<br>";
+		}
+		$str += "每物理主机授权价格：" + infoObj.hostPrice;
+	}
+
+	if (infoObj.hasOwnProperty("pointPrice") && infoObj.pointPrice > 0) {
+		if (start === false) {
+			start = true;
+		} else {
+			$str += "<br>";
+		}
+		$str += "每点位授权价格：" + infoObj.pointPrice;
+	}
+
+	if (infoObj.hasOwnProperty("cpuPrice") && infoObj.cpuPrice > 0) {
+		if (start === false) {
+			start = true;
+		} else {
+			$str += "<br>";
+		}
+		$str += "每CPU授权价格：" + infoObj.cpuPrice;
+	}
+
+	return $str;
+}
+
+function raiseProductDetail(item) {
 
 	$detailTable = $("#appDetailBody");
 
 	var bodyStr = "";
 
-	bodyStr += "<tr><th>属性</th>";
+	bodyStr += "<tr><th style='width: 20%;'>属性</th>";
 	bodyStr += "<th>内容</th></tr>";
 
-	bodyStr += "<tr><td>应用</td><td>" + app.name + "</td></tr>";
-	bodyStr += "<tr><td>状态</td><td style='color: " + getStatusColor(app.status) + "'>" + app.status + "</td></tr>";
-	if (app.icon === "") {
-		bodyStr += "<tr><td>图标</td><td><img src='/static/imgs/unknown.png'/></td></tr>";
-	} else {
-		bodyStr += "<tr><td>图标</td><td><img src='data:image/png;base64," + app.icon + "'/></td></tr>";
-	}
-	bodyStr += "<tr><td>UUID</td><td style='font-family: Consolas'>" + app.id + "</td></tr>";
-	bodyStr += "<tr><td>路径</td><td>" + app.path + "</td></tr>";
-	bodyStr += "<tr><td>参数</td><td>" + app.paras + "</td></tr>";
-	bodyStr += "<tr><td>修改时间</td><td>" + app.lastSync + "</td></tr>";
-	bodyStr += "<tr><td>创建时间</td><td>" + app.createTime + "</td></tr>";
+	bodyStr += "<tr><td>名称</td><td>" + item.name + "</td></tr>";
+	bodyStr += "<tr><td>单价</td><td>" + parseProductPrice(item.infoObj) + "</td></tr>";
+	bodyStr += "<tr><td>产品类型</td><td>" + item.typeName + "</td></tr>";
+	bodyStr += "<tr><td>状态</td><td style='color: " + getStatusColor(item.state) + "'>" + item.state + "</td></tr>";
+	bodyStr += "<tr><td>ID</td><td style='font-family: Consolas'>" + item.id + "</td></tr>";
+	bodyStr += "<tr><td>参数</td><td>" + parseProductParas(item.infoObj, item.type) + "</td></tr>";
+	bodyStr += "<tr><td>修改时间</td><td>" + item.lastSync + "</td></tr>";
+	bodyStr += "<tr><td>创建时间</td><td>" + item.createTime + "</td></tr>";
+	bodyStr += "<tr><td>描述</td><td>" + item.desc + "</td></tr>";
+
 
 	$detailTable.html(bodyStr);
 
-	$("#modalAppDetail").modal("show");
+	$("#modalProductDetail").modal("show");
 }
 
 function printAppLine(obj, table) {
@@ -691,7 +764,7 @@ function printAppLine(obj, table) {
 	$tr.data("appObj", obj);
 
 	$tr.dblclick(function () {
-		raiseAppDetail(obj);
+		raiseProductDetail(obj);
 	});
 
 	table.append($tr);
@@ -919,11 +992,7 @@ function printProductLine(obj, table) {
 	itemStr += "<td style='line-height: 32px'>" + obj.name + "</td>";
 	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.infoObj["id"] + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.typeName + "</td>";
-	if (obj.infoObj.hasOwnProperty("price") === false) {
-		itemStr += "<td style='line-height: 18px; color: red'>" + getSoftwarePrice(obj.infoObj) + "</td>";
-	} else {
-		itemStr += "<td style='line-height: 32px; color: red'>" + obj.infoObj["price"] + "</td>";
-	}
+	itemStr += "<td style='line-height: 18px; color: red'>" + parseProductPrice(obj.infoObj) + "</td>";
 	itemStr += "<td style='line-height: 32px; color: " + getProductStateColor(obj.state) + "'>" + obj.state + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.lastSync + "</td>";
 
@@ -932,7 +1001,11 @@ function printProductLine(obj, table) {
 	itemStr += "</td></tr>";
 
 	var $tr = $(itemStr);
-	$tr.data("serviceObj", obj);
+	$tr.data("dataObj", obj);
+
+	$tr.dblclick(function () {
+		raiseProductDetail(obj);
+	});
 
 	table.append($tr);
 }
