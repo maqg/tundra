@@ -25,6 +25,93 @@ funcList = {
 		}
 	},
 	
+	"APIRemoveProduct": {
+		"name": "删除产品",
+		"serviceName": "pricing.pricing_web.web_remove_product",
+		"paras": {
+			"id": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "产品ID",
+				"default": PARAM_NOT_NULL
+			},
+		}
+	},
+	
+	"APIUpdateProduct": {
+		"name": "编辑产品",
+		"serviceName": "pricing.pricing_web.web_update_product",
+		"paras": {
+			"id": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "产品ID",
+				"default": PARAM_NOT_NULL
+			},
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "产品名称",
+				"default": PARAM_NOT_NULL
+			},
+			"state": {
+				"type": PARAM_TYPE_BOOLEAN,
+				"desc": "",
+				"descCN": "状态",
+				"default": True
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "描述",
+				"default": ""
+			},
+		}
+	},
+	
+	"APIUpdateProductPrice": {
+		"name": "编辑产品价格",
+		"serviceName": "pricing.pricing_web.web_update_productprice",
+		"paras": {
+			"id": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "产品ID",
+				"default": PARAM_NOT_NULL
+			},
+			"price": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "价格",
+				"default": 0
+			},
+			"basePrice": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "平台价格",
+				"default": 0
+			},
+			"hostPrice": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "每台物理主机授权价格",
+				"default": 0
+			},
+			"cpuPrice": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "每颗CPU授权价格",
+				"default": 0
+			},
+			"pointPrice": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "每点位授权价格",
+				"default": 0
+			}
+		}
+	},
+	
 	"APIShowQueryResults": {
 		"name": "查看所有报价结果",
 		"serviceName": "pricing.pricing_web.web_get_queryresults",

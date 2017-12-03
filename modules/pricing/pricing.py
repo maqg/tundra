@@ -2,10 +2,11 @@
 
 from conf.dbconfig import TB_PRODUCT, TB_QUERYRESULT
 from core import dbmysql
-from core.err_code import DB_ERR, OCT_SUCCESS
+from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST
 from core.log import ERROR
-from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT
-from models.Product import Product
+from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT, \
+	PRODUCT_TYPE_PLATFORM_SOFT, PRODUCT_TYPE_OCTCLASS_SOFT, PRODUCT_TYPE_OCTDESK_SOFT
+from models.Product import Product, getProduct
 from utils.timeUtil import getCurrentStrDate
 
 AUTHKEY_TIMEOUT = 24 * 30 * 60
@@ -60,6 +61,51 @@ def get_product_types(db, paras):
 		items.append(product.toProductTypeObj())
 	
 	return (OCT_SUCCESS, items)
+
+
+def add_product(db, paras):
+	return OCT_SUCCESS, None
+
+
+def remove_product(db, paras):
+	product = getProduct(db, paras["id"])
+	if not product:
+		return SEGMENT_NOT_EXIST, None
+	return product.remove(), None
+
+
+def update_product(db, paras):
+	product = getProduct(db, paras["id"])
+	if not product:
+		return SEGMENT_NOT_EXIST, None
+	
+	product.name = paras["name"]
+	product.desc = paras["desc"]
+	product.state = paras["state"] and "Enabled" or "Disabled"
+	
+	product.update()
+	
+	return OCT_SUCCESS, None
+
+
+def update_product_price(db, paras):
+	product = getProduct(db, paras["id"])
+	if not product:
+		return SEGMENT_NOT_EXIST, None
+	
+	if product.type in (PRODUCT_TYPE_PLATFORM_SOFT,
+	                    PRODUCT_TYPE_OCTCLASS_SOFT,
+	                    PRODUCT_TYPE_OCTDESK_SOFT):
+		product.infoObj["basePrice"] = paras["basePrice"]
+		product.infoObj["hostPrice"] = paras["hostPrice"]
+		product.infoObj["cpuPrice"] = paras["cpuPrice"]
+		product.infoObj["pointPrice"] = paras["pointPrice"]
+	else:
+		product.infoObj["price"] = paras["price"]
+		
+	product.updatePrice()
+	
+	return OCT_SUCCESS, None
 
 
 def get_queryresults(db, paras):

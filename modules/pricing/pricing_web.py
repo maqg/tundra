@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from modules.pricing.pricing import get_product_types, get_products, get_queryresults, query_desk_price, \
-	query_thinclient_price
+	query_thinclient_price, update_product, remove_product, update_product_price, add_product
 from utils.commonUtil import buildRetObj
 
 
@@ -12,6 +12,26 @@ def web_get_product_types(db, env, arg):
 
 def web_get_products(db, env, arg):
 	ret, data = get_products(db, arg["paras"])
+	return buildRetObj(ret, data)
+
+
+def web_add_product(db, env, arg):
+	ret, data = add_product(db, arg["paras"])
+	return buildRetObj(ret, data)
+
+
+def web_remove_product(db, env, arg):
+	ret, data = remove_product(db, arg["paras"])
+	return buildRetObj(ret, data)
+
+
+def web_update_product(db, env, arg):
+	ret, data = update_product(db, arg["paras"])
+	return buildRetObj(ret, data)
+
+
+def web_update_productprice(db, env, arg):
+	ret, data = update_product_price(db, arg["paras"])
 	return buildRetObj(ret, data)
 
 

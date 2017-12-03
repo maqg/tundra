@@ -129,15 +129,12 @@
 	<div id="service-manage" class="right-content" style="display: none">
 		<div style="position:absolute; left: 0; width:100%; right:0;background-color: #eee; height: 50px;line-height: 49px;">
 			<div class="btn btn-primary btn-lg" id="servicePowerOn" onclick="servicePowerManage(SERVICE_POWER_ON);">
-				添加
-			</div>
-			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="servicePowerManage(SERVICE_POWER_OFF);">
-				删除
+				添加产品
 			</div>
 			<div style="float: right; display: block; right: 200px">
-				<label class="" style="position: absolute; width: auto; left: 153px;">选择产品：</label>
+				<label class="" style="position: absolute; width: auto; left: 114px;">选择产品：</label>
 				<select id="producttype" onchange="updateProductList();" title=""
-				        style="position: absolute; left: 220px; width: auto; margin: 8px;" class="form-control">
+				        style="position: absolute; left: 176px; width: auto; margin: 8px;" class="form-control">
 					<option value="CPU">CPU</option>
 					<option value="INFRASTRUCTURE" selected>基础硬件架构</option>
 					<option value="DISK">磁盘</option>
@@ -156,13 +153,10 @@
 			<div class="btn btn-primary btn-lg" id="vmPowerOn" onclick="vmPowerManage(VM_POWER_ON);">
 				新建报价
 			</div>
-			<div class="btn btn-primary btn-lg" data-toggle="modal" onclick="vmPowerManage(VM_POWER_OFF);">
-				删除
-			</div>
 			<div style="float: right; display: block; right: 200px">
-				<label class="" style="position: absolute; width: auto; left: 185px;">报价方式：</label>
+				<label class="" style="position: absolute; width: auto; left: 114px;">报价方式：</label>
 				<select id="pricingtype" onchange="updatePricingList();" title=""
-				        style="position: absolute; left: 242px; width: auto; margin: 8px;" class="form-control">
+				        style="position: absolute; left: 176px; width: auto; margin: 8px;" class="form-control">
 					<option value="OCTDESK" selected>云桌面-软硬一体</option>
 					<option value="OCTCLASS">云课堂-软硬一体</option>
 					<option value="PLATFORM">私有云-软硬一体</option>

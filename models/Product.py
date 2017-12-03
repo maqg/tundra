@@ -77,10 +77,35 @@ class Product:
 
 		return 0
 	
+	def remove(self):
+		cond = "WHERE ID='%s'" % (self.myId)
+		self.db.delete(TB_PRODUCT, cond=cond)
+		return 0
+	
 	def update(self):
 		
+		self.infoObj["name"] = self.name
+		
 		userObj = {
-			"P_Info": transToStr(self.info),
+			"P_Name": self.name,
+			"P_State": self.state,
+			"P_Info": transToStr(self.infoObj),
+			"P_LastSync": get_current_time(),
+			"P_Description": self.desc
+		}
+		
+		cond = "WHERE ID='%s'" % self.myId
+		ret = self.db.update(TB_PRODUCT, userObj, cond=cond)
+		if (ret == -1):
+			WARNING("update user %s error for db operation" % self.name)
+			return DB_ERR
+		
+		return 0
+	
+	def updatePrice(self):
+		
+		userObj = {
+			"P_Info": transToStr(self.infoObj),
 			"P_LastSync": get_current_time(),
 			"P_Description": self.desc
 		}
@@ -93,13 +118,11 @@ class Product:
 		
 		return 0
 
-
 	def toProductTypeObj(self):
 		return {
 			"type": self.type,
 			"name": self.typeName
 		}
-
 	
 	def toObj(self):
 		item = {
