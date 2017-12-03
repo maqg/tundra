@@ -206,7 +206,11 @@ function loadPricingTableHeader() {
 	return header;
 }
 
-function displayPricingDetail(vm) {
+function parsePricingSummary(summary) {
+	return summary;
+}
+
+function raisePricingDetail(item) {
 
 	$detailBody = $("#vmDetailBody");
 
@@ -214,130 +218,27 @@ function displayPricingDetail(vm) {
 
 	bodyStr += "<table class=\"table table-striped table-hover\">";
 	bodyStr += "<tr><th>属性</th><th>内容</th></tr>";
-	bodyStr += "<tr><td>名称</td><td>" + vm.name + "</td></tr>";
-	bodyStr += "<tr><td>状态</td><td style='color: " + getVmStateColor(vm.status) + "'>" + vm.status + "</td></tr>";
-	bodyStr += "<tr><td>远程应用状态</td><td style='color: " + getStatusColor(vm.remoteAppStatus) + "'>" + vm.remoteAppStatus + "</td></tr>";
-	bodyStr += "<tr><td>UUID</td><td style='font-family: Consolas'>" + vm.id + "</td></tr>";
-	bodyStr += "<tr><td>CPU</td><td>" + vm.cpuNum + " 核心</td></tr>";
-	bodyStr += "<tr><td>内存</td><td>" + vm.memory + " M</td></tr>";
-	bodyStr += "<tr><td>持久磁盘</td><td>" + boolValue_d2s(vm.diskPersistent) + "</td></tr>";
-	bodyStr += "<tr><td>开机启动</td><td>" + boolValue_d2s(vm.startWithHost) + "</td></tr>";
-	bodyStr += "<tr><td>虚拟化类型</td><td>" + vm.hypervisorType + "</td></tr>";
-	bodyStr += "<tr><td>系统模板</td><td>" + vm.imageName + "</td></tr>";
-	bodyStr += "<tr><td>创建时间</td><td>" + vm.createTime + "</td></tr>";
+	bodyStr += "<tr><td>名称</td><td>" + item.name + "</td></tr>";
+	bodyStr += "<tr><td>UUID</td><td style='font-family: Consolas'>" + item.id + "</td></tr>";
+	bodyStr += "<tr><td>类型</td><td>" + item.typeCN + "</td></tr>";
+	bodyStr += "<tr><td>点位数</td><td>" + item.points + "</td></tr>";
+	bodyStr += "<tr><td>总价</td><td style='color: red'>" + item.price + "</td></tr>";
+	bodyStr += "<tr><td>报价小结</td><td>" + parsePricingSummary(item.summary) + "</td></tr>";
+	bodyStr += "<tr><td>创建时间</td><td>" + item.createTime + "</td></tr>";
+	bodyStr += "<tr><td>描述</td><td>" + item.desc + "</td></tr>";
 
 	$detailBody.html(bodyStr);
 
 	// to modify lable
 	$lable = $("#modalVmDetailLabel");
 	if ($lable !== null) {
-		$lable.html("虚拟机详细-" + vm.name);
+		$lable.html("报价详细-" + item.name);
 	}
 
 	$("#modalVmDetail").modal("show");
 }
 
-function pricingDetailCallback(resultObj, vm) {
-
-	var apiResponse = doResponseCheck(resultObj);
-	if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-		var errMsg = apiResponse ? apiResponse.getErrorMsg() : ERROR_MSG_CONN_SERVER;
-		raiseErrorAlarm("#modalPrompt", errMsg);
-		return;
-	}
-
-	var dataObj = apiResponse.getDataObj();
-	if (dataObj === null) {
-		raiseErrorAlarm("#modalPrompt", ERROR_MSG_NO_DATABODY);
-		return;
-	}
-
-	displayPricingDetail(dataObj);
-}
-
-function raiseDetail(vm) {
-	ajaxPost(API_URL, JSON.stringify(createGetVmParas(vm.id)), pricingDetailCallback, vm);
-}
-
-function raiseVmPassword(vm) {
-
-	$vmPasswordBody = $("#vmPasswordBody");
-
-	if ($vmPasswordBody === null) {
-		raiseErrorAlarm(null, "打开修改密码页面失败！");
-	} else {
-		$lable = $("#modalVmPasswordLable");
-		if ($lable !== null) {
-			$lable.html("修改密码-" + vm.name);
-		}
-
-		var bodyStr = "";
-		bodyStr += '<form class="form-horizontal" role="form">';
-		bodyStr += '<div class="form-group">';
-		bodyStr += '<label for="userEditOldPass" class="col-sm-2 control-label">用户名</label>';
-		bodyStr += '<div class="col-sm-10">';
-		if (vm.hasOwnProperty("account") && vm.account !== "" ) {
-			bodyStr += '<input type="text" class="form-control" id="userName" value="' + vm.account + '" placeholder="账号" required/>';
-		} else {
-			bodyStr += '<input type="text" class="form-control" id="userName" value="" placeholder="账号" required/>';
-		}
-		bodyStr += '</div> </div>';
-		bodyStr += '<div class="form-group">';
-		bodyStr += '<label for="userNewPass" class="col-sm-2 control-label">新密码</label>';
-		bodyStr += '<div class="col-sm-10">';
-		bodyStr += '<input type="password" class="form-control" id="userNewPass" placeholder="新密码" required/>';
-		bodyStr += '</div> </div>';
-		bodyStr += '<div class="form-group">';
-		bodyStr += '<label for="userNewPassConfirm" class="col-sm-2 control-label">确认密码</label>';
-		bodyStr += '<div class="col-sm-10">';
-		bodyStr += '<input type="password" class="form-control" id="userNewPassConfirm" placeholder="确认密码" required autofocus>';
-		bodyStr += '</div> </div>';
-		bodyStr += '<div class="modal-footer">';
-		bodyStr += '<button type="button" class="btn btn-primary" onclick="updateVmPassword(\'' + vm.id + '\');">确定</button>';
-		bodyStr += '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>';
-		bodyStr += '</div> </form>';
-
-		$vmPasswordBody.html(bodyStr);
-		$vmPasswordBody.data('vmObj', vm);
-
-		$("#modalVmPassword").modal("show");
-	}
-}
-
-function raiseVmAttr(vm) {
-
-	$vmAttrBody = $("#vmAttrBody");
-
-	if ($vmAttrBody === null) {
-		raiseErrorAlarm(null, "打开属性页面失败！");
-	} else {
-		$lable = $("#modalVmAttrLabel");
-		if ($lable !== null) {
-			$lable.html("设置启动项-" + vm.name);
-		}
-
-		var bodyStr = "";
-
-		bodyStr += "<table class=\"table table-striped table-hover\">";
-		bodyStr += "<tr style=\"height: 42px\">";
-		bodyStr += "<td style=\"line-height: 42px; font-weight: bold\">启动顺序</td>";
-		bodyStr += "<td style=\"line-height: 42px\">" + getBootLoaderStr(vm.bootloaderArgs) + "</td>";
-		bodyStr += "<td><span style=\"line-height: 32px; font-size: 120%\" id=\"vmSetBootArgs\" class='attr operationButton''>修改</span></td></tr>";
-
-		bodyStr += "</table></div>";
-
-		$vmAttrBody.html(bodyStr);
-		$vmAttrBody.data("vmObj", vm);
-
-		$("#vmSetBootArgs").click(function () {
-			raiseVmBootLoader(vm);
-		});
-
-		$("#modalVmAttr").modal("show");
-	}
-}
-
-function selectAllVms(checked) {
+function selectAllPricings(checked) {
 	var vmListItems = document.getElementsByName("vmListItems");
 	if (vmListItems.length === 0) {
 		console.log("No Vms exist, just skip select all operation");
@@ -350,7 +251,7 @@ function selectAllVms(checked) {
 	}
 }
 
-function initOperation(vmTable) {
+function initPricingOperation(vmTable) {
 	var trList = vmTable.children("tbody").children('tr');
 	trList.each(function () {
 
@@ -359,53 +260,32 @@ function initOperation(vmTable) {
 		// to skip header
 		if ($tr.index() !== 0) {
 
-			var $vnc = $tr.children(".manager").children(".vnc");
-			var $rdp = $tr.children(".manager").children(".rdp");
-			var $spice = $tr.children(".manager").children(".spice");
-			var $attr = $tr.children(".vmAttr").children(".attr");
-			var $password = $tr.children(".vmAttr").children(".password");
-			var $bindUSB = $tr.children(".vmAttr").children(".bindUSB");
-
-			if ($vnc !== null) {
-				$vnc.click(function () {
-					raiseWsVNC($tr.data("vmObj"));
+			var $remove = $tr.children(".manager").children(".deletepricingbutton");
+			if ($remove !== null) {
+				$remove.click(function () {
+					alert("delete pricing");
 				});
 			}
 
-			if ($rdp !== null) {
-				$rdp.click(function () {
-					raiseRDP($tr.data("vmObj"));
+			var $cancel = $tr.children(".manager").children(".detailpricingbutton");
+			if ($cancel !== null) {
+				$cancel.click(function () {
+					alert("pricing detail");
 				});
 			}
 
-			if ($spice !== null) {
-				$spice.click(function () {
-					raiseSPICE($tr.data("vmObj"));
+			var $resume = $tr.children(".manager").children(".exportpricingbutton");
+			if ($resume !== null) {
+				$resume.click(function () {
+					alert("export price");
 				});
 			}
 
-			if ($attr !== null) {
-				$attr.click(function () {
-					raiseVmAttr($tr.data("vmObj"));
-				});
-			}
-
-			if ($password !== null) {
-				$password.click(function () {
-					raiseVmPassword($tr.data("vmObj"));
-				});
-			}
-
-			if ($bindUSB !== null) {
-				$bindUSB.click(function () {
-					raiseBindUSB($tr.data("vmObj"));
-				});
-			}
 		} else {
 			// handle checkbox here
 			var $selectAll = $tr.children("th").children("input");
 			$selectAll.click(function () {
-				selectAllVms(this.checked);
+				selectAllPricings(this.checked);
 			});
 		}
 	});
@@ -730,7 +610,7 @@ function raiseProductDetail(item) {
 	bodyStr += "<th>内容</th></tr>";
 
 	bodyStr += "<tr><td>名称</td><td>" + item.name + "</td></tr>";
-	bodyStr += "<tr><td>单价</td><td>" + parseProductPrice(item.infoObj) + "</td></tr>";
+	bodyStr += "<tr><td>单价</td><td style='color: red'>" + parseProductPrice(item.infoObj) + "</td></tr>";
 	bodyStr += "<tr><td>产品类型</td><td>" + item.typeName + "</td></tr>";
 	bodyStr += "<tr><td>状态</td><td style='color: " + getStatusColor(item.state) + "'>" + item.state + "</td></tr>";
 	bodyStr += "<tr><td>ID</td><td style='font-family: Consolas'>" + item.id + "</td></tr>";
@@ -743,31 +623,6 @@ function raiseProductDetail(item) {
 	$detailTable.html(bodyStr);
 
 	$("#modalProductDetail").modal("show");
-}
-
-function printAppLine(obj, table) {
-
-	var itemStr = "";
-
-	itemStr += "<tr><td style='line-height: 32px'>" + obj.name + "</td>";
-	itemStr += "<td style='line-height: 32px;color: " + getStatusColor(obj.status) + "'>" + obj.status + "</td>";
-	if (obj.icon === "") {
-		itemStr += "<td style='line-height: 32px'><img class='applogo' src='/static/imgs/unknown.png'></td>";
-	} else {
-		itemStr += "<td style='line-height: 32px'><img class='applogo' src='data:image/png;base64," + obj.icon + "'></td>";
-	}
-	itemStr += "<td style='line-height: 32px'>" + obj.path + "</td>";
-	itemStr += "<td style='line-height: 32px'>" + obj.createTime + "</td>";
-	itemStr += "<td class='manager'><span class='editappbutton commonbutton operationButton'>编辑</span><span class='syncappbutton commonbutton operationButton'>同步</span><span class='delappbutton commonbutton operationButton'>删除</span></td></tr>";
-
-	var $tr = $(itemStr);
-	$tr.data("appObj", obj);
-
-	$tr.dblclick(function () {
-		raiseProductDetail(obj);
-	});
-
-	table.append($tr);
 }
 
 function loadVmAppTableHeader() {
@@ -917,15 +772,18 @@ function printPricingLine(item, vmTable) {
 	vmItem += "<td>" + item.summary + "</td>";
 	vmItem += "<td>" + item.createTime + "</td>";
 
-	vmItem += "<td class='vmAttr'>" + "<span class='attr operationButton'>详情</span><span class='password operationButton'>导出</span></td>";
-	vmItem += "</tr>";
+	vmItem += "<td class='manager'>";
+	vmItem += "<span class='detailpricingbutton commonbutton operationButton'>详情</span>";
+	vmItem += "<span class='exportpricingbutton commonbutton operationButton'>导出</span>";
+	vmItem += "<span class='deletepricingbutton commonbutton operationButton'>删除</span>";
+	vmItem += "</td></tr>";
 
 	var $tr = $(vmItem);
 	$tr.data("vmObj", item);
 
 	// set double click function
 	$tr.dblclick(function () {
-		raiseDetail(item);
+		raisePricingDetail(item);
 	});
 
 	vmTable.append($tr);
@@ -960,7 +818,7 @@ function getQueryResultsCallback(resultObj, paras) {
 		}
 	}
 
-	initOperation(vmTable);
+	initPricingOperation(vmTable);
 }
 
 function loadProductTableHeader() {
@@ -971,17 +829,13 @@ function loadProductTableHeader() {
 	header += "<th><input type=\"checkbox\" style='width: 20px; height: 20px'></th>";
 	header += "<th>产品名称</th>";
 	header += "<th>编号</th>";
-	header += "<th>类型</th>";
+	//header += "<th>类型</th>";
 	header += "<th>单价</th>";
 	header += "<th>状态</th>";
 	header += "<th>修改时间</th>";
 	header += "<th>管理</th></tr>";
 
 	return header;
-}
-
-function getSoftwarePrice(obj) {
-	return "基础包：" + obj.basePrice + "<br>每物理主机：" + obj.hostPrice + "<br>每CPU：" + obj.cpuPrice + "<br>每点位授权：" + obj.pointPrice;
 }
 
 function printProductLine(obj, table) {
@@ -991,13 +845,15 @@ function printProductLine(obj, table) {
 	itemStr += "<tr><td><input type=\"checkbox\" name=\"serviceListItems\" style='width: 20px; height: 20px'></td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.name + "</td>";
 	itemStr += "<td style='line-height: 32px; font-family: Consolas'>" + obj.infoObj["id"] + "</td>";
-	itemStr += "<td style='line-height: 32px'>" + obj.typeName + "</td>";
+	//itemStr += "<td style='line-height: 32px'>" + obj.typeName + "</td>";
 	itemStr += "<td style='line-height: 18px; color: red'>" + parseProductPrice(obj.infoObj) + "</td>";
 	itemStr += "<td style='line-height: 32px; color: " + getProductStateColor(obj.state) + "'>" + obj.state + "</td>";
 	itemStr += "<td style='line-height: 32px'>" + obj.lastSync + "</td>";
 
 	itemStr += "<td class='manager'>";
-	itemStr += "<span class='cancelservicebutton commonbutton operationButton'>编辑</span>";
+	itemStr += "<span class='productpricebutton commonbutton operationButton'>价格</span>";
+	itemStr += "<span class='productupdatebutton commonbutton operationButton'>编辑</span>";
+	itemStr += "<span class='productdeltebutton commonbutton operationButton'>删除</span>";
 	itemStr += "</td></tr>";
 
 	var $tr = $(itemStr);
@@ -1017,31 +873,25 @@ function initProductOperation(table) {
 		// to skip header
 		if ($tr.index() !== 0) {
 
-			var $remove = $tr.children(".manager").children(".delservicebutton");
+			var $remove = $tr.children(".manager").children(".productdeltebutton");
 			if ($remove !== null) {
 				$remove.click(function () {
-					raiseServiceManage(SERVICE_MANAGE_DELETE, $tr.data("serviceObj"));
+					alert("delete product");
+					//raiseServiceManage(SERVICE_MANAGE_DELETE, $tr.data("dataObj"));
 				});
 			}
 
-			var $cancel = $tr.children(".manager").children(".cancelservicebutton");
+			var $cancel = $tr.children(".manager").children(".productupdatebutton");
 			if ($cancel !== null) {
 				$cancel.click(function () {
-					raiseServiceManage(SERVICE_MANAGE_CANCEL, $tr.data("serviceObj"));
+					alert("update product");
 				});
 			}
 
-			var $resume = $tr.children(".manager").children(".resumeservicebutton");
+			var $resume = $tr.children(".manager").children(".productpricebutton");
 			if ($resume !== null) {
 				$resume.click(function () {
-					raiseServiceManage(SERVICE_MANAGE_RESUME, $tr.data("serviceObj"));
-				});
-			}
-
-			var $abandon = $tr.children(".manager").children(".abandonservicebutton");
-			if ($abandon !== null) {
-				$abandon.click(function () {
-					raiseServiceManage(SERVICE_MANAGE_ABANDON, $tr.data("serviceObj"));
+					alert("product price");
 				});
 			}
 		} else {
@@ -1139,6 +989,7 @@ function getUser(userId) {
 		bodyStr += "<tr><td>UKey</td><td>" + obj.ukey + "</td></tr>";
 		bodyStr += "<tr><td>电话</td><td>" + obj.phone + "</td></tr>";
 		bodyStr += "<tr><td>创建时间</td><td>" + obj.createTime + "</td></tr>";
+		bodyStr += "<tr><td>描述</td><td>" + obj.desc + "</td></tr>";
 
 		$userInfo.html(bodyStr);
 	});
