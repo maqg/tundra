@@ -337,6 +337,7 @@ function raiseProductDelete(item) {
 }
 
 function raiseProductPriceUpdate(item) {
+	g_product_id = item.id;
 	var prompt = "你确定要<span style='color: red; font-size: 120%'>删除</span>如下产品吗？</br>";
 	prompt += item.name;
 	$("#modalProductManagePrompt").html(prompt);
@@ -346,32 +347,30 @@ function raiseProductPriceUpdate(item) {
 
 function updateProduct() {
 
-	var name = document.getElementById("appNewName").value;
-	var path = document.getElementById("appNewPath").value;
-	var paras = document.getElementById("appNewParas").value;
+	var name = document.getElementById("productName").value;
+	var state = document.getElementById("productState").value;
+	var desc = document.getElementById("productDesc").value;
 
-	paras = createUpdateVmAppParas(g_vm_app.id, name, path, paras);
+	paras = createUpdateProductParas(g_product_id, name, state, desc);
 
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
 		var apiResponse = doResponseCheck(resultObj);
 		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
 			var errorMsg = apiResponse !== null ? apiResponse.getErrorMsg() : ERROR_MSG_CONN_SERVER;
-			return raiseErrorAlarm("#modalEditApp", errorMsg);
+			return raiseErrorAlarm("#modalEditProduct", errorMsg);
 		}
-		$("#modalEditApp").modal("hide");
+		$("#modalEditProduct").modal("hide");
 
-		switchVmDetail_app();
+		switchToProductPage();
 	});
 }
 
-function raiseUpdateProduct(app) {
-	document.getElementById("appNewName").value = app.name;
-	document.getElementById("appNewPath").value = app.path;
-	document.getElementById("appNewParas").value = app.paras;
-
-	g_vm_app = app;
-
-	$("#modalEditApp").modal("show");
+function raiseUpdateProduct(item) {
+	document.getElementById("productName").value = item.name;
+	document.getElementById("productDesc").value = item.desc;
+	document.getElementById("productState").value = item.state;
+	g_product_id = item.id;
+	$("#modalEditProduct").modal("show");
 }
 
 function addApp() {
@@ -500,7 +499,7 @@ function raiseProductDetail(item) {
 
 var g_current_detail_vm_id = "";
 var g_current_vmdetail = null;
-var g_vm_app = null;
+var g_product_id = null;
 
 function printPricingLine(item, vmTable) {
 
@@ -625,7 +624,7 @@ function initProductOperation(table) {
 			var $cancel = $tr.children(".manager").children(".productupdatebutton");
 			if ($cancel !== null) {
 				$cancel.click(function () {
-					alert("update product");
+					raiseUpdateProduct($tr.data("dataObj"));
 				});
 			}
 

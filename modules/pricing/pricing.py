@@ -77,6 +77,7 @@ def remove_product(db, paras):
 def update_product(db, paras):
 	product = getProduct(db, paras["id"])
 	if not product:
+		ERROR("product not exit of %s" % paras["id"])
 		return SEGMENT_NOT_EXIST, None
 	
 	product.name = paras["name"]

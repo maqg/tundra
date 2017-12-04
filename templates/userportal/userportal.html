@@ -382,7 +382,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="modalEditApp" tabindex="-1" role="dialog" aria-labelledby="modalEditAppLabel"
+<div class="modal fade" id="modalEditProduct" tabindex="-1" role="dialog" aria-labelledby="modalEditProductLabel"
      aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -390,31 +390,31 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					&times;
 				</button>
-				<h4 class="modal-title" id="modalEditAppLabel">
-					编辑虚拟机应用
+				<h4 class="modal-title" id="modalEditProductLabel">
+					编辑产品
 				</h4>
 			</div>
-			<div id="appFormBody" class="modal-body">
+			<div id="productFormBody" class="modal-body">
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
-						<label for="appName" class="col-sm-2 control-label">应用名</label>
+						<label class="col-sm-2 control-label">产品名称</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control disabled" id="appNewName" value="" placeholder="应用名"
-							       readonly>
+							<input type="text" class="form-control disabled" id="productName" value="" placeholder="产品名称">
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="appPath" class="col-sm-2 control-label">应用路径</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="appNewPath" value="" placeholder="执行程序路径">
-						</div>
+						<label for="productState" class="col-sm-2 control-label">状态</label>
+						<select id="productState" title="" class="col-sm-10 form-control" style="width: auto; left: 15px">
+							<option value="Enabled" selected>Enabled</option>
+							<option value="Disabled">Disabled</option>
+						</select>
 					</div>
 
 					<div class="form-group">
-						<label for="appParas" class="col-sm-2 control-label">执行参数</label>
+						<label class="col-sm-2 control-label">描述</label>
 						<div class="col-sm-10">
-							<textarea class="form-control" id="appNewParas" rows="4" placeholder="应用执行参数"></textarea>
+							<textarea class="form-control" id="productDesc" rows="4" placeholder="描述信息"></textarea>
 						</div>
 					</div>
 
