@@ -1,7 +1,4 @@
 var g_userInfo;
-var g_power_action = "start";
-var g_vmSelected = [];
-var g_vmSelectedName = [];
 
 function ErrorObjClass(errorObj) {
 
@@ -291,123 +288,6 @@ function initPricingOperation(vmTable) {
 	});
 }
 
-function closeOtherVmDetailButtons(mybutton) {
-
-	buttons = [
-		"#vmdetail-button-main",
-		"#vmdetail-button-nic",
-		"#vmdetail-button-disk",
-		"#vmdetail-button-cdrom",
-		"#vmdetail-button-app",
-		"#vmdetail-button-attrs"
-	];
-
-	for (i = 0; i < buttons.length; i++) {
-		if (buttons[i] !== mybutton)
-			$(buttons[i]).removeClass("active");
-	}
-
-	$(mybutton).addClass("active");
-
-}
-
-function syncVmAppStatus() {
-
-	if (g_current_vmdetail.status !== VM_STATE_RUNNING) {
-		return raiseErrorAlarm(null, "虚拟未运行，无法查询远程应用状态！");
-	}
-
-	paras = createSyncVmAppStatusParas(g_current_detail_vm_id);
-	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
-		var apiResponse = doResponseCheck(resultObj);
-		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
-			raiseErrorAlarm(null, errorMsg);
-		}
-		switchVmDetail_main();
-	});
-}
-
-function setVmAppStatus(status) {
-
-	if (g_current_vmdetail.status !== VM_STATE_RUNNING) {
-		return raiseErrorAlarm(null, "虚拟未运行，无法修改远程应用状态！");
-	}
-
-	paras = createSetVmAppStatusParas(g_current_detail_vm_id, status);
-	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
-		var apiResponse = doResponseCheck(resultObj);
-		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
-			return raiseErrorAlarm(null, errorMsg);
-		}
-		switchVmDetail_main();
-	});
-}
-
-function update_vm_detail_table(vm) {
-	console.log(vm);
-
-	$detailTable = $("#vm-detail-table");
-
-	var bodyStr = "";
-
-	bodyStr += "<tr><th>属性</th><th>内容</th></tr>";
-	bodyStr += "<tr><td>名称</td><td>" + vm.name + "</td></tr>";
-	bodyStr += "<tr><td>状态</td><td style='color: " + getVmStateColor(vm.status) + "'>" + vm.status + "</td></tr>";
-	bodyStr += "<tr><td>远程应用状态</td>";
-	bodyStr += "<td style='color: " + getStatusColor(vm.remoteAppStatus) + "'>" + vm.remoteAppStatus + "  ";
-	bodyStr += "<button type=\"button\" class=\"btn btn-primary\" onclick=\"syncVmAppStatus();\">同步</button>";
-	if (vm.remoteAppStatus === "Enabled") {
-		bodyStr += "<button style='margin-left: 5px;' type=\"button\" class=\"btn btn-primary\" onclick=\"setVmAppStatus(false);\">关闭</button>";
-	} else {
-		bodyStr += "<button style='margin-left: 5px;' type=\"button\" class=\"btn btn-primary\" onclick=\"setVmAppStatus(true);\">开启</button>";
-	}
-	bodyStr += "</td></tr>";
-	bodyStr += "<tr><td>UUID</td><td>" + vm.id + "</td></tr>";
-	bodyStr += "<tr><td>CPU</td><td>" + vm.cpuNum + " 核心</td></tr>";
-	bodyStr += "<tr><td>内存</td><td>" + vm.memory + " M</td></tr>";
-	bodyStr += "<tr><td>持久磁盘</td><td>" + boolValue_d2s(vm.diskPersistent) + "</td></tr>";
-	bodyStr += "<tr><td>开机启动</td><td>" + boolValue_d2s(vm.startWithHost) + "</td></tr>";
-	bodyStr += "<tr><td>虚拟化类型</td><td>" + vm.hypervisorType + "</td></tr>";
-	bodyStr += "<tr><td>创建时间</td><td>" + vm.createTime + "</td></tr>";
-
-	$detailTable.html(bodyStr);
-}
-
-function switchVmDetail_main() {
-	closeOtherVmDetailButtons("#vmdetail-button-main");
-
-	paras = createGetVmParas(g_current_detail_vm_id);
-
-	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
-
-		var apiResponse = doResponseCheck(resultObj);
-		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
-			return raiseErrorAlarm(null, errorMsg);
-		}
-
-		var dataObj = apiResponse.getDataObj();
-		if (dataObj === null) {
-			return raiseErrorAlarm(null, ERROR_MSG_NO_DATABODY);
-		}
-
-		g_current_vmdetail = dataObj;
-
-		update_vm_detail_table(dataObj);
-	})
-}
-
-function raiseRemoveApp(app) {
-
-	var prompt = "你确定要<span style='color: red; font-size: 120%'>删除</span>如下应用吗？</br>";
-	prompt += app.name;
-	$("#appPrompt").html(prompt);
-	$("#modalDelApp").data("appObj", app);
-	$("#modalDelApp").modal("show");
-}
-
 function pricingRemove() {
 
 	item = $("#modalPricingManage").data("dataObj");
@@ -456,7 +336,15 @@ function raiseProductDelete(item) {
 	$("#modalProductManage").modal("show");
 }
 
-function updateApp() {
+function raiseProductPriceUpdate(item) {
+	var prompt = "你确定要<span style='color: red; font-size: 120%'>删除</span>如下产品吗？</br>";
+	prompt += item.name;
+	$("#modalProductManagePrompt").html(prompt);
+	$("#modalProductManage").data("dataObj", item);
+	$("#modalProductManage").modal("show");
+}
+
+function updateProduct() {
 
 	var name = document.getElementById("appNewName").value;
 	var path = document.getElementById("appNewPath").value;
@@ -476,7 +364,7 @@ function updateApp() {
 	});
 }
 
-function raiseUpdateApp(app) {
+function raiseUpdateProduct(app) {
 	document.getElementById("appNewName").value = app.name;
 	document.getElementById("appNewPath").value = app.path;
 	document.getElementById("appNewParas").value = app.paras;
@@ -484,39 +372,6 @@ function raiseUpdateApp(app) {
 	g_vm_app = app;
 
 	$("#modalEditApp").modal("show");
-}
-
-function syncApp(app) {
-
-	paras = createSyncAppParas(app.id);
-
-	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
-
-		var apiResponse = doResponseCheck(resultObj);
-		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
-			return raiseErrorAlarm(null, errorMsg);
-		}
-
-		switchVmDetail_app();
-	});
-}
-
-function removeApp() {
-
-	app = $("#modalDelApp").data("appObj");
-
-	paras = createDelAppParas(app.id);
-	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
-		var apiResponse = doResponseCheck(resultObj);
-		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
-			return raiseErrorAlarm("#modalDelApp", errorMsg);
-		}
-		$("#modalDelApp").modal("hide");
-
-		switchVmDetail_app();
-	});
 }
 
 function addApp() {
@@ -643,140 +498,9 @@ function raiseProductDetail(item) {
 	$("#modalProductDetail").modal("show");
 }
 
-function loadVmAppTableHeader() {
-
-	var bodyStr = "";
-
-	bodyStr += "<tr><th>名称</th>";
-	bodyStr += "<th>状态</th>";
-	bodyStr += "<th>图标</th>";
-	bodyStr += "<th>路径</th>";
-	bodyStr += "<th>添加时间</th>";
-	bodyStr += "<th>操作</th></tr>";
-
-	return bodyStr;
-}
-
-function initAppOperation(table) {
-	var trList = table.children("tbody").children('tr');
-	trList.each(function () {
-		var $tr = $(this);
-		// to skip header
-		if ($tr.index() !== 0) {
-
-			var $remove = $tr.children(".manager").children(".delappbutton");
-			if ($remove !== null) {
-				$remove.click(function () {
-					raiseRemoveApp($tr.data("appObj"));
-				});
-			}
-
-			var $edit = $tr.children(".manager").children(".editappbutton");
-			if ($edit !== null) {
-				$edit.click(function () {
-					raiseUpdateApp($tr.data("appObj"));
-				});
-			}
-
-			var $sync = $tr.children(".manager").children(".syncappbutton");
-			if ($sync !== null) {
-				$sync.click(function () {
-					syncApp($tr.data("appObj"));
-				});
-			}
-		}
-	});
-}
-
-function update_vm_app(vmId, apps) {
-
-	$detailTable = $("#vm-detail-table");
-
-	$detailTable.html(loadVmAppTableHeader());
-
-	for (i = 0; i < apps.length; i++) {
-		printAppLine(apps[i], $detailTable);
-	}
-
-	initAppOperation($detailTable);
-
-	$span = $("<div class='addbutton operationButton'>添加</div>");
-	$span.click(function () {
-		raiseAddApp(vmId);
-	});
-
-	$detailTable.append($span);
-}
-
-function switchVmDetail_app() {
-
-	closeOtherVmDetailButtons("#vmdetail-button-app");
-
-	paras = createGetVmAppParas(g_current_detail_vm_id);
-
-	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
-
-		var apiResponse = doResponseCheck(resultObj);
-		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
-			return raiseErrorAlarm(null, errorMsg);
-		}
-
-		var dataObj = apiResponse.getDataObj();
-		if (dataObj === null) {
-			return raiseErrorAlarm(null, ERROR_MSG_NO_DATABODY);
-		}
-
-		update_vm_app(g_current_detail_vm_id, dataObj["apps"]);
-	})
-}
-
-function update_vm_attrs(vm) {
-
-	$detailTable = $("#vm-detail-table");
-
-	hardwareConfig = vm["hardwareConfig"];
-
-	var bodyStr = "";
-
-	bodyStr += "<tr><th>属性</th>";
-	bodyStr += "<th>内容</th></tr>";
-
-	bodyStr += "<tr><td>启动项</td><td>" + getBootLoaderStr(vm.bootloaderArgs) + "</td></tr>";
-	bodyStr += "<tr><td>声卡驱动</td><td>" + hardwareConfig["sound"].model + "</td></tr>";
-	bodyStr += "<tr><td>网卡驱动</td><td>" + hardwareConfig["netcard"].model + "</td></tr>";
-	bodyStr += "<tr><td>磁盘驱动</td><td>" + hardwareConfig["disk"].bus + "</td></tr>";
-	bodyStr += "<tr><td>显卡设置</td><td>" + parseVideoConfig(hardwareConfig["video"]) + "</td></tr>";
-	bodyStr += "<tr><td>连接设置</td><td>" + parseDisplayConfig(hardwareConfig["display"]) + "</td></tr>";
-	bodyStr += "<tr><td>CPU模式</td><td>" + hardwareConfig["cpu"].mode + "</td></tr>";
-
-	$detailTable.html(bodyStr);
-}
-
-function switchVmDetail_attrs() {
-
-	closeOtherVmDetailButtons("#vmdetail-button-attrs");
-
-	vm = g_current_vmdetail;
-	if (vm !== null) {
-		update_vm_attrs(vm);
-	}
-}
-
 var g_current_detail_vm_id = "";
 var g_current_vmdetail = null;
 var g_vm_app = null;
-
-function switchVmDetail(vmId) {
-
-	g_current_detail_vm_id = vmId;
-
-	closeOtherPages("#vmdetail-manage");
-
-	switchVmDetail_main();
-
-	openPage("#vmdetail-manage");
-}
 
 function printPricingLine(item, vmTable) {
 
@@ -908,7 +632,7 @@ function initProductOperation(table) {
 			var $resume = $tr.children(".manager").children(".productpricebutton");
 			if ($resume !== null) {
 				$resume.click(function () {
-					alert("product price");
+					raiseProductPriceUpdate($tr.data("dataObj"));
 				});
 			}
 		} else {
@@ -1079,42 +803,6 @@ function changeUserPass() {
 		}
 		$("#modalChangePass").modal("hide");
 	}, null);
-}
-
-function vmPowerCallback(resultObj, paras) {
-
-	var apiResponse = doResponseCheck(resultObj);
-	if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-		var errorMsg = apiResponse !== null ? apiResponse.getErrorMsg() : ERROR_MSG_CONN_SERVER;
-		return raiseErrorAlarm("#modalPower", errorMsg);
-	}
-
-	$("#modalPower").modal("hide");
-}
-
-function doPowerRequest(vm) {
-	paras = createVmPowerParaqs(vm, g_power_action);
-	ajaxPost(API_URL, JSON.stringify(paras), vmPowerCallback);
-}
-
-function vmPower() {
-	for (var i = 0; i < g_vmSelected.length; i++) {
-		doPowerRequest(g_vmSelected[i]);
-	}
-}
-
-function updateVmDataObj(trNode, dataObjList) {
-	var oldVmObj = trNode.data("vmObj");
-
-	for (var i = 0; i < dataObjList.length; i++) {
-		var vm = dataObjList[i];
-		if (vm.id === oldVmObj.id) {
-			trNode.data("vmObj", vm);
-			return;
-		}
-	}
-
-	console.log("vm of " + oldVmObj.id + " name: " + oldVmObj.name + " lost");
 }
 
 function getSelectedProduct() {
