@@ -5,7 +5,7 @@ from core import dbmysql
 from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST
 from core.log import ERROR
 from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT, \
-	PRODUCT_TYPE_PLATFORM_SOFT, PRODUCT_TYPE_OCTCLASS_SOFT, PRODUCT_TYPE_OCTDESK_SOFT, getPricingResult
+	getPricingResult, PRODUCT_TYPE_SOFTWARE
 from models.Product import Product, getProduct
 from utils.timeUtil import getCurrentStrDate
 
@@ -94,9 +94,7 @@ def update_product_price(db, paras):
 	if not product:
 		return SEGMENT_NOT_EXIST, None
 	
-	if product.type in (PRODUCT_TYPE_PLATFORM_SOFT,
-	                    PRODUCT_TYPE_OCTCLASS_SOFT,
-	                    PRODUCT_TYPE_OCTDESK_SOFT):
+	if product.type == PRODUCT_TYPE_SOFTWARE:
 		product.infoObj["basePrice"] = paras["basePrice"]
 		product.infoObj["hostPrice"] = paras["hostPrice"]
 		product.infoObj["cpuPrice"] = paras["cpuPrice"]

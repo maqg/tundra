@@ -316,7 +316,7 @@ function productRemove() {
 			return raiseErrorAlarm("#modalProductManage", errorMsg);
 		}
 		$("#modalProductManage").modal("hide");
-		switchToProductPage();
+		refreshProductPage();
 	});
 }
 
@@ -336,13 +336,90 @@ function raiseProductDelete(item) {
 	$("#modalProductManage").modal("show");
 }
 
+function updateProductPrice() {
+	var paras;
+	item = g_product;
+
+	if (item.type !== PRODUCT_TYPE_SOFTWARE) {
+		price = document.getElementById("productPricePrice").value;
+		paras = createUpdateProductPriceParas(g_product.id, price, 0, 0, 0, 0);
+	} else {
+		base = document.getElementById("productPriceBasePrice").value;
+		host = document.getElementById("productPriceHostPrice").value;
+		point = document.getElementById("productPricePointPrice").value;
+		cpu = document.getElementById("productPriceCpuPrice").value;
+		paras = createUpdateProductPriceParas(g_product.id, 0, base, host, point, cpu);
+	}
+
+	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
+		var apiResponse = doResponseCheck(resultObj);
+		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
+			var errorMsg = apiResponse !== null ? apiResponse.getErrorMsg() : ERROR_MSG_CONN_SERVER;
+			return raiseErrorAlarm("#modalEditProductPrice", errorMsg);
+		}
+		$("#modalEditProductPrice").modal("hide");
+
+		refreshProductPage();
+	});
+}
+
+function createProductPriceForm(item) {
+
+	$str = "<form class='form-horizontal' role='form'>";
+
+	$str += "<div class='form-group'>";
+	$str += "<label class='col-sm-2 control-label'>产品名称</label>";
+	$str += "<div class='col-sm-10'>";
+	$str += "<input type='text' class='form-control disabled' id='productPriceName' value='" + item.name + "' placeholder='产品名称'></div></div>";
+	if (item.type !== PRODUCT_TYPE_SOFTWARE) {
+		$str += "<div class='form-group'><label class='col-sm-2 control-label'>单价</label>";
+		$str += "<div class='col-sm-10'>";
+		$str += "<input type='text' class='form-control disabled' id='productPricePrice' value='" +  item.infoObj.price + "' placeholder='单价'></div></div>";
+	} else {
+		$str += "<div class='form-group'><label class='col-sm-2 control-label'>基础平台</label>";
+		$str += "<div class='col-sm-10'>";
+		$str += "<input type='text' class='form-control disabled' id='productPriceBasePrice' value='"
+			+ item.infoObj.basePrice + "' placeholder='0'></div></div>";
+
+		$str += "<div class='form-group'><label class='col-sm-2 control-label'>物理主机</label>";
+		$str += "<div class='col-sm-10'>";
+		$str += "<input type='text' class='form-control disabled' id='productPriceHostPrice' value='"
+			+ item.infoObj.hostPrice + "' placeholder='0'></div></div>";
+
+		$str += "<div class='form-group'><label class='col-sm-2 control-label'>每点位</label>";
+		$str += "<div class='col-sm-10'>";
+		$str += "<input type='text' class='form-control disabled' id='productPricePointPrice' value='"
+			+ item.infoObj.pointPrice + "' placeholder='0'></div></div>";
+
+		$str += "<div class='form-group'><label class='col-sm-2 control-label'>每CPU</label>";
+		$str += "<div class='col-sm-10'>";
+		$str += "<input type='text' class='form-control disabled' id='productPriceCpuPrice' value='"
+			+  item.infoObj.cpuPrice + "' placeholder='0'></div></div>";
+	}
+
+	// bootom
+	$str += "<div class='modal-footer'>";
+	$str += "<button type='button' class='btn btn-primary' onclick='updateProductPrice();'>确定</button>";
+	$str += "<button type='button' class='btn btn-default' data-dismiss='modal'>取消</button>";
+	$str += "</div></form>";
+
+	return $str;
+}
+
 function raiseProductPriceUpdate(item) {
-	g_product_id = item.id;
-	var prompt = "你确定要<span style='color: red; font-size: 120%'>删除</span>如下产品吗？</br>";
-	prompt += item.name;
-	$("#modalProductManagePrompt").html(prompt);
-	$("#modalProductManage").data("dataObj", item);
-	$("#modalProductManage").modal("show");
+
+	$str = createProductPriceForm(item);
+	$("#productPriceFormBody").html($str);
+	g_product = item;
+	$("#modalEditProductPrice").modal("show");
+}
+
+function raiseProductUpdate(item) {
+	document.getElementById("productName").value = item.name;
+	document.getElementById("productDesc").value = item.desc;
+	document.getElementById("productState").value = item.state;
+	g_product = item;
+	$("#modalEditProduct").modal("show");
 }
 
 function updateProduct() {
@@ -351,7 +428,7 @@ function updateProduct() {
 	var state = document.getElementById("productState").value;
 	var desc = document.getElementById("productDesc").value;
 
-	paras = createUpdateProductParas(g_product_id, name, state, desc);
+	paras = createUpdateProductParas(g_product.id, name, state, desc);
 
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
 		var apiResponse = doResponseCheck(resultObj);
@@ -361,16 +438,8 @@ function updateProduct() {
 		}
 		$("#modalEditProduct").modal("hide");
 
-		switchToProductPage();
+		refreshProductPage();
 	});
-}
-
-function raiseUpdateProduct(item) {
-	document.getElementById("productName").value = item.name;
-	document.getElementById("productDesc").value = item.desc;
-	document.getElementById("productState").value = item.state;
-	g_product_id = item.id;
-	$("#modalEditProduct").modal("show");
 }
 
 function addApp() {
@@ -431,7 +500,7 @@ function parseProductPrice(infoObj) {
 	$str = "";
 	start = false;
 
-	if (infoObj.hasOwnProperty("price")) {
+	if (infoObj.hasOwnProperty("price") && infoObj.price !== 0) {
 		$str += infoObj.price;
 	}
 
@@ -499,7 +568,7 @@ function raiseProductDetail(item) {
 
 var g_current_detail_vm_id = "";
 var g_current_vmdetail = null;
-var g_product_id = null;
+var g_product = null;
 
 function printPricingLine(item, vmTable) {
 
@@ -624,7 +693,7 @@ function initProductOperation(table) {
 			var $cancel = $tr.children(".manager").children(".productupdatebutton");
 			if ($cancel !== null) {
 				$cancel.click(function () {
-					raiseUpdateProduct($tr.data("dataObj"));
+					raiseProductUpdate($tr.data("dataObj"));
 				});
 			}
 
@@ -851,6 +920,6 @@ function addProduct() {
 			return raiseErrorAlarm("#modalAddService", errorMsg);
 		}
 		$("#modalAddService").modal("hide");
-		switchToProductPage();
+		refreshProductPage();
 	});
 }

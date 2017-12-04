@@ -382,6 +382,45 @@
 	</div>
 </div>
 
+<div class="modal fade" id="modalEditProductPrice" tabindex="-1" role="dialog" aria-labelledby="modalEditProductPriceLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalEditProductPriceLabel">
+					编辑产品报价
+				</h4>
+			</div>
+			<div id="productPriceFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">产品名称</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control disabled" id="productName" value="" placeholder="产品名称">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">描述</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="productDesc" rows="4" placeholder="描述信息"></textarea>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="updateProduct();">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <div class="modal fade" id="modalEditProduct" tabindex="-1" role="dialog" aria-labelledby="modalEditProductLabel"
      aria-hidden="true">
 	<div class="modal-dialog">
@@ -427,7 +466,6 @@
 			</div>
 		</div>
 	</div>
-
 </div>
 
 <div class="modal fade" id="modalChangePass" tabindex="-1" role="dialog" aria-labelledby="modalUserPassEditorLabel"

@@ -17,6 +17,7 @@ PRICING_TYPE_SERVER = "SERVER";
 PRICING_TYPE_OCTDESK = "OCTDESK";
 
 PRODUCT_TYPE_CPU = "CPU";
+PRODUCT_TYPE_SOFTWARE = "SOFTWARE";
 
 // USER
 API_GET_USER = API_PREFIX + "account.APIShowAccount";
@@ -32,11 +33,33 @@ API_GET_PRODUCT_TYPES = API_PREFIX + "pricing.APIShowProductTypes";
 API_GET_PRODUCTS = API_PREFIX + "pricing.APIShowProducts";
 API_REMOVE_PRODUCT = API_PREFIX + "pricing.APIRemoveProduct";
 API_UPDATE_PRODUCT = API_PREFIX + "pricing.APIUpdateProduct";
+API_UPDATE_PRODUCT_PRICE = API_PREFIX + "pricing.APIUpdateProductPrice";
+
 
 
 API_URL = "/api/";
 API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
+
+function createUpdateProductPriceParas(productId, price, base, host, point, cpu) {
+	return {
+		"module": "pricing",
+		"api": API_UPDATE_PRODUCT_PRICE,
+		"paras": {
+			"id": productId,
+			"price": price,
+			"basePrice": base,
+			"hostPrice": host,
+			"pointPrice": point,
+			"cpuPrice": cpu
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
 
 function createUpdateProductParas(productId, name, state, desc) {
 	return {

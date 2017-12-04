@@ -103,6 +103,16 @@ function getSelectedProductType() {
 	return getSelectedOption("#producttype");
 }
 
+function refreshProductPage() {
+
+	closeOtherPages("#service-manage");
+	closeOtherButtons("#service-menu-button");
+
+	getProductList(getSelectedProductType());
+
+	openPage("#service-manage");
+}
+
 function switchToProductPage() {
 
 	closeOtherPages("#service-manage");
