@@ -209,7 +209,7 @@ function parsePricingSummary(summary) {
 
 function raisePricingDetail(item) {
 
-	$detailBody = $("#vmDetailBody");
+	$detailBody = $("#pricingDetailBody");
 
 	var bodyStr = "";
 
@@ -227,12 +227,12 @@ function raisePricingDetail(item) {
 	$detailBody.html(bodyStr);
 
 	// to modify lable
-	$lable = $("#modalVmDetailLabel");
+	$lable = $("#modalPricingDetailLabel");
 	if ($lable !== null) {
 		$lable.html("报价详细-" + item.name);
 	}
 
-	$("#modalVmDetail").modal("show");
+	$("#modalPricingDetail").modal("show");
 }
 
 function selectAllPricings(checked) {
@@ -306,7 +306,7 @@ function pricingRemove() {
 
 function productRemove() {
 
-	item = $("#modalProductManage").data("dataObj");
+	item = $("#modalProductRemove").data("dataObj");
 
 	paras = createProductRemoveParas(item.id);
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
@@ -315,7 +315,7 @@ function productRemove() {
 			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
 			return raiseErrorAlarm("#modalProductManage", errorMsg);
 		}
-		$("#modalProductManage").modal("hide");
+		$("#modalProductRemove").modal("hide");
 		refreshProductPage();
 	});
 }
@@ -332,8 +332,8 @@ function raiseProductDelete(item) {
 	var prompt = "你确定要<span style='color: red; font-size: 120%'>删除</span>如下产品吗？</br>";
 	prompt += item.name;
 	$("#modalProductManagePrompt").html(prompt);
-	$("#modalProductManage").data("dataObj", item);
-	$("#modalProductManage").modal("show");
+	$("#modalProductRemove").data("dataObj", item);
+	$("#modalProductRemove").modal("show");
 }
 
 function updateProductPrice() {
@@ -407,7 +407,6 @@ function createProductPriceForm(item) {
 }
 
 function raiseProductPriceUpdate(item) {
-
 	$str = createProductPriceForm(item);
 	$("#productPriceFormBody").html($str);
 	g_product = item;
@@ -442,28 +441,8 @@ function updateProduct() {
 	});
 }
 
-function addApp() {
-
-	var name = document.getElementById("appName").value;
-	var path = document.getElementById("appPath").value;
-	var paras = document.getElementById("appParas").value;
-
-	paras = createAddVmAppParas(g_current_detail_vm_id, name, path, paras);
-
-	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
-		var apiResponse = doResponseCheck(resultObj);
-		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
-			var errorMsg = apiResponse !== null ? apiResponse.getErrorMsg() : ERROR_MSG_CONN_SERVER;
-			return raiseErrorAlarm("#modalAddApp", errorMsg);
-		}
-		$("#modalAddApp").modal("hide");
-
-		switchVmDetail_app();
-	});
-}
-
-function raiseAddApp(vmId) {
-	$("#modalAddApp").modal("show");
+function raiseProductAdd() {
+	$("#modalAddProduct").modal("show");
 }
 
 function parseProductParas(infoObj, type) {
