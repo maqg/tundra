@@ -105,8 +105,16 @@ function updateProductAddForm() {
 		document.getElementById("productAddCoresDiv").style.display = "block";
 		document.getElementById("productAddThreadsDiv").style.display = "block";
 		document.getElementById("productAddFrequencyDiv").style.display = "block";
-	} else {
+		return;
+	} else if (selectedProductType === PRODUCT_TYPE_MEMORY
+		|| selectedProductType === PRODUCT_TYPE_DISK
+		|| selectedProductType === PRODUCT_TYPE_MONITOR) {
 		document.getElementById("productAddCapacityDiv").style.display = "block";
+		document.getElementById("productAddCoresDiv").style.display = "none";
+		document.getElementById("productAddThreadsDiv").style.display = "none";
+		document.getElementById("productAddFrequencyDiv").style.display = "none";
+	} else {
+		document.getElementById("productAddCapacityDiv").style.display = "none";
 		document.getElementById("productAddCoresDiv").style.display = "none";
 		document.getElementById("productAddThreadsDiv").style.display = "none";
 		document.getElementById("productAddFrequencyDiv").style.display = "none";

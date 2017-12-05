@@ -481,10 +481,7 @@ function parseProductParas(infoObj, type) {
 		$str += "<br>线程线：" + infoObj.threads;
 	}
 	if (infoObj.hasOwnProperty("capacity")) {
-		$str += "<br>线程线：" + infoObj.capacity + "G";
-	}
-	if (infoObj.hasOwnProperty("size")) {
-		$str += "<br>线程线：" + infoObj.size + "寸";
+		$str += "<br>容量/尺寸：" + infoObj.capacity + "G/寸";
 	}
 	if (infoObj.hasOwnProperty("model")) {
 		$str += "<br>型号：" + infoObj.model;
@@ -946,6 +943,8 @@ function addProduct() {
 			return raiseErrorAlarm("#modalAddProduct", errorMsg);
 		}
 		$("#modalAddProduct").modal("hide");
+
+		$("#producttype").val(getSelectedAddProductType());
 
 		refreshProductPage();
 
