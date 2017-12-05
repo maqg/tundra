@@ -69,6 +69,85 @@ funcList = {
 		}
 	},
 	
+	"APIAddProduct": {
+		"name": "添加产品",
+		"serviceName": "pricing.pricing_web.web_add_product",
+		"paras": {
+			"type": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "产品类型，CPU,MEMORY,DISK,RAID,INFRASTRUCTURE,SWITCH,WIFIROUTER,THINCLIENT,MONITOR,KEYMOUSE",
+				"default": PARAM_NOT_NULL
+			},
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "产品名称",
+				"default": PARAM_NOT_NULL
+			},
+			"code": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "产品编号",
+				"default": PARAM_NOT_NULL
+			},
+			"model": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "型号",
+				"default": ""
+			},
+			"price": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "单价",
+				"default": 0
+			},
+			"capacity": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "容量",
+				"default": 0
+			},
+			"frequency": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "主频",
+				"default": ""
+			},
+			"cores": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "核心数",
+				"default": 0
+			},
+			"threads": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "线程数",
+				"default": 0
+			},
+			"provider": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "供应商",
+				"default": ""
+			},
+			"size": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "尺寸",
+				"default": 0
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "描述",
+				"default": ""
+			},
+		}
+	},
+	
 	"APIUpdateProductPrice": {
 		"name": "编辑产品价格",
 		"serviceName": "pricing.pricing_web.web_update_productprice",

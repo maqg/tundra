@@ -1,11 +1,37 @@
 # -*- coding: utf-8 -*-
 
 from conf.dbconfig import TB_PRODUCT
-from core.err_code import DB_ERR
-from core.log import WARNING
-from utils.commonUtil import transToObj, transToStr
+from core.err_code import DB_ERR, OCT_SUCCESS
+from core.log import WARNING, DEBUG
+from utils.commonUtil import transToObj, transToStr, getUuid
 from utils.timeUtil import get_current_time, getStrTime
 
+
+PRODUCT_TYPE_CPU = "CPU"
+PRODUCT_TYPE_MEMORY = "MEMORY"
+PRODUCT_TYPE_THINCIENT = "THINCLIENT"
+PRODUCT_TYPE_DISK = "DISK"
+PRODUCT_TYPE_RAID = "RAID"
+PRODUCT_TYPE_INFRASTRUCTURE = "INFRASTRUCTURE"
+PRODUCT_TYPE_MONITOR = "MONITOR"
+PRODUCT_TYPE_KEYMOUSE = "KEYMOUSE"
+PRODUCT_TYPE_SWITCH = "SWITCH"
+PRODUCT_TYPE_WIFIROUTER = "WIFIROUTER"
+PRODUCT_TYPE_SOFTWARE = "SOFTWARE"
+
+PRODUCT_TYPES = {
+	PRODUCT_TYPE_CPU: "CPU",
+	PRODUCT_TYPE_MEMORY: "内存",
+	PRODUCT_TYPE_THINCIENT: "云终端",
+	PRODUCT_TYPE_DISK: "磁盘",
+	PRODUCT_TYPE_RAID: "RAID卡",
+	PRODUCT_TYPE_INFRASTRUCTURE: "硬件平台",
+	PRODUCT_TYPE_MONITOR: "显示器",
+	PRODUCT_TYPE_KEYMOUSE: "键鼠套装",
+	PRODUCT_TYPE_SWITCH: "交换机",
+	PRODUCT_TYPE_WIFIROUTER: "无线路由器",
+	PRODUCT_TYPE_SOFTWARE: "软件平台"
+}
 
 def getProduct(db, myId):
 	cond = "WHERE ID='%s'" % (myId)
@@ -29,7 +55,7 @@ class Product:
 		self.name = name
 		self.dbObj = dbObj
 		
-		self.state = 1
+		self.state = "Enabled"
 		self.stateCN = ""
 
 		self.type = ""
@@ -59,6 +85,30 @@ class Product:
 		self.loadFromObj()
 		
 		return 0
+	
+	def add(self):
+		
+		self.myId = getUuid()
+		
+		obj = {
+			"ID": self.myId,
+			"P_Name": self.name,
+			"P_Type": self.type,
+			"P_TypeName": PRODUCT_TYPES[self.type],
+			"P_Description": self.desc,
+			"P_Info": transToStr(self.infoObj),
+			"P_CreateTime": get_current_time(),
+			"P_LastSync": get_current_time()
+		}
+		
+		ret = self.db.insert(TB_PRODUCT, obj)
+		if (ret == -1):
+			WARNING("add product %s error for db operation" % self.name)
+			return DB_ERR
+		
+		DEBUG(obj)
+		
+		return OCT_SUCCESS
 	
 	def loadFromObj(self):
 		
@@ -163,6 +213,19 @@ class ProductInfo:
 		self.provider = infoObj.get("providor") or "未知"
 		self.model = infoObj.get("model") or ""
 		self.capacity = infoObj.get("capacity") or ""
+		
+		if infoObj.get("cores"):
+			self.cores = infoObj.get("cores")
+			
+		if infoObj.get("threads"):
+			self.threads = infoObj.get("threads")
+			
+		if infoObj.get("frequency"):
+			self.frequency = infoObj.get("frequency")
+		
+		if infoObj.get("size"):
+			self.size = infoObj.get("size")
+			
 		self.desc = infoObj.get("desc") or ""
 		self.price = infoObj.get("price") or 0
 

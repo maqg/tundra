@@ -5,8 +5,8 @@ from core import dbmysql
 from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST
 from core.log import ERROR
 from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT, \
-	getPricingResult, PRODUCT_TYPE_SOFTWARE
-from models.Product import Product, getProduct
+	getPricingResult
+from models.Product import Product, getProduct, PRODUCT_TYPE_SOFTWARE
 from utils.timeUtil import getCurrentStrDate
 
 AUTHKEY_TIMEOUT = 24 * 30 * 60
@@ -63,8 +63,53 @@ def get_product_types(db, paras):
 	return (OCT_SUCCESS, items)
 
 
+ADD_PRODUCT_PARAS = {
+	"type": "MEMORY",
+	"name": "",
+	"code": "",
+	"model": "",
+	"price": 0,
+	"capacity": 0,
+	"cores": 0,
+	"threads": 0,
+	"provider": "",
+	"size": 0,
+	"desc": "",
+	"timeout": 0
+}
 def add_product(db, paras):
-	return OCT_SUCCESS, None
+	product = Product(db, name=paras["name"])
+	product.type = paras["type"]
+	product.desc = paras["desc"]
+
+	infoObj = {
+		"id": paras["code"],
+		"type": paras["type"],
+		"name": paras["name"],
+		"provider": paras["provider"],
+		"price": paras["price"],
+		"desc": paras["desc"],
+		"model": paras["model"],
+		"code": paras["code"]
+	}
+	
+	if paras["frequency"]:
+		infoObj["frequency"] = paras["frequency"]
+		
+	if paras["cores"]:
+		infoObj["cores"] = paras["cores"]
+		
+	if paras["threads"]:
+		infoObj["threads"] = paras["threads"]
+		
+	if paras["capacity"]:
+		infoObj["capacity"] = paras["capacity"]
+		
+	product.infoObj = infoObj
+	
+	ret = product.add()
+	
+	return ret, None
 
 
 def remove_product(db, paras):

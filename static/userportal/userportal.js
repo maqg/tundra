@@ -89,6 +89,8 @@ function getProductTypesCallback(resultObj, paras) {
 	}
 
 	$productTypeList.html(bodyStr);
+
+	getProductList(getSelectedProductType());
 }
 
 function updateProductTypes() {
@@ -119,8 +121,6 @@ function switchToProductPage() {
 	closeOtherButtons("#service-menu-button");
 
 	updateProductTypes();
-
-	getProductList(getSelectedProductType());
 
 	openPage("#service-manage");
 }
