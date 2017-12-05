@@ -73,7 +73,6 @@ ADD_PRODUCT_PARAS = {
 	"cores": 0,
 	"threads": 0,
 	"provider": "",
-	"size": 0,
 	"desc": "",
 	"timeout": 0
 }

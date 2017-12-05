@@ -370,7 +370,7 @@ function createProductPriceForm(item) {
 	$str += "<div class='form-group'>";
 	$str += "<label class='col-sm-2 control-label'>产品名称</label>";
 	$str += "<div class='col-sm-10'>";
-	$str += "<input type='text' class='form-control disabled' id='productPriceName' value='" + item.name + "' placeholder='产品名称'></div></div>";
+	$str += "<input type='text' class='form-control disabled' id='productPriceName' value='" + item.name + "' placeholder='产品名称' disabled></div></div>";
 	if (item.type !== PRODUCT_TYPE_SOFTWARE) {
 		$str += "<div class='form-group'><label class='col-sm-2 control-label'>单价</label>";
 		$str += "<div class='col-sm-10'>";
@@ -442,6 +442,7 @@ function updateProduct() {
 }
 
 function raiseProductAdd() {
+	updateAddProductTypes();
 	$("#modalAddProduct").modal("show");
 }
 
@@ -887,18 +888,32 @@ function selectAllProducts(checked) {
 
 function addProduct() {
 
-	var name = document.getElementById("serviceName").value;
-	var offering = getSelectedOption("#serviceOffering");
-	var desc = document.getElementById("serviceDesc").value;
+	var name = document.getElementById("productAddName").value;
+	var type = document.getElementById("productAddType").value;
+	var desc = document.getElementById("productAddDesc").value;
 
-	paras = createAddServiceParas(g_current_user_id, name, offering, desc);
+	var code = document.getElementById("productAddCode").value;
+	var model = document.getElementById("productAddModel").value;
+	var price = document.getElementById("productAddPrice").value;
+
+	var capacity = document.getElementById("productAddCapacity").value;
+	var provider = document.getElementById("productAddProvider").value;
+
+	var frequency = document.getElementById("productAddFrequency").value;
+	var cores = document.getElementById("productAddCores").value;
+	var threads = document.getElementById("productAddThreads").value;
+
+	paras = createAddProductParas(type, name, code, model, price, capacity, frequency, cores,
+		threads, provider, desc);
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
 		var apiResponse = doResponseCheck(resultObj);
 		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
 			var errorMsg = apiResponse !== null ? apiResponse.getErrorMsg() : ERROR_MSG_CONN_SERVER;
-			return raiseErrorAlarm("#modalAddService", errorMsg);
+			return raiseErrorAlarm("#modalAddProduct", errorMsg);
 		}
-		$("#modalAddService").modal("hide");
+		$("#modalAddProduct").modal("hide");
+
 		refreshProductPage();
+
 	});
 }

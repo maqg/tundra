@@ -148,7 +148,7 @@
 		"name": "19.5寸 BENQ明基 显示器",
 		"provider": "京东 BEND",
 		"model": "unknown",
-		"size": 20,
+		"capacity": 20,
 		"desc": "标准电源",
 		"price": 488
 	  },
@@ -157,7 +157,7 @@
 		"name": "19.9寸 ACER 显示器",
 		"provider": "京东 ACER",
 		"model": "S200HQL Hb 19.9",
-		"size": 20,
+		"capacity": 20,
 		"desc": "12V笔记本电源，无HDMI对ARM架构盒子支持不算好",
 		"price": 499
 	  },
@@ -166,7 +166,7 @@
 		"name": "23寸 AOC 显示器",
 		"provider": "京东 AOC",
 		"model": "unknown",
-		"size": 23,
+		"capacity": 23,
 		"desc": "",
 		"price": 679
 	  }

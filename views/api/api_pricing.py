@@ -106,7 +106,7 @@ funcList = {
 			"capacity": {
 				"type": PARAM_TYPE_INT,
 				"desc": "",
-				"descCN": "容量",
+				"descCN": "容量，尺寸，大小等",
 				"default": 0
 			},
 			"frequency": {
@@ -132,12 +132,6 @@ funcList = {
 				"desc": "",
 				"descCN": "供应商",
 				"default": ""
-			},
-			"size": {
-				"type": PARAM_TYPE_INT,
-				"desc": "",
-				"descCN": "尺寸",
-				"default": 0
 			},
 			"desc": {
 				"type": PARAM_TYPE_STRING,

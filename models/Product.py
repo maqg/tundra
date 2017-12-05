@@ -212,7 +212,7 @@ class ProductInfo:
 		self.type = type
 		self.provider = infoObj.get("providor") or "未知"
 		self.model = infoObj.get("model") or ""
-		self.capacity = infoObj.get("capacity") or ""
+		self.capacity = infoObj.get("capacity") or 0
 		
 		if infoObj.get("cores"):
 			self.cores = infoObj.get("cores")
@@ -223,9 +223,6 @@ class ProductInfo:
 		if infoObj.get("frequency"):
 			self.frequency = infoObj.get("frequency")
 		
-		if infoObj.get("size"):
-			self.size = infoObj.get("size")
-			
 		self.desc = infoObj.get("desc") or ""
 		self.price = infoObj.get("price") or 0
 

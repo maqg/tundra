@@ -93,8 +93,65 @@ function getProductTypesCallback(resultObj, paras) {
 	getProductList(getSelectedProductType());
 }
 
+function updateProductAddForm() {
+	selectedProductType = getSelectedAddProductType();
+
+	if (selectedProductType === PRODUCT_TYPE_CPU) {
+		document.getElementById("productAddCapacityDiv").style.display = "none";
+		document.getElementById("productAddCoresDiv").style.display = "block";
+		document.getElementById("productAddThreadsDiv").style.display = "block";
+		document.getElementById("productAddFrequencyDiv").style.display = "block";
+	} else {
+		document.getElementById("productAddCapacityDiv").style.display = "block";
+		document.getElementById("productAddCoresDiv").style.display = "none";
+		document.getElementById("productAddThreadsDiv").style.display = "none";
+		document.getElementById("productAddFrequencyDiv").style.display = "none";
+	}
+}
+
+function getAddProductTypesCallback(resultObj, paras) {
+
+	var apiResponse = doResponseCheck(resultObj);
+	if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
+		console.log(apiResponse ? apiResponse.getErrorMsg() : "Connect to API server Error");
+		return;
+	}
+
+	var dataObj = apiResponse.getDataObj();
+	if (dataObj === null) {
+		alert("no user data returned\n");
+		return;
+	}
+
+	var $productTypeList = $("#productAddType");
+	var bodyStr = "";
+
+	selectedProductType = getSelectedProductType();
+
+	for (var i = 0; i < dataObj.length; i++) {
+		node = dataObj[i];
+		if (node["type"] === selectedProductType) {
+			if (node["type"] !== PRODUCT_TYPE_SOFTWARE) {
+				bodyStr += "<option value='" + node["type"] + "' selected>" + node["name"] + "</option>"
+			}
+		} else if (node["type"] !== PRODUCT_TYPE_SOFTWARE) {
+			bodyStr += "<option value='" + node["type"] + "'>" + node["name"] + "</option>"
+		}
+	}
+
+	$productTypeList.html(bodyStr);
+
+	updateProductAddForm();
+
+	$("#modalAddProduct").modal("show");
+}
+
 function updateProductTypes() {
 	ajaxPost(API_URL, JSON.stringify(createGetProductTypesParas()), getProductTypesCallback);
+}
+
+function updateAddProductTypes() {
+	ajaxPost(API_URL, JSON.stringify(createGetProductTypesParas()), getAddProductTypesCallback);
 }
 
 function updateProductList() {
@@ -103,6 +160,10 @@ function updateProductList() {
 
 function getSelectedProductType() {
 	return getSelectedOption("#producttype");
+}
+
+function getSelectedAddProductType() {
+	return getSelectedOption("#productAddType");
 }
 
 function refreshProductPage() {

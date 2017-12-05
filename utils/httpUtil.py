@@ -78,7 +78,6 @@ def buildAsyncReply(res):
 # if param has no default value, it must be specified,
 # or else set default value to it.
 def checkParas(paras, apiProto):
-
 	for (k, v) in list(apiProto["paras"].items()):
 
 		if (v["default"] != PARAM_NOT_NULL and k not in paras):
@@ -90,6 +89,8 @@ def checkParas(paras, apiProto):
 			return False, errorMsg
 
 		if (v["type"] == PARAM_TYPE_INT and v["type"]):
+			if not paras[k]:
+				paras[k] = 0
 			paras[k] = int(paras[k])
 
 	return True, None

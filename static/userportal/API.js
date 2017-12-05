@@ -18,6 +18,8 @@ PRICING_TYPE_OCTDESK = "OCTDESK";
 
 PRODUCT_TYPE_CPU = "CPU";
 PRODUCT_TYPE_SOFTWARE = "SOFTWARE";
+PRODUCT_TYPE_INFRASTRUCTURE = "INFRASTRUCTURE";
+
 
 // USER
 API_GET_USER = API_PREFIX + "account.APIShowAccount";
@@ -34,12 +36,38 @@ API_GET_PRODUCTS = API_PREFIX + "pricing.APIShowProducts";
 API_REMOVE_PRODUCT = API_PREFIX + "pricing.APIRemoveProduct";
 API_UPDATE_PRODUCT = API_PREFIX + "pricing.APIUpdateProduct";
 API_UPDATE_PRODUCT_PRICE = API_PREFIX + "pricing.APIUpdateProductPrice";
-
+API_ADD_PRODUCT = API_PREFIX + "pricing.APIAddProduct";
 
 
 API_URL = "/api/";
 API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
+
+function createAddProductParas(type, name, code, model, price, capacity, frequency, cores,
+                               threads, provider, desc) {
+	return {
+		"module": "pricing",
+		"api": API_ADD_PRODUCT,
+		"paras": {
+			"type": type,
+			"name": name,
+			"code": code,
+			"model": model,
+			"price": price,
+			"capacity": capacity,
+			"frequency": frequency,
+			"cores": cores,
+			"threads": threads,
+			"provider": provider,
+			"desc": desc
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
 
 function createUpdateProductPriceParas(productId, price, base, host, point, cpu) {
 	return {
