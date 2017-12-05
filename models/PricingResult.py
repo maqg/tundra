@@ -88,17 +88,6 @@ class PricingResult:
 		
 		self.paras = {}
 		
-		self.summary = ""
-		
-	def createSummary(self):
-		
-		self.summary = "总价：%s<br>" % self.price
-		
-		if not self.withHareware:
-			self.summary += "不含硬件<br>"
-			
-		return self.summary
-	
 	def init(self):
 		cond = "WHERE ID='%s' " % (self.myId)
 		
@@ -128,6 +117,7 @@ class PricingResult:
 			"QR_WithHardware": self.withHareware,
 			"QR_Price": self.price,
 			"QR_Points": self.points,
+			"QR_Info": transToStr(self.info),
 			"QR_Paras": transToStr(self.paras),
 			"QR_CreateTime": get_current_time(),
 			"QR_Description": self.desc,
@@ -146,30 +136,29 @@ class PricingResult:
 		if not self.withHareware:
 			self.price += self.points * 1000
 		return self.price
+	
+	def appendSummaryItem(self, product):
+		if not product:
+			return
+		
+		item = {
+			"name": product.name,
+			"id": product.myId,
+			"count": self.points,
+			"price": product.info.price,
+			"typeName": product.typeName,
+			"totalPrice": self.points * product.info.price
+		}
+		self.price += self.points * product.info.price
+		self.info["items"].append(item)
 
 	def pricing_thinclient(self):
-		self.summary += "终端数:%d" % self.points
-
-		thinclient = getProduct(self.db, self.thinClient)
-		if thinclient:
-			self.summary += "<br>%s单价:%d" % (thinclient.name, thinclient.info.price)
-			self.price += self.points * thinclient.info.price
-
-		if self.monitor:
-			monitor = getProduct(self.db, self.monitor)
-			if monitor:
-				self.summary += "<br>%s,单价:%d" % (monitor.info.name, monitor.info.price)
-				self.price += self.points * monitor.info.price
-
-		if self.keyMouse:
-			keymouse = getProduct(self.db, self.keyMouse)
-			if keymouse:
-				self.summary += "<br>%s,单价:%d" % (keymouse.info.name, keymouse.info.price)
-				self.price += self.points * keymouse.info.price
-
-		self.summary += "<br>总价:%d" % self.price
-
-		return self.price
+		self.info["points"] = self.points
+		self.info["items"] = []
+		self.appendSummaryItem(getProduct(self.db, self.thinClient))
+		self.appendSummaryItem(getProduct(self.db, self.monitor))
+		self.appendSummaryItem(getProduct(self.db, self.keyMouse))
+		self.info["price"] = self.price
 	
 	def loadFromObj(self):
 		self.myId = self.dbObj["ID"]
@@ -197,7 +186,6 @@ class PricingResult:
 			"info": self.info,
 			"desc": self.desc,
 			"paras": self.paras,
-			"summary": self.summary,
 			"createTime": getStrTime(self.createTime),
 		}
 		

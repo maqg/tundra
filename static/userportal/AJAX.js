@@ -203,10 +203,6 @@ function loadPricingTableHeader() {
 	return header;
 }
 
-function parsePricingSummary(summary) {
-	return summary;
-}
-
 function raisePricingDetail(item) {
 
 	$detailBody = $("#pricingDetailBody");
@@ -220,7 +216,7 @@ function raisePricingDetail(item) {
 	bodyStr += "<tr><td>类型</td><td>" + item.typeCN + "</td></tr>";
 	bodyStr += "<tr><td>点位数</td><td>" + item.points + "</td></tr>";
 	bodyStr += "<tr><td>总价</td><td style='color: red'>" + item.price + "</td></tr>";
-	bodyStr += "<tr><td>报价小结</td><td>" + parsePricingSummary(item.summary) + "</td></tr>";
+	bodyStr += "<tr><td>报价小结</td><td>" + printPricingSummary(item.info) + "</td></tr>";
 	bodyStr += "<tr><td>创建时间</td><td>" + item.createTime + "</td></tr>";
 	bodyStr += "<tr><td>描述</td><td>" + item.desc + "</td></tr>";
 
@@ -546,9 +542,33 @@ function raiseProductDetail(item) {
 	$("#modalProductDetail").modal("show");
 }
 
-var g_current_detail_vm_id = "";
-var g_current_vmdetail = null;
 var g_product = null;
+
+function printPricingSummary(info) {
+	$str = "";
+	for (var i = 0; i < info.items.length; i++) {
+		item = info.items[i];
+		if (i !== 0) {
+			$str += "<br>";
+		}
+		$str += item.typeName + "：" + item.name + "<br>价格：" + item.price + " * " + item.count + " = " + item.totalPrice;
+	}
+
+	return $str;
+}
+
+function printPricingSummarySimle(info) {
+	$str = "";
+	for (var i = 0; i < info.items.length; i++) {
+		item = info.items[i];
+		if (i !== 0) {
+			$str += "<br>";
+		}
+		$str += item.typeName + "：" + item.price + " * " + item.count + " = " + item.totalPrice;
+	}
+
+	return $str;
+}
 
 function printPricingLine(item, vmTable) {
 
@@ -559,11 +579,11 @@ function printPricingLine(item, vmTable) {
 	vmItem += "<td>" + item.name +"</a></td>";
 	vmItem += "<td style='color: blue'>" + item.points + "</td>";
 	vmItem += "<td style='color: red'>" + item.price + "</td>";
-	vmItem += "<td>" + item.summary + "</td>";
+	vmItem += "<td>" + printPricingSummarySimle(item.info) + "</td>";
 	vmItem += "<td>" + item.createTime + "</td>";
 
 	vmItem += "<td class='manager'>";
-	vmItem += "<span class='detailpricingbutton commonbutton operationButton'>详情</span>";
+	vmItem += "<span class='detailpricingbutton commonbutton operationButton'>报价详情</span>";
 	vmItem += "<span class='exportpricingbutton commonbutton operationButton'>导出</span>";
 	vmItem += "<span class='deletepricingbutton commonbutton operationButton'>删除</span>";
 	vmItem += "</td></tr>";

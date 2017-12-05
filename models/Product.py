@@ -34,6 +34,9 @@ PRODUCT_TYPES = {
 }
 
 def getProduct(db, myId):
+	if not myId:
+		return None
+	
 	cond = "WHERE ID='%s'" % (myId)
 
 	dbObj = db.fetchone(TB_PRODUCT, cond=cond)

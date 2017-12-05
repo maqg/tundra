@@ -57,7 +57,7 @@ function switchToPricingPage() {
 	closeOtherPages("vm-manage");
 	closeOtherButtons("#vm-menu-button");
 
-	getAllQueryResults(PRICING_TYPE_OCTDESK);
+	getAllQueryResults(getSelectedPricingType());
 
 	openPage("#vm-manage");
 }
