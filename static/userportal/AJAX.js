@@ -838,15 +838,6 @@ function raiseErrorAlarm(toHideModalId, errorMsg) {
 	$("#modalAlarm").modal("show");
 }
 
-function raisePromptDialog(toHideModalId, promptMsg) {
-	if (toHideModalId !== null) {
-		$(toHideModalId).modal("hide");
-	}
-
-	$("#promptBodyContent").html(promptMsg);
-	$("#modalPrompt").modal("show");
-}
-
 function updateUser() {
 
 	var email = document.getElementById("userEditEmail").value;
@@ -963,7 +954,6 @@ function addProduct() {
 
 function raiseProductAdd() {
 	updateAddProductTypes();
-	$("#modalAddProduct").modal("show");
 }
 
 
@@ -983,9 +973,12 @@ function addPricing() {
 		var apiResponse = doResponseCheck(resultObj);
 		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
 			var errorMsg = apiResponse !== null ? apiResponse.getErrorMsg() : ERROR_MSG_CONN_SERVER;
-			return raiseErrorAlarm("#modalAddPrcing", errorMsg);
+			return raiseErrorAlarm("#modalAddPricing", errorMsg);
 		}
 		$("#modalAddPricing").modal("hide");
+
+		$("#pricingtype").val(getSelectedPricingAddType());
+
 		switchToPricingPage();
 	});
 }
@@ -1051,7 +1044,13 @@ function parseProductsCallback(resultObj, paras) {
 		fillSelectOption(option.id, option.type);
 	}
 
+	$("#pricingAddType").val(getSelectedPricingType());
+
 	$("#modalAddPricing").modal("show");
+}
+
+function updatePricingAddForm() {
+
 }
 
 function raisePricingAdd() {

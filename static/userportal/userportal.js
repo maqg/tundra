@@ -48,6 +48,10 @@ function getSelectedPricingType() {
 	return getSelectedOption("#pricingtype");
 }
 
+function getSelectedPricingAddType() {
+	return getSelectedOption("#pricingAddType");
+}
+
 function updatePricingList() {
 	selected = getSelectedPricingType();
 	getAllQueryResults(selected);

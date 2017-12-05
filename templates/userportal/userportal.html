@@ -176,61 +176,6 @@
 	</div>
 </div>
 
-<div class="modal fade" id="modalProductPriceEditor" tabindex="-1" role="dialog" aria-labelledby="modalProductPriceEditorLabel"
-     aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					&times;
-				</button>
-				<h4 class="modal-title" id="modalProductPriceEditorLabel">
-					编辑产品价格
-				</h4>
-			</div>
-			<div id="userFormBody" class="modal-body">
-				<form class="form-horizontal" role="form">
-					<div class="form-group">
-						<label for="userEditName" class="col-sm-2 control-label">用户名</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control disabled" id="userEditName" value="test" readonly>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="userEditEmail" class="col-sm-2 control-label">邮箱</label>
-						<div class="col-sm-10">
-							<input type="email" class="form-control" id="userEditEmail" value="" placeholder="电子邮件">
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="userEditPhoneNumber" class="col-sm-2 control-label">电话</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="userEditPhoneNumber" value=""
-							       placeholder="电话号码">
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="userEditDesc" class="col-sm-2 control-label">描述</label>
-						<div class="col-sm-10">
-							<textarea class="form-control" id="userEditDesc" rows="4" placeholder="描述"></textarea>
-						</div>
-					</div>
-
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" onclick="updateProductPrice();">确定</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
-
-				</form>
-			</div>
-		</div>
-	</div>
-
-</div>
-
 <div class="modal fade" id="modalUserEditor" tabindex="-1" role="dialog" aria-labelledby="modalUserEditorLabel"
      aria-hidden="true">
 	<div class="modal-dialog">
@@ -417,7 +362,7 @@
 
                     <div class="form-group">
 	                    <label class="col-sm-2 control-label">报价方式</label>
-	                    <select id="pricingAddtype" onchange="updatePricingAddForm();" title=""
+	                    <select id="pricingAddType" onchange="updatePricingAddForm();" title=""
                                 style="width: auto; left: 15px;" class="form-control col-sm-10">
 		                    <option value="OCTDESK" selected>云桌面-软硬一体</option>
 		                    <option value="OCTCLASS">云课堂-软硬一体</option>
@@ -604,13 +549,13 @@
 					&times;
 				</button>
 				<h4 class="modal-title" id="modalPricingManageLabel ">
-					服务操作
+					报价操作
 				</h4>
 			</div>
 			<div id="modalPricingManageFormBody" class="modal-body">
 				<form class="form-horizontal" role="form">
 					<div class="divider" id="modalPricingManagePrompt">
-						你确定删除该应用吗？
+						你确定删除该报价吗？
 					</div>
 				</form>
 			</div>
@@ -760,6 +705,31 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<div style="top: 20px;" class="modal fade" id="modalAlarm" tabindex="-1" role="dialog" aria-labelledby="modalAlarmLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalAlarmlLabel">
+					警告信息
+				</h4>
+			</div>
+			<div id="alarmBodyContent" class="modal-body" style="color: red;">
+                发生未知错误!
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+			</div>
+
+		</div>
+	</div>
+
 </div>
 
 <div id="footer" class="footer-item">
