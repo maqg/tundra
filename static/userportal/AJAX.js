@@ -203,6 +203,35 @@ function loadPricingTableHeader() {
 	return header;
 }
 
+function raisePricingPriceDetail(item) {
+
+	$detailBody = $("#pricingDetailBody");
+
+	var bodyStr = "";
+
+	bodyStr += "<table class=\"table table-striped table-hover\">";
+	bodyStr += "<tr><th>类型</th><th>名称</th><th>数量</th><th>单价</th><th>总价</th></tr>";
+
+	for (var i = 0; i < item.info.items.length; i++) {
+		product = item.info.items[i];
+		bodyStr += "<tr><td>" + product.typeName + "</td>";
+		bodyStr += "<td>" + product.name + "</td>";
+		bodyStr += "<td>" + product.count + "</td>";
+		bodyStr += "<td>" + product.price + "</td>";
+		bodyStr += "<td>" + product.totalPrice + "</td></tr>";
+	}
+
+	$detailBody.html(bodyStr);
+
+	// to modify lable
+	$lable = $("#modalPricingDetailLabel");
+	if ($lable !== null) {
+		$lable.html("价格明细-" + item.name);
+	}
+
+	$("#modalPricingDetail").modal("show");
+}
+
 function raisePricingDetail(item) {
 
 	$detailBody = $("#pricingDetailBody");
@@ -263,14 +292,14 @@ function initPricingOperation(vmTable) {
 			var $cancel = $tr.children(".manager").children(".detailpricingbutton");
 			if ($cancel !== null) {
 				$cancel.click(function () {
-					alert("pricing detail");
+					raisePricingPriceDetail($tr.data("dataObj"));
 				});
 			}
 
 			var $resume = $tr.children(".manager").children(".exportpricingbutton");
 			if ($resume !== null) {
 				$resume.click(function () {
-					alert("export price");
+					alert("未完待续");
 				});
 			}
 
@@ -435,11 +464,6 @@ function updateProduct() {
 
 		refreshProductPage();
 	});
-}
-
-function raiseProductAdd() {
-	updateAddProductTypes();
-	$("#modalAddProduct").modal("show");
 }
 
 function parseProductParas(infoObj, type) {
@@ -907,7 +931,6 @@ function selectAllProducts(checked) {
 }
 
 function addProduct() {
-
 	var name = document.getElementById("productAddName").value;
 	var type = document.getElementById("productAddType").value;
 	var desc = document.getElementById("productAddDesc").value;
@@ -936,4 +959,101 @@ function addProduct() {
 		refreshProductPage();
 
 	});
+}
+
+function raiseProductAdd() {
+	updateAddProductTypes();
+	$("#modalAddProduct").modal("show");
+}
+
+
+function addPricing() {
+
+	var name = document.getElementById("pricingAddName").value;
+	var points = document.getElementById("pricingAddPoints").value;
+
+	var thinclient = document.getElementById("pricingAddThinClient").value;
+	var monitor = document.getElementById("pricingAddMonitor").value;
+	var keymouse = document.getElementById("pricingAddKeyMouse").value;
+
+	var desc = document.getElementById("pricingAddDesc").value;
+
+	paras = createAddPricingThinClientParas(name, points, thinclient, monitor, keymouse, desc);
+	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
+		var apiResponse = doResponseCheck(resultObj);
+		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
+			var errorMsg = apiResponse !== null ? apiResponse.getErrorMsg() : ERROR_MSG_CONN_SERVER;
+			return raiseErrorAlarm("#modalAddPrcing", errorMsg);
+		}
+		$("#modalAddPricing").modal("hide");
+		switchToPricingPage();
+	});
+}
+
+g_products = {};
+
+g_fill_options = [
+	{
+		"type": "THINCLIENT",
+		"id": "#pricingAddThinClient"
+	},
+	{
+		"type": "MONITOR",
+		"id": "#pricingAddMonitor"
+	},
+	{
+		"type": "KEYMOUSE",
+		"id": "#pricingAddKeyMouse"
+	}
+];
+
+function fillSelectOption(id, type) {
+
+	$str = "<option value='' selected>不使用</option>";
+
+	for (var i = 0; i < g_products[type].length; i++) {
+		item = g_products[type][i];
+		$str += "<option value='" + item.id + "'>" + item.name + "，价格：" + item.infoObj.price + "</option>";
+	}
+	$(id).html($str);
+}
+
+function parseProductsCallback(resultObj, paras) {
+
+	var i = 0;
+
+	var apiResponse = doResponseCheck(resultObj);
+	if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
+		console.log(apiResponse ? apiResponse.getErrorMsg() : "Connect to API server Error");
+		return;
+	}
+
+	var dataObj = apiResponse.getDataObj();
+	if (dataObj === null) {
+		alert("no user data returned\n");
+		return;
+	}
+
+	g_products = [];
+
+	for (i = 0; i < dataObj.items.length; i++) {
+		item = dataObj.items[i];
+		if (g_products.hasOwnProperty(item.type)) {
+			g_products[item.type].push(item);
+		} else {
+			g_products[item.type] = [];
+			g_products[item.type].push(item);
+		}
+	}
+
+	for (i = 0; i < g_fill_options.length; i++) {
+		option = g_fill_options[i];
+		fillSelectOption(option.id, option.type);
+	}
+
+	$("#modalAddPricing").modal("show");
+}
+
+function raisePricingAdd() {
+	ajaxPost(API_URL, JSON.stringify(createGetProductsParas("")), parseProductsCallback);
 }

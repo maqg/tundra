@@ -246,31 +246,6 @@ function getSelectedVm() {
 	return true;
 }
 
-function updatePowerModal() {
-
-	var prompt = "";
-
-	getSelectedVm();
-
-	if (g_vmSelected.length === 0) {
-		prompt = "至少选中一台虚拟机！";
-		return raiseErrorAlarm(null, prompt);
-	} else {
-		prompt = "你确定要<span style='color: red; font-size: 120%'> " + vmPowerOperation_d2s(g_power_action) + " </span>如下虚拟机吗？";
-		for (var i = 0; i < g_vmSelectedName.length; i++) {
-			prompt += "<br>" + g_vmSelectedName[i];
-		}
-		$("#vmPowerPrompt").html(prompt);
-	}
-
-	$("#modalPower").modal("show");
-}
-
-function vmPowerManage(action) {
-	g_power_action = action;
-	updatePowerModal();
-}
-
 boolValues = [
 	"否",
 	"是"

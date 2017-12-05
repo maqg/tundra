@@ -150,7 +150,7 @@
 
 	<div id="vm-manage" class="right-content" style="display: none">
 		<div style="position:absolute; left: 0;width:100%; right:0;background-color: #eee; height: 50px;line-height: 49px;">
-			<div class="btn btn-primary btn-lg" id="vmPowerOn" onclick="vmPowerManage(VM_POWER_ON);">
+			<div class="btn btn-primary btn-lg" id="vmPowerOn" onclick="raisePricingAdd();">
 				新建报价
 			</div>
 			<div style="float: right; display: block; right: 200px">
@@ -383,6 +383,99 @@
 
                     <div class="modal-footer">
 						<button type="button" class="btn btn-primary" onclick="addProduct();">确定</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="modalAddPricing" tabindex="-1" role="dialog" aria-labelledby="modalAddPricingLabel"
+     aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="modalAddPricingLabel">
+					新建报价
+				</h4>
+			</div>
+			<div id="appFormBody" class="modal-body">
+				<form class="form-horizontal" role="form">
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">名称</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control disabled" id="pricingAddName" value="" placeholder="名称【1-128】">
+						</div>
+					</div>
+
+                    <div class="form-group">
+	                    <label class="col-sm-2 control-label">报价方式</label>
+	                    <select id="pricingAddtype" onchange="updatePricingAddForm();" title=""
+                                style="width: auto; left: 15px;" class="form-control col-sm-10">
+		                    <option value="OCTDESK" selected>云桌面-软硬一体</option>
+		                    <option value="OCTCLASS">云课堂-软硬一体</option>
+		                    <option value="PLATFORM">私有云-软硬一体</option>
+		                    <option value="OCTDESKSOFT">云桌面-软件</option>
+		                    <option value="OCTCLASSSOFT">云课堂-软件</option>
+		                    <option value="PLATFORMSOFT">私有云-软件</option>
+		                    <option value="THINCLIENT">云终端-硬件</option>
+		                    <option value="SERVER">服务器-硬件</option>
+                        </select>
+                    </div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">点位数</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" id="pricingAddPoints" value="" placeholder="点位数">
+						</div>
+					</div>
+
+					<div id="pricingAddThinclientDiv" class="form-group">
+						<label class="col-sm-2 control-label">终端机</label>
+						<select id="pricingAddThinClient" title="" style="width: auto; left: 15px;"
+						        class="form-control col-sm-10">
+							<option value="" selected>不使用</option>
+							<option value="1">型号1</option>
+							<option value="2">型号2</option>
+						</select>
+					</div>
+
+					<div id="pricingAddMonitorDiv" class="form-group">
+						<label class="col-sm-2 control-label">显示器</label>
+						<select id="pricingAddMonitor" title="" style="width: auto; left: 15px;"
+						        class="form-control col-sm-10">
+							<option value="" selected>不使用</option>
+							<option value="1">型号1</option>
+							<option value="2">型号2</option>
+						</select>
+					</div>
+
+					<div id="pricingAddKeyMouseDiv" class="form-group">
+						<label class="col-sm-2 control-label">键鼠套装</label>
+						<select id="pricingAddKeyMouse" title="" style="width: auto; left: 15px;"
+						        class="form-control col-sm-10">
+							<option value="" selected>不使用</option>
+							<option value="1">型号1</option>
+							<option value="2">型号2</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">描述</label>
+						<div class="col-sm-10">
+							<textarea class="form-control" id="pricingAddDesc" rows="4" placeholder="描述信息"></textarea>
+						</div>
+					</div>
+
+                    <div class="modal-footer">
+						<button type="button" class="btn btn-primary" onclick="addPricing();">确定</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 
