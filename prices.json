@@ -11,7 +11,8 @@
 		"frequency": "2.4",
 		"cores": 6,
 		"threads": 12,
-		"price": 5500
+		"price": 6500,
+		"costPrice": 5500
 	  },
 	  {
 		"id": "cpu-002",
@@ -22,7 +23,8 @@
 		"frequency": "2.3",
 		"cores": 10,
 		"threads": 20,
-		"price": 6000
+		"price": 7000,
+		"costPrice": 6000
 	  }
 	]
   },
@@ -36,7 +38,8 @@
 		"model": "S3500",
 		"capacity": 480,
 		"desc": "三年质保，淘宝",
-		"price": 1550
+		"price": 1750,
+		"costPrice": 1550
 	  },
 	  {
 		"id": "disk-002",
@@ -45,7 +48,8 @@
 		"model": "unknown",
 		"capacity": 1024,
 		"desc": "三年质保",
-		"price": 1049
+		"price": 1049,
+		"costPrice": 1249
 	  }
 	]
   },
@@ -59,7 +63,8 @@
 		"model": "DDR3 1600",
 		"capacity": 16,
 		"desc": "",
-		"price": 1200
+		"price": 1400,
+		"costPrice": 1200
 	  },
 	  {
 		"id": "memory-002",
@@ -68,7 +73,8 @@
 		"model": "DDR3 1600",
 		"capacity": 8,
 		"desc": "",
-		"price": 600
+		"price": 800,
+		"costPrice": 600
 	  },
 	  {
 		"id": "memory-003",
@@ -77,7 +83,8 @@
 		"model": "DDR4",
 		"capacity": 16,
 		"desc": "",
-		"price": 1500
+		"price": 1800,
+		"costPrice": 1500 
 	  },
 	  {
 		"id": "memory-004",
@@ -86,7 +93,8 @@
 		"model": "DDR4",
 		"capacity": 8,
 		"desc": "",
-		"price": 700
+		"price": 900,
+		"costPrice": 700 
 	  }
 	]
   },
@@ -98,14 +106,16 @@
 		"name": "强氧 2U 双路平台 最大128G内存 不含RAID卡",
 		"provider": "强氧",
 		"desc": "含机箱、单电源（600w），主板，一代平台，支持3代CPU E5系列26XX V3，不带Raid阵列卡",
-		"price": 5000
+		"price": 6500,
+		"costPrice": 5000 
 	  },
 	  {
 		"id": "infrastructure-002",
 		"name": "强氧 2U 双路平台 最大256G内存 不含RAID卡",
 		"provider": "强氧",
 		"desc": "含机箱、单电源（600w），主板，一代平台，支持一代CPU E5系列26XX，不带Raid卡，最大256G内存",
-		"price": 5800
+		"price": 7000,
+		"costPrice": 5800 
 	  }
 	]
   },
@@ -117,7 +127,8 @@
 		"name": "高性能阵列卡",
 		"provider": "unknown",
 		"desc": "可与主机一同采购",
-		"price": 1500
+		"price": 2000,
+		"costPrice": 1500 
 	  }
 	]
   },
@@ -129,14 +140,16 @@
 		"name": "云终端 赛扬4核心 2G内存 16GSSD",
 		"provider": "华科",
 		"desc": "K700F 2G内存 16G SSD固态硬盘不带WIFI，VGA*1，HDMI*1，USB2.0*4",
-		"price": 620
+		"price": 800,
+		"costPrice": 620 
 	  },
 	  {
 		"id": "thinclient-002",
 		"name": "云终端 赛扬4核心 2G内存 32GSSD",
 		"provider": "华科",
 		"desc": "K700F 2G内存 32G SSD固态硬盘不带WIFI，VGA*1，HDMI*1，USB2.0*4",
-		"price": 675
+		"price": 900,
+		"costPrice": 675 
 	  }
 	]
   },
@@ -150,7 +163,8 @@
 		"model": "unknown",
 		"capacity": 20,
 		"desc": "标准电源",
-		"price": 488
+		"price": 600,
+		"costPrice": 488 
 	  },
 	  {
 		"id": "monitor-002",
@@ -159,7 +173,8 @@
 		"model": "S200HQL Hb 19.9",
 		"capacity": 20,
 		"desc": "12V笔记本电源，无HDMI对ARM架构盒子支持不算好",
-		"price": 499
+		"price": 650,
+		"costPrice": 499 
 	  },
 	  {
 		"id": "monitor-003",
@@ -168,7 +183,8 @@
 		"model": "unknown",
 		"capacity": 23,
 		"desc": "",
-		"price": 679
+		"price": 800,
+		"costPrice": 679 
 	  }
 	]
   },
@@ -180,7 +196,8 @@
 		"name": "罗技MK120 标准键鼠套装",
 		"provider": "京东 Logitech",
 		"desc": "",
-		"price": 79
+		"price": 99,
+		"costPrice": 79 
 	  }
 	]
   },
@@ -192,7 +209,8 @@
 		"name": "UKEY2000",
 		"provider": "淘宝 ukey2000型",
 		"desc": "",
-		"price": 100
+		"price": 100,
+		"costPrice": 30 
 	  }
 	]
   },
@@ -204,14 +222,16 @@
 		"name": "飞鱼星 企业级无线路由器 40点",
 		"provider": "京东 飞鱼星",
 		"desc": "飞鱼星VE608W 1200M企业级无线路由器，无线带机量40",
-		"price": 399
+		"price": 500,
+		"costPrice": 399 
 	  },
 	  {
 		"id": "wifirouter-002",
 		"name": "飞鱼星 企业级无线路由器 60点",
 		"provider": "京东 飞鱼星",
 		"desc": "飞鱼星 VE984GW+ 1200M企业级无线路由器，无线带机量60",
-		"price": 599
+		"price": 750,
+		"costPrice": 599 
 	  }
 	]
   },
@@ -224,7 +244,8 @@
 		"provider": "京东 华为",
 		"model": "S5700-52P-LI-AC",
 		"desc": "",
-		"price": 2750
+		"price": 3200,
+		"costPrice": 2750 
 	  }
 	]
   },
