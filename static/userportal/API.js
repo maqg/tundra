@@ -39,6 +39,7 @@ API_CHANGE_USER_PASS = API_PREFIX + "account.APIUpdateAccountPassword";
 API_GET_QUERY_RESULTS = API_PREFIX + "pricing.APIShowQueryResults";
 API_REMOVE_PRICING = API_PREFIX + "pricing.APIRemovePricing";
 API_ADD_PRICING_THINCLIENT = API_PREFIX + "pricing.APIQueryThinClientPrice";
+API_ADD_PRICING_SERVER = API_PREFIX + "pricing.APIQueryServerPrice";
 
 // product
 API_GET_PRODUCT_TYPES = API_PREFIX + "pricing.APIShowProductTypes";
@@ -52,6 +53,31 @@ API_ADD_PRODUCT = API_PREFIX + "pricing.APIAddProduct";
 API_URL = "/api/";
 API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
+
+function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory, memoryCount, disk, diskCount, raid, desc) {
+	return {
+		"module": "pricing",
+		"api": API_ADD_PRICING_SERVER,
+		"paras": {
+			"name": name,
+			"point": points,
+			"infrastructure": infra,
+			"cpu": cpu,
+			"cpuCount": cpuCount,
+			"disk": disk,
+			"diskCount": diskCount,
+			"memory": memory,
+			"memoryCount": memoryCount,
+			"raid": raid,
+			"desc": desc
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
 
 function createAddPricingThinClientParas(name, points, thinclient, monitor, keymouse, desc) {
 	return {

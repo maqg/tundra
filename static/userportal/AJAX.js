@@ -980,19 +980,44 @@ function raiseProductAdd() {
 	updateAddProductTypes();
 }
 
-
-function addPricing() {
-
+function makeThinClientPricingParas() {
 	var name = document.getElementById("pricingAddName").value;
 	var points = document.getElementById("pricingAddPoints").value;
-
 	var thinclient = document.getElementById("pricingAddThinClient").value;
 	var monitor = document.getElementById("pricingAddMonitor").value;
 	var keymouse = document.getElementById("pricingAddKeyMouse").value;
-
 	var desc = document.getElementById("pricingAddDesc").value;
 
-	paras = createAddPricingThinClientParas(name, points, thinclient, monitor, keymouse, desc);
+	return createAddPricingThinClientParas(name, points, thinclient, monitor, keymouse, desc);
+}
+
+function makeServerPricingParas() {
+	var name = document.getElementById("pricingAddName").value;
+	var points = document.getElementById("pricingAddPoints").value;
+	var infra = document.getElementById("pricingAddInfrastructure").value;
+	var cpu = document.getElementById("pricingAddCpu").value;
+	var cpuCount = document.getElementById("pricingAddCpuCount").value;
+	var memory = document.getElementById("pricingAddMemory").value;
+	var memoryCount = document.getElementById("pricingAddMemoryCount").value;
+	var disk = document.getElementById("pricingAddDisk").value;
+	var diskCount = document.getElementById("pricingAddDiskCount").value;
+	var raid = document.getElementById("pricingAddRaid").value;
+	var desc = document.getElementById("pricingAddDisk").value;
+
+	return createAddPricingServerParas(name, points, infra, cpu, cpuCount,
+		memory, memoryCount, disk, diskCount, raid, desc);
+}
+
+function addPricing() {
+	var paras;
+
+	pricingType = getSelectedPricingAddType();
+	if (pricingType === PRICING_TYPE_THINCLIENT) {
+		paras = makeThinClientPricingParas();
+	} else if (pricingType === PRICING_TYPE_SERVER) {
+		paras = makeServerPricingParas();
+	}
+
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
 		var apiResponse = doResponseCheck(resultObj);
 		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
@@ -1021,6 +1046,26 @@ g_fill_options = [
 	{
 		"type": "KEYMOUSE",
 		"id": "#pricingAddKeyMouse"
+	},
+	{
+		"type": "CPU",
+		"id": "#pricingAddCpu"
+	},
+	{
+		"type": "DISK",
+		"id": "#pricingAddDisk"
+	},
+	{
+		"type": "MEMORY",
+		"id": "#pricingAddMemory"
+	},
+	{
+		"type": "INFRASTRUCTURE",
+		"id": "#pricingAddInfrastructure"
+	},
+	{
+		"type": "RAID",
+		"id": "#pricingAddRaid"
 	}
 ];
 
@@ -1070,11 +1115,38 @@ function parseProductsCallback(resultObj, paras) {
 
 	$("#pricingAddType").val(getSelectedPricingType());
 
+	updatePricingAddForm();
+
 	$("#modalAddPricing").modal("show");
+}
+
+function closeAllPricingForms() {
+	document.getElementById("pricingAddThinclientDiv").style.display = "none";
+	document.getElementById("pricingAddMonitorDiv").style.display = "none";
+	document.getElementById("pricingAddKeyMouseDiv").style.display = "none";
+	document.getElementById("pricingAddCpuDiv").style.display = "none";
+	document.getElementById("pricingAddMemoryDiv").style.display = "none";
+	document.getElementById("pricingAddDiskDiv").style.display = "none";
+	document.getElementById("pricingAddRaidDiv").style.display = "none";
+	document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
 }
 
 function updatePricingAddForm() {
 
+	closeAllPricingForms();
+
+	pricingType = getSelectedPricingAddType();
+	if (pricingType === PRICING_TYPE_THINCLIENT) {
+		document.getElementById("pricingAddThinclientDiv").style.display = "block";
+		document.getElementById("pricingAddMonitorDiv").style.display = "block";
+		document.getElementById("pricingAddKeyMouseDiv").style.display = "block";
+	} else if (pricingType === PRICING_TYPE_SERVER) {
+		document.getElementById("pricingAddCpuDiv").style.display = "block";
+		document.getElementById("pricingAddMemoryDiv").style.display = "block";
+		document.getElementById("pricingAddDiskDiv").style.display = "block";
+		document.getElementById("pricingAddRaidDiv").style.display = "block";
+		document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
+	}
 }
 
 function raisePricingAdd() {
