@@ -158,6 +158,12 @@ funcList = {
 				"descCN": "价格",
 				"default": 0
 			},
+			"costPrice": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "成本价",
+				"default": 0
+			},
 			"basePrice": {
 				"type": PARAM_TYPE_INT,
 				"desc": "",

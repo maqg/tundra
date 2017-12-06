@@ -162,6 +162,7 @@ class PricingResult:
 			"count": count,
 			"price": product.info.price,
 			"capacity": product.info.capacity,
+			"type": product.type,
 			"typeName": product.typeName,
 			"totalPrice": count * product.info.price
 		}

@@ -217,7 +217,7 @@ function raisePricingPriceDetail(item) {
 		bodyStr += "<tr><td>" + product.typeName + "</td>";
 		bodyStr += "<td>" + product.name + "</td>";
 		bodyStr += "<td>" + product.count + "</td>";
-		if (product.hasOwnProperty("capacity") && product.capacity !== 0) {
+		if (product.hasOwnProperty("capacity") && product.capacity !== 0 && product.type !== PRODUCT_TYPE_MONITOR) {
 			bodyStr += "<td>" + product.count * product.capacity + "</td>";
 		} else {
 			bodyStr += "<td>" + "N/A" + "</td>";
@@ -372,13 +372,14 @@ function updateProductPrice() {
 
 	if (item.type !== PRODUCT_TYPE_SOFTWARE) {
 		price = document.getElementById("productPricePrice").value;
-		paras = createUpdateProductPriceParas(g_product.id, price, 0, 0, 0, 0);
+		costPrice = document.getElementById("productPriceCostPrice").value;
+		paras = createUpdateProductPriceParas(g_product.id, price, costPrice, 0, 0, 0, 0);
 	} else {
 		base = document.getElementById("productPriceBasePrice").value;
 		host = document.getElementById("productPriceHostPrice").value;
 		point = document.getElementById("productPricePointPrice").value;
 		cpu = document.getElementById("productPriceCpuPrice").value;
-		paras = createUpdateProductPriceParas(g_product.id, 0, base, host, point, cpu);
+		paras = createUpdateProductPriceParas(g_product.id, 0, 0, base, host, point, cpu);
 	}
 
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
@@ -400,11 +401,18 @@ function createProductPriceForm(item) {
 	$str += "<div class='form-group'>";
 	$str += "<label class='col-sm-2 control-label'>产品名称</label>";
 	$str += "<div class='col-sm-10'>";
-	$str += "<input type='text' class='form-control disabled' id='productPriceName' value='" + item.name + "' placeholder='产品名称' disabled></div></div>";
+	$str += "<input type='text' class='form-control disabled' id='productPriceName' value='"
+		+ item.name + "' placeholder='产品名称' disabled></div></div>";
 	if (item.type !== PRODUCT_TYPE_SOFTWARE) {
-		$str += "<div class='form-group'><label class='col-sm-2 control-label'>单价</label>";
+		$str += "<div class='form-group'><label class='col-sm-2 control-label'>报价</label>";
 		$str += "<div class='col-sm-10'>";
-		$str += "<input type='text' class='form-control disabled' id='productPricePrice' value='" +  item.infoObj.price + "' placeholder='单价'></div></div>";
+		$str += "<input type='text' class='form-control disabled' id='productPricePrice' value='"
+			+  item.infoObj.price + "' placeholder='报价'></div></div>";
+
+		$str += "<div class='form-group'><label class='col-sm-2 control-label'>成本价</label>";
+		$str += "<div class='col-sm-10'>";
+		$str += "<input type='text' class='form-control disabled' id='productPriceCostPrice' value='"
+			+  item.infoObj.costPrice + "' placeholder='成本价'></div></div>";
 	} else {
 		$str += "<div class='form-group'><label class='col-sm-2 control-label'>基础平台</label>";
 		$str += "<div class='col-sm-10'>";
@@ -543,6 +551,14 @@ function parseProductPrice(infoObj) {
 	return $str;
 }
 
+function parseProductCostPrice(infoObj) {
+	if (infoObj.hasOwnProperty("costPrice") && infoObj.costPrice !== 0) {
+		return infoObj.costPrice;
+	} else {
+		return "N/A";
+	}
+}
+
 function raiseProductDetail(item) {
 
 	$detailTable = $("#appDetailBody");
@@ -554,6 +570,7 @@ function raiseProductDetail(item) {
 
 	bodyStr += "<tr><td>名称</td><td>" + item.name + "</td></tr>";
 	bodyStr += "<tr><td>单价</td><td style='color: red'>" + parseProductPrice(item.infoObj) + "</td></tr>";
+	bodyStr += "<tr><td>成本价</td><td style='color: green'>" + parseProductCostPrice(item.infoObj) + "</td></tr>";
 	bodyStr += "<tr><td>产品类型</td><td>" + item.typeName + "</td></tr>";
 	bodyStr += "<tr><td>状态</td><td style='color: " + getStatusColor(item.state) + "'>" + item.state + "</td></tr>";
 	bodyStr += "<tr><td>ID</td><td style='font-family: Consolas'>" + item.id + "</td></tr>";
@@ -578,7 +595,7 @@ function printPricingSummary(info) {
 			$str += "<br>";
 		}
 		$str += item.typeName + "：" + item.name + "<br>价格：" + item.price + " * " + item.count + " = " + item.totalPrice;
-		if (item.hasOwnProperty("capacity") && item.capacity !== 0) {
+		if (item.hasOwnProperty("capacity") && item.capacity !== 0 && item.type !== PRODUCT_TYPE_MONITOR) {
 			$str += "，容量：" + item.capacity + " * " + item.count + " = " + (item.count * item.capacity);
 		}
 	}

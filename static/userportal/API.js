@@ -99,13 +99,14 @@ function createAddProductParas(type, name, code, model, price, capacity, frequen
 	};
 }
 
-function createUpdateProductPriceParas(productId, price, base, host, point, cpu) {
+function createUpdateProductPriceParas(productId, price, costPrice, base, host, point, cpu) {
 	return {
 		"module": "pricing",
 		"api": API_UPDATE_PRODUCT_PRICE,
 		"paras": {
 			"id": productId,
 			"price": price,
+			"costPrice": costPrice,
 			"basePrice": base,
 			"hostPrice": host,
 			"pointPrice": point,

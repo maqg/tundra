@@ -145,6 +145,7 @@ def update_product_price(db, paras):
 		product.infoObj["pointPrice"] = paras["pointPrice"]
 	else:
 		product.infoObj["price"] = paras["price"]
+		product.infoObj["costPrice"] = paras["costPrice"]
 		
 	product.updatePrice()
 	
