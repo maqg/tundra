@@ -3,7 +3,7 @@
 from conf.dbconfig import TB_QUERYRESULT
 from core.err_code import DB_ERR, OCT_SUCCESS
 from core.log import WARNING, DEBUG
-from models.Product import getProduct
+from models.Product import getProduct, getPlatformProduct
 from utils.commonUtil import transToObj, getUuid, transToStr
 from utils.timeUtil import getStrTime, get_current_time
 
@@ -89,6 +89,8 @@ class PricingResult:
 		self.cpu = None
 		self.cpuCount = 0
 		
+		self.hostCount = 0
+		
 		self.memory = None
 		self.memoryCount = 0
 		
@@ -168,6 +170,22 @@ class PricingResult:
 		}
 		self.price += count * product.info.price
 		self.info["items"].append(item)
+	
+	def appendSoftwareSummaryItem(self, product):
+		if not product:
+			return
+		
+		item = {
+			"name": product.name,
+			"id": product.myId,
+			"count": 1,
+			"price": product.info.hostPrice * self.hostCount + product.cpuPrice * self.cpuCount + product.basePrice,
+			"type": product.type,
+			"typeName": product.typeName,
+			"totalPrice": 0
+		}
+		self.price = 0
+		self.info["items"].append(item)
 
 	def pricing_thinclient(self):
 		self.info["points"] = self.points
@@ -185,6 +203,12 @@ class PricingResult:
 		self.appendSummaryItem(getProduct(self.db, self.memory), self.memoryCount)
 		self.appendSummaryItem(getProduct(self.db, self.disk), self.diskCount)
 		self.appendSummaryItem(getProduct(self.db, self.raid), self.raidCount)
+		self.info["price"] = self.price
+		
+	def pricing_platformsoft(self):
+		self.info["points"] = 0
+		self.info["items"] = []
+		self.appendSoftwareSummaryItem(getPlatformProduct(self.db))
 		self.info["price"] = self.price
 	
 	def loadFromObj(self):

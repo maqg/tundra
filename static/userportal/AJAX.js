@@ -225,6 +225,7 @@ function raisePricingPriceDetail(item) {
 		bodyStr += "<td>" + product.price + "</td>";
 		bodyStr += "<td>" + product.totalPrice + "</td></tr>";
 	}
+	bodyStr += "<div style='position: absolute; color: red; bottom: 15px; right: 15px;'>总价：" + item.info.price + "</div>";
 
 	$detailBody.html(bodyStr);
 
@@ -629,7 +630,7 @@ function printPricingLine(item, vmTable) {
 	vmItem += "<td>" + item.createTime + "</td>";
 
 	vmItem += "<td class='manager'>";
-	vmItem += "<span class='detailpricingbutton commonbutton operationButton'>报价详情</span>";
+	vmItem += "<span class='detailpricingbutton commonbutton operationButton'>报价明细</span>";
 	vmItem += "<span class='exportpricingbutton commonbutton operationButton'>导出</span>";
 	vmItem += "<span class='deletepricingbutton commonbutton operationButton'>删除</span>";
 	vmItem += "</td></tr>";

@@ -40,6 +40,10 @@ API_GET_QUERY_RESULTS = API_PREFIX + "pricing.APIShowQueryResults";
 API_REMOVE_PRICING = API_PREFIX + "pricing.APIRemovePricing";
 API_ADD_PRICING_THINCLIENT = API_PREFIX + "pricing.APIQueryThinClientPrice";
 API_ADD_PRICING_SERVER = API_PREFIX + "pricing.APIQueryServerPrice";
+API_ADD_PRICING_PLATFORMSOFT = API_PREFIX + "pricing.APIQueryPlatformSoftPrice";
+API_ADD_PRICING_OCTDESKSOFT = API_PREFIX + "pricing.APIQueryDeskSoftPrice";
+API_ADD_PRICING_OCTCLASSSOFT = API_PREFIX + "pricing.APIQueryClassSoftPrice";
+
 
 // product
 API_GET_PRODUCT_TYPES = API_PREFIX + "pricing.APIShowProductTypes";

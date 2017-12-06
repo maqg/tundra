@@ -52,6 +52,35 @@ def getProduct(db, myId):
 	return obj
 
 
+def getSoftProduct(db, key):
+	cond = "WHERE P_Type='%s' AND P_Info LIKE '%%%s%%'" % (PRODUCT_TYPE_SOFTWARE, key)
+	dbObj = db.fetchone(TB_PRODUCT, cond=cond)
+	if (not dbObj):
+		WARNING("product %s not exist" % cond)
+		return None
+	
+	obj = Product(db, dbObj=dbObj)
+	obj.loadFromObj()
+	
+	return obj
+
+SOFTWARE_TYPE_PLATFORM = "PLATFORM"
+SOFTWARE_TYPE_OCTDESK = "OCTDESK"
+SOFTWARE_TYPE_OCTCLASS = "OCTCLASS"
+
+
+def getPlatformProduct(db):
+	return getSoftProduct(db, SOFTWARE_TYPE_PLATFORM)
+
+
+def getDeskProduct(db):
+	return getSoftProduct(db, SOFTWARE_TYPE_OCTDESK)
+
+
+def getClassProduct(db):
+	return getSoftProduct(db, SOFTWARE_TYPE_OCTCLASS)
+
+
 class Product:
 	def __init__(self, db=None, myId=None, name=None, dbObj=None):
 		

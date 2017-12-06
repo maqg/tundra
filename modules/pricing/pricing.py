@@ -5,7 +5,7 @@ from core import dbmysql
 from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST
 from core.log import ERROR
 from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT, \
-	getPricingResult, PRICING_TYPE_SERVER
+	getPricingResult, PRICING_TYPE_SERVER, PRICING_TYPE_PLATFORM_SOFT
 from models.Product import Product, getProduct, PRODUCT_TYPE_SOFTWARE
 from utils.timeUtil import getCurrentStrDate
 
@@ -291,6 +291,24 @@ def query_server_price(db, paras):
 
 	ret = pricing.add()
 
+	return ret, pricing.toObj()
+
+
+def query_platformsoft_price(db, paras):
+	pricing = PricingResult(db)
+	
+	pricing.paras = paras
+	pricing.type = PRICING_TYPE_PLATFORM_SOFT
+	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
+	pricing.desc = paras["desc"]
+
+	pricing.cpuCount = paras["cpuCount"]
+	pricing.hostCount = pricing["hostCount"]
+	
+	pricing.pricing_platformsoft()
+	
+	ret = pricing.add()
+	
 	return ret, pricing.toObj()
 
 

@@ -451,4 +451,41 @@ funcList = {
 			},
 		}
 	},
+	
+	"APIQueryPlatformSoftPrice": {
+		"name": "生成私有云软件报价",
+		"serviceName": "pricing.pricing_web.web_query_platformsoftprice",
+		"paras": {
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "客户名称",
+				"default": PARAM_NOT_NULL
+			},
+			"hostCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "服务器台数",
+				"default": 1
+			},
+			"cpuCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "CPU数",
+				"default": 2
+			},
+			"diskCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "磁盘数",
+				"default": 2
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "其他补充说明",
+				"default": ""
+			},
+		}
+	},
 }
