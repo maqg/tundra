@@ -210,13 +210,18 @@ function raisePricingPriceDetail(item) {
 	var bodyStr = "";
 
 	bodyStr += "<table class=\"table table-striped table-hover\">";
-	bodyStr += "<tr><th>类型</th><th>名称</th><th>数量</th><th>单价</th><th>总价</th></tr>";
+	bodyStr += "<tr><th>类型</th><th>名称</th><th>数量</th><th>容量</th><th>单价</th><th>总价</th></tr>";
 
 	for (var i = 0; i < item.info.items.length; i++) {
 		product = item.info.items[i];
 		bodyStr += "<tr><td>" + product.typeName + "</td>";
 		bodyStr += "<td>" + product.name + "</td>";
 		bodyStr += "<td>" + product.count + "</td>";
+		if (product.hasOwnProperty("capacity") && product.capacity !== 0) {
+			bodyStr += "<td>" + product.count * product.capacity + "</td>";
+		} else {
+			bodyStr += "<td>" + "N/A" + "</td>";
+		}
 		bodyStr += "<td>" + product.price + "</td>";
 		bodyStr += "<td>" + product.totalPrice + "</td></tr>";
 	}
@@ -573,6 +578,9 @@ function printPricingSummary(info) {
 			$str += "<br>";
 		}
 		$str += item.typeName + "：" + item.name + "<br>价格：" + item.price + " * " + item.count + " = " + item.totalPrice;
+		if (item.hasOwnProperty("capacity") && item.capacity !== 0) {
+			$str += "，容量：" + item.capacity + " * " + item.count + " = " + (item.count * item.capacity);
+		}
 	}
 
 	return $str;

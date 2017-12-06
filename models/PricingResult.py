@@ -82,6 +82,21 @@ class PricingResult:
 
 		self.keyMouse = None
 		self.keymouseCount = 0
+		
+		self.infrastructure = None
+		self.infrastructureCount = 0
+		
+		self.cpu = None
+		self.cpuCount = 0
+		
+		self.memory = None
+		self.memoryCount = 0
+		
+		self.raid = None
+		self.raidCount = 0
+		
+		self.disk = None
+		self.diskCount = 0
 
 		self.desc = ""
 		self.createTime = 0
@@ -137,27 +152,38 @@ class PricingResult:
 			self.price += self.points * 1000
 		return self.price
 	
-	def appendSummaryItem(self, product):
+	def appendSummaryItem(self, product, count):
 		if not product:
 			return
 		
 		item = {
 			"name": product.name,
 			"id": product.myId,
-			"count": self.points,
+			"count": count,
 			"price": product.info.price,
+			"capacity": product.info.capacity,
 			"typeName": product.typeName,
-			"totalPrice": self.points * product.info.price
+			"totalPrice": count * product.info.price
 		}
-		self.price += self.points * product.info.price
+		self.price += count * product.info.price
 		self.info["items"].append(item)
 
 	def pricing_thinclient(self):
 		self.info["points"] = self.points
 		self.info["items"] = []
-		self.appendSummaryItem(getProduct(self.db, self.thinClient))
-		self.appendSummaryItem(getProduct(self.db, self.monitor))
-		self.appendSummaryItem(getProduct(self.db, self.keyMouse))
+		self.appendSummaryItem(getProduct(self.db, self.thinClient), self.points)
+		self.appendSummaryItem(getProduct(self.db, self.monitor), self.points)
+		self.appendSummaryItem(getProduct(self.db, self.keyMouse), self.points)
+		self.info["price"] = self.price
+		
+	def pricing_server(self):
+		self.info["points"] = self.points
+		self.info["items"] = []
+		self.appendSummaryItem(getProduct(self.db, self.infrastructure), self.infrastructureCount)
+		self.appendSummaryItem(getProduct(self.db, self.cpu), self.cpuCount)
+		self.appendSummaryItem(getProduct(self.db, self.memory), self.memoryCount)
+		self.appendSummaryItem(getProduct(self.db, self.disk), self.diskCount)
+		self.appendSummaryItem(getProduct(self.db, self.raid), self.raidCount)
 		self.info["price"] = self.price
 	
 	def loadFromObj(self):

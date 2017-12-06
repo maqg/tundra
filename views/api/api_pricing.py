@@ -372,4 +372,77 @@ funcList = {
 			},
 		}
 	},
+	
+	"APIQueryServerPrice": {
+		"name": "生成服务器硬件报价",
+		"serviceName": "pricing.pricing_web.web_query_serverprice",
+		"paras": {
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "客户名称",
+				"default": PARAM_NOT_NULL
+			},
+			"infrastructure": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务器平台",
+				"default": PARAM_NOT_NULL
+			},
+			"point": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "服务器台数",
+				"default": 1
+			},
+			"cpu": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "CPU类型",
+				"default": PARAM_NOT_NULL
+			},
+			"cpuCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "CPU数",
+				"default": 2
+			},
+			"disk": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "磁盘类型",
+				"default": PARAM_NOT_NULL
+			},
+			"diskCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "磁盘数",
+				"default": 2
+			},
+			"memory": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "内存类型",
+				"default": PARAM_NOT_NULL
+			},
+			"memoryCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "内存数",
+				"default": 16
+			},
+			"raid": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "RAID卡类型",
+				"default": ""
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "其他补充说明",
+				"default": ""
+			},
+		}
+	},
 }

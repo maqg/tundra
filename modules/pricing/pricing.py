@@ -5,7 +5,7 @@ from core import dbmysql
 from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST
 from core.log import ERROR
 from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT, \
-	getPricingResult
+	getPricingResult, PRICING_TYPE_SERVER
 from models.Product import Product, getProduct, PRODUCT_TYPE_SOFTWARE
 from utils.timeUtil import getCurrentStrDate
 
@@ -239,6 +239,7 @@ def query_thinclient_price(db, paras):
 	pricing.thinClient = paras["thinClient"]
 	pricing.monitor = paras["monitor"]
 	pricing.keyMouse = paras["keyMouse"]
+	pricing.desc = paras["desc"]
 
 	pricing.pricing_thinclient()
 
@@ -246,6 +247,51 @@ def query_thinclient_price(db, paras):
 
 	return ret, pricing.toObj()
 	
+
+SERVER_PRICE_ARG = {
+        "name": "",
+        "infrastructure": "",
+        "point": 1,
+        "cpu": "",
+        "cpuCount": 2,
+        "disk": "",
+        "diskCount": 2,
+        "memory": "",
+        "memoryCount": 16,
+        "raid": "",
+        "desc": "",
+    }
+def query_server_price(db, paras):
+
+	pricing = PricingResult(db)
+
+	pricing.paras = paras
+	pricing.type = PRICING_TYPE_SERVER
+	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
+	pricing.points = paras["point"]
+	pricing.desc = paras["desc"]
+
+	pricing.infrastructure = paras["infrastructure"]
+	pricing.infrastructureCount = pricing.points
+	
+	pricing.cpu = paras["cpu"]
+	pricing.cpuCount = paras["cpuCount"]
+	
+	pricing.memory = paras["memory"]
+	pricing.memoryCount = paras["memoryCount"]
+	
+	pricing.disk = paras["disk"]
+	pricing.diskCount = paras["diskCount"]
+	
+	pricing.raid = paras["raid"]
+	pricing.raidCount = pricing.points
+
+	pricing.pricing_server()
+
+	ret = pricing.add()
+
+	return ret, pricing.toObj()
+
 
 def remove_pricing(db, paras):
 	pricing = getPricingResult(db, paras["id"])
