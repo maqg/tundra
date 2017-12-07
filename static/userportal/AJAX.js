@@ -1199,7 +1199,7 @@ function updatePricingAddForm() {
 		document.getElementById("pricingAddCpuCountDiv1").style.display = "block";
 	} else if (pricingType === PRICING_TYPE_OCTDESK_SOFT || pricingType === PRICING_TYPE_OCTCLASS_SOFT) {
 		document.getElementById("pricingAddPointsDiv").style.display = "block";
-	} else if (pricingType === PRICING_TYPE_OCTDESK) {
+	} else if (pricingType === PRICING_TYPE_OCTDESK || pricingType === PRICING_TYPE_OCTCLASS) {
 		document.getElementById("pricingNextButton").style.display = "inline-block";
 		document.getElementById("pricingButton").style.display = "none";
 		g_pricing_step = "step1";
