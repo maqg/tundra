@@ -1071,9 +1071,17 @@ function addPricing() {
 	});
 }
 
+function updatePricingMonitor() {
+
+}
+
 g_products = {};
 
 g_fill_options = [
+	{
+		"type": "ALLINONE",
+		"id": "#pricingAddThinClient"
+	},
 	{
 		"type": "THINCLIENT",
 		"id": "#pricingAddThinClient"

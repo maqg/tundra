@@ -153,6 +153,19 @@
 	  }
 	]
   },
+  "ALLINONE": {
+	"name": "终端一体机",
+	"products": [
+	  {
+		"id": "allineone-001",
+		"name": "云终端 赛扬4核心 2G内存 16GSSD 23寸屏",
+		"provider": "未知",
+		"desc": "2G内存 16G SSD固态硬盘 WIFI，VGA*1，HDMI*1，USB2.0*4",
+		"price": 1500,
+		"costPrice": 1200
+	  }
+	]
+  },
   "MONITOR": {
 	"name": "显示器",
 	"products": [
