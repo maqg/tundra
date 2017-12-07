@@ -1171,7 +1171,12 @@ function closeAllPricingForms() {
 	document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
 	document.getElementById("pricingAddHostCountDiv").style.display = "none";
 	document.getElementById("pricingAddCpuCountDiv1").style.display = "none";
+
+	document.getElementById("pricingNextButton").style.display = "none";
+	document.getElementById("pricingButton").style.display = "inline-block";
 }
+
+g_pricing_step = "step1";
 
 function updatePricingAddForm() {
 
@@ -1194,6 +1199,25 @@ function updatePricingAddForm() {
 		document.getElementById("pricingAddCpuCountDiv1").style.display = "block";
 	} else if (pricingType === PRICING_TYPE_OCTDESK_SOFT || pricingType === PRICING_TYPE_OCTCLASS_SOFT) {
 		document.getElementById("pricingAddPointsDiv").style.display = "block";
+	} else if (pricingType === PRICING_TYPE_OCTDESK) {
+		document.getElementById("pricingNextButton").style.display = "inline-block";
+		document.getElementById("pricingButton").style.display = "none";
+		g_pricing_step = "step1";
+		$("#pricingNextButton").html("下一步");
+	}
+}
+
+function pricingDeskNext() {
+
+	if (g_pricing_step === "step1") {
+		document.getElementById("pricingButton").style.display = "inline-block";
+		$("#pricingNextButton").html("上一步");
+		g_pricing_step = "step2";
+	} else {
+		document.getElementById("pricingButton").style.display = "none";
+		document.getElementById("pricingNextButton").style.display = "inline-block";
+		$("#pricingNextButton").html("下一步");
+		g_pricing_step = "step1";
 	}
 }
 
