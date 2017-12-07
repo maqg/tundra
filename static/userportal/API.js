@@ -58,6 +58,58 @@ API_URL = "/api/";
 API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
 
+function createAddPricingPlatformSoftParas(name, hostCount, cpuCount, desc) {
+	return {
+		"module": "pricing",
+		"api": API_ADD_PRICING_PLATFORMSOFT,
+		"paras": {
+			"name": name,
+			"cpuCount": cpuCount,
+			"hostCount": hostCount,
+			"desc": desc
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
+
+function createAddPricingDeskSoftParas(name, points, desc) {
+	return {
+		"module": "pricing",
+		"api": API_ADD_PRICING_OCTDESKSOFT,
+		"paras": {
+			"name": name,
+			"point": points,
+			"desc": desc
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
+
+function createAddPricingClassSoftParas(name, poitns, desc) {
+	return {
+		"module": "pricing",
+		"api": API_ADD_PRICING_OCTCLASSSOFT,
+		"paras": {
+			"name": name,
+			"point": poitns,
+			"desc": desc
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
+
 function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory, memoryCount, disk, diskCount, raid, desc) {
 	return {
 		"module": "pricing",
@@ -103,7 +155,7 @@ function createAddPricingThinClientParas(name, points, thinclient, monitor, keym
 	};
 }
 
-function createAddProductParas(type, name, code, model, price, capacity, frequency, cores,
+function createAddProductParas(type, name, code, model, price, costPrice, capacity, frequency, cores,
                                threads, provider, desc) {
 	return {
 		"module": "pricing",
@@ -114,6 +166,7 @@ function createAddProductParas(type, name, code, model, price, capacity, frequen
 			"code": code,
 			"model": model,
 			"price": price,
+			"costPrice": costPrice,
 			"capacity": capacity,
 			"frequency": frequency,
 			"cores": cores,

@@ -248,6 +248,26 @@ class ProductInfo:
 		self.model = infoObj.get("model") or ""
 		self.capacity = infoObj.get("capacity") or 0
 		
+		if infoObj.get("basePrice"):
+			self.basePrice = infoObj.get("basePrice")
+		else:
+			self.basePrice = 0
+			
+		if infoObj.get("hostPrice"):
+			self.hostPrice = infoObj.get("hostPrice")
+		else:
+			self.hostPrice = 0
+			
+		if infoObj.get("cpuPrice"):
+			self.cpuPrice = infoObj.get("cpuPrice")
+		else:
+			self.cpuPrice = 0
+			
+		if infoObj.get("pointPrice"):
+			self.pointPrice = infoObj.get("pointPrice")
+		else:
+			self.pointPrice = 0
+			
 		if infoObj.get("cores"):
 			self.cores = infoObj.get("cores")
 			

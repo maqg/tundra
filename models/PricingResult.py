@@ -3,7 +3,7 @@
 from conf.dbconfig import TB_QUERYRESULT
 from core.err_code import DB_ERR, OCT_SUCCESS
 from core.log import WARNING, DEBUG
-from models.Product import getProduct, getPlatformProduct
+from models.Product import getProduct, getPlatformProduct, getSoftProduct
 from utils.commonUtil import transToObj, getUuid, transToStr
 from utils.timeUtil import getStrTime, get_current_time
 
@@ -171,22 +171,6 @@ class PricingResult:
 		self.price += count * product.info.price
 		self.info["items"].append(item)
 	
-	def appendSoftwareSummaryItem(self, product):
-		if not product:
-			return
-		
-		item = {
-			"name": product.name,
-			"id": product.myId,
-			"count": 1,
-			"price": product.info.hostPrice * self.hostCount + product.cpuPrice * self.cpuCount + product.basePrice,
-			"type": product.type,
-			"typeName": product.typeName,
-			"totalPrice": 0
-		}
-		self.price = 0
-		self.info["items"].append(item)
-
 	def pricing_thinclient(self):
 		self.info["points"] = self.points
 		self.info["items"] = []
@@ -205,10 +189,64 @@ class PricingResult:
 		self.appendSummaryItem(getProduct(self.db, self.raid), self.raidCount)
 		self.info["price"] = self.price
 		
-	def pricing_platformsoft(self):
-		self.info["points"] = 0
+	def pricing_software(self, softwareType):
+		
+		self.info["points"] = self.points
 		self.info["items"] = []
-		self.appendSoftwareSummaryItem(getPlatformProduct(self.db))
+		
+		platform = getSoftProduct(self.db, softwareType)
+		if platform.info.basePrice:
+			item = {
+				"name": platform.name + "-软件授权",
+				"id": platform.myId,
+				"count": 1,
+				"price": platform.info.basePrice,
+				"type": platform.type,
+				"typeName": platform.typeName,
+				"totalPrice": platform.info.basePrice
+			}
+			self.price += platform.info.basePrice
+			self.info["items"].append(item)
+			
+		if platform.info.pointPrice and self.points:
+			item = {
+				"name": platform.name + "-点位授权",
+				"id": platform.myId,
+				"count": self.points,
+				"price": platform.info.pointPrice,
+				"type": platform.type,
+				"typeName": platform.typeName,
+				"totalPrice": platform.info.pointPrice * self.points
+			}
+			self.price += platform.info.pointPrice * self.points
+			self.info["items"].append(item)
+			
+		if platform.info.hostPrice and self.hostCount:
+			item = {
+				"name": platform.name + "-物理主机授权",
+				"id": platform.myId,
+				"count": self.hostCount,
+				"price": platform.info.hostPrice,
+				"type": platform.type,
+				"typeName": platform.typeName,
+				"totalPrice": platform.info.hostPrice * self.hostCount
+			}
+			self.price += platform.info.hostPrice * self.hostCount
+			self.info["items"].append(item)
+
+		if platform.info.cpuPrice and self.cpuCount:
+			item = {
+				"name": platform.name + "-CPU授权",
+				"id": platform.myId,
+				"count": self.cpuCount,
+				"price": platform.info.cpuPrice,
+				"type": platform.type,
+				"typeName": platform.typeName,
+				"totalPrice": platform.info.cpuPrice * self.cpuCount
+			}
+			self.price += platform.info.cpuPrice * self.cpuCount
+			self.info["items"].append(item)
+
 		self.info["price"] = self.price
 	
 	def loadFromObj(self):

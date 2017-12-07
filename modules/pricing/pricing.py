@@ -2,11 +2,13 @@
 
 from conf.dbconfig import TB_PRODUCT, TB_QUERYRESULT
 from core import dbmysql
-from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST
+from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST, INVALID_PARAS
 from core.log import ERROR
 from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT, \
-	getPricingResult, PRICING_TYPE_SERVER, PRICING_TYPE_PLATFORM_SOFT
-from models.Product import Product, getProduct, PRODUCT_TYPE_SOFTWARE
+	getPricingResult, PRICING_TYPE_SERVER, PRICING_TYPE_PLATFORM_SOFT, PRICING_TYPE_OCTDESK_SOFT, \
+	PRICING_TYPE_OCTCLASS_SOFT
+from models.Product import Product, getProduct, PRODUCT_TYPE_SOFTWARE, SOFTWARE_TYPE_OCTCLASS, SOFTWARE_TYPE_OCTDESK, \
+	SOFTWARE_TYPE_PLATFORM
 from utils.timeUtil import getCurrentStrDate
 
 AUTHKEY_TIMEOUT = 24 * 30 * 60
@@ -87,6 +89,7 @@ def add_product(db, paras):
 		"name": paras["name"],
 		"provider": paras["provider"],
 		"price": paras["price"],
+		"costPrice": paras["costPrice"],
 		"desc": paras["desc"],
 		"model": paras["model"],
 		"code": paras["code"]
@@ -115,6 +118,10 @@ def remove_product(db, paras):
 	product = getProduct(db, paras["id"])
 	if not product:
 		return SEGMENT_NOT_EXIST, None
+	
+	if product.type == PRODUCT_TYPE_SOFTWARE:
+		return INVALID_PARAS, None
+	
 	return product.remove(), None
 
 
@@ -303,9 +310,41 @@ def query_platformsoft_price(db, paras):
 	pricing.desc = paras["desc"]
 
 	pricing.cpuCount = paras["cpuCount"]
-	pricing.hostCount = pricing["hostCount"]
+	pricing.hostCount = paras["hostCount"]
 	
-	pricing.pricing_platformsoft()
+	pricing.pricing_software(SOFTWARE_TYPE_PLATFORM)
+	
+	ret = pricing.add()
+	
+	return ret, pricing.toObj()
+
+
+def query_desksoft_price(db, paras):
+	pricing = PricingResult(db)
+	
+	pricing.paras = paras
+	pricing.type = PRICING_TYPE_OCTDESK_SOFT
+	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
+	pricing.desc = paras["desc"]
+	
+	pricing.points = paras["point"]
+	pricing.pricing_software(SOFTWARE_TYPE_OCTDESK)
+
+	ret = pricing.add()
+	
+	return ret, pricing.toObj()
+
+
+def query_classsoft_price(db, paras):
+	pricing = PricingResult(db)
+	
+	pricing.paras = paras
+	pricing.type = PRICING_TYPE_OCTCLASS_SOFT
+	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
+	pricing.desc = paras["desc"]
+	
+	pricing.points = paras["point"]
+	pricing.pricing_software(SOFTWARE_TYPE_OCTCLASS)
 	
 	ret = pricing.add()
 	

@@ -474,11 +474,55 @@ funcList = {
 				"descCN": "CPU数",
 				"default": 2
 			},
-			"diskCount": {
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "其他补充说明",
+				"default": ""
+			},
+		}
+	},
+	
+	"APIQueryDeskSoftPrice": {
+		"name": "生成云桌面软件报价",
+		"serviceName": "pricing.pricing_web.web_query_desksoftprice",
+		"paras": {
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "客户名称",
+				"default": PARAM_NOT_NULL
+			},
+			"point": {
 				"type": PARAM_TYPE_INT,
 				"desc": "",
-				"descCN": "磁盘数",
-				"default": 2
+				"descCN": "点位数",
+				"default": 50
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "其他补充说明",
+				"default": ""
+			},
+		}
+	},
+	
+	"APIQueryClassSoftPrice": {
+		"name": "生成云课堂软件报价",
+		"serviceName": "pricing.pricing_web.web_query_classsoftprice",
+		"paras": {
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "客户名称",
+				"default": PARAM_NOT_NULL
+			},
+			"point": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "点位数",
+				"default": 50
 			},
 			"desc": {
 				"type": PARAM_TYPE_STRING,

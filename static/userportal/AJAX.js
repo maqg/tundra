@@ -238,6 +238,14 @@ function raisePricingPriceDetail(item) {
 	$("#modalPricingDetail").modal("show");
 }
 
+function parsePoints(item) {
+	if (item.hasOwnProperty("points") && item.points !== 0) {
+		return item.points;
+	} else {
+		return "N/A";
+	}
+}
+
 function raisePricingDetail(item) {
 
 	$detailBody = $("#pricingDetailBody");
@@ -249,7 +257,7 @@ function raisePricingDetail(item) {
 	bodyStr += "<tr><td>名称</td><td>" + item.name + "</td></tr>";
 	bodyStr += "<tr><td>UUID</td><td style='font-family: Consolas'>" + item.id + "</td></tr>";
 	bodyStr += "<tr><td>类型</td><td>" + item.typeCN + "</td></tr>";
-	bodyStr += "<tr><td>点位数</td><td>" + item.points + "</td></tr>";
+	bodyStr += "<tr><td>点位数</td><td>" + parsePoints(item) + "</td></tr>";
 	bodyStr += "<tr><td>总价</td><td style='color: red'>" + item.price + "</td></tr>";
 	bodyStr += "<tr><td>报价小结</td><td>" + printPricingSummary(item.info) + "</td></tr>";
 	bodyStr += "<tr><td>创建时间</td><td>" + item.createTime + "</td></tr>";
@@ -344,7 +352,7 @@ function productRemove() {
 		var apiResponse = doResponseCheck(resultObj);
 		if (apiResponse === null || apiResponse.getErrorCode() !== 0) {
 			var errorMsg = apiResponse === null ? ERROR_MSG_CONN_SERVER : apiResponse.getErrorMsg();
-			return raiseErrorAlarm("#modalProductManage", errorMsg);
+			return raiseErrorAlarm("#modalProductRemove", errorMsg);
 		}
 		$("#modalProductRemove").modal("hide");
 		refreshProductPage();
@@ -952,6 +960,7 @@ function addProduct() {
 	var code = document.getElementById("productAddCode").value;
 	var model = document.getElementById("productAddModel").value;
 	var price = document.getElementById("productAddPrice").value;
+	var costPrice = document.getElementById("productAddCostPrice").value;
 
 	var capacity = document.getElementById("productAddCapacity").value;
 	var provider = document.getElementById("productAddProvider").value;
@@ -960,7 +969,7 @@ function addProduct() {
 	var cores = document.getElementById("productAddCores").value;
 	var threads = document.getElementById("productAddThreads").value;
 
-	paras = createAddProductParas(type, name, code, model, price, capacity, frequency, cores,
+	paras = createAddProductParas(type, name, code, model, price, costPrice, capacity, frequency, cores,
 		threads, provider, desc);
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
 		var apiResponse = doResponseCheck(resultObj);
@@ -994,7 +1003,7 @@ function makeThinClientPricingParas() {
 
 function makeServerPricingParas() {
 	var name = document.getElementById("pricingAddName").value;
-	var points = document.getElementById("pricingAddPoints").value;
+	var points = document.getElementById("pricingAddHostCount").value;
 	var infra = document.getElementById("pricingAddInfrastructure").value;
 	var cpu = document.getElementById("pricingAddCpu").value;
 	var cpuCount = document.getElementById("pricingAddCpuCount").value;
@@ -1003,10 +1012,33 @@ function makeServerPricingParas() {
 	var disk = document.getElementById("pricingAddDisk").value;
 	var diskCount = document.getElementById("pricingAddDiskCount").value;
 	var raid = document.getElementById("pricingAddRaid").value;
-	var desc = document.getElementById("pricingAddDisk").value;
+	var desc = document.getElementById("pricingAddDesc").value;
 
 	return createAddPricingServerParas(name, points, infra, cpu, cpuCount,
 		memory, memoryCount, disk, diskCount, raid, desc);
+}
+
+function makePlatformSoftPricingParas() {
+	var name = document.getElementById("pricingAddName").value;
+	var hostCount = document.getElementById("pricingAddHostCount").value;
+	var cpuCount = document.getElementById("pricingAddCpuCount1").value;
+	var desc = document.getElementById("pricingAddDesc").value;
+
+	return createAddPricingPlatformSoftParas(name, hostCount, cpuCount, desc);
+}
+
+function makeDeskSoftPricingParas() {
+	var name = document.getElementById("pricingAddName").value;
+	var points = document.getElementById("pricingAddPoints").value;
+	var desc = document.getElementById("pricingAddDesc").value;
+	return createAddPricingDeskSoftParas(name, points, desc);
+}
+
+function makeClassSoftPricingParas() {
+	var name = document.getElementById("pricingAddName").value;
+	var points = document.getElementById("pricingAddPoints").value;
+	var desc = document.getElementById("pricingAddDesc").value;
+	return createAddPricingClassSoftParas(name, points, desc);
 }
 
 function addPricing() {
@@ -1017,6 +1049,12 @@ function addPricing() {
 		paras = makeThinClientPricingParas();
 	} else if (pricingType === PRICING_TYPE_SERVER) {
 		paras = makeServerPricingParas();
+	} else if (pricingType === PRICING_TYPE_PLATFORM_SOFT) {
+		paras = makePlatformSoftPricingParas();
+	} else if (pricingType === PRICING_TYPE_OCTDESK_SOFT) {
+		paras = makeDeskSoftPricingParas();
+	} else if (pricingType === PRICING_TYPE_OCTCLASS_SOFT) {
+		paras = makeClassSoftPricingParas();
 	}
 
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
@@ -1122,6 +1160,7 @@ function parseProductsCallback(resultObj, paras) {
 }
 
 function closeAllPricingForms() {
+	document.getElementById("pricingAddPointsDiv").style.display = "none";
 	document.getElementById("pricingAddThinclientDiv").style.display = "none";
 	document.getElementById("pricingAddMonitorDiv").style.display = "none";
 	document.getElementById("pricingAddKeyMouseDiv").style.display = "none";
@@ -1130,6 +1169,8 @@ function closeAllPricingForms() {
 	document.getElementById("pricingAddDiskDiv").style.display = "none";
 	document.getElementById("pricingAddRaidDiv").style.display = "none";
 	document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
+	document.getElementById("pricingAddHostCountDiv").style.display = "none";
+	document.getElementById("pricingAddCpuCountDiv1").style.display = "none";
 }
 
 function updatePricingAddForm() {
@@ -1138,6 +1179,7 @@ function updatePricingAddForm() {
 
 	pricingType = getSelectedPricingAddType();
 	if (pricingType === PRICING_TYPE_THINCLIENT) {
+		document.getElementById("pricingAddPointsDiv").style.display = "block";
 		document.getElementById("pricingAddThinclientDiv").style.display = "block";
 		document.getElementById("pricingAddMonitorDiv").style.display = "block";
 		document.getElementById("pricingAddKeyMouseDiv").style.display = "block";
@@ -1147,6 +1189,11 @@ function updatePricingAddForm() {
 		document.getElementById("pricingAddDiskDiv").style.display = "block";
 		document.getElementById("pricingAddRaidDiv").style.display = "block";
 		document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
+	} else if (pricingType === PRICING_TYPE_PLATFORM_SOFT) {
+		document.getElementById("pricingAddHostCountDiv").style.display = "block";
+		document.getElementById("pricingAddCpuCountDiv1").style.display = "block";
+	} else if (pricingType === PRICING_TYPE_OCTDESK_SOFT || pricingType === PRICING_TYPE_OCTCLASS_SOFT) {
+		document.getElementById("pricingAddPointsDiv").style.display = "block";
 	}
 }
 
