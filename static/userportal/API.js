@@ -361,12 +361,13 @@ function createGetQueryResultsParas(type) {
 	};
 }
 
-function createGetProductsParas(type) {
+function createGetProductsParas(type, state) {
 	return {
 		"module": "pricing",
 		"api": API_GET_PRODUCTS,
 		"paras": {
-			"type": type
+			"type": type,
+			"state": state
 		},
 		"async": false,
 		"session": {

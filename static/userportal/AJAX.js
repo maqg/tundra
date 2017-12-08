@@ -800,7 +800,7 @@ function getProductsCallback(resultObj, paras) {
 }
 
 function getProductList(type) {
-	ajaxPost(API_URL, JSON.stringify(createGetProductsParas(type)), getProductsCallback);
+	ajaxPost(API_URL, JSON.stringify(createGetProductsParas(type, "")), getProductsCallback);
 }
 
 function getAllQueryResults(type) {
@@ -1456,5 +1456,5 @@ function pricingDeskNext() {
 }
 
 function raisePricingAdd() {
-	ajaxPost(API_URL, JSON.stringify(createGetProductsParas("")), parseProductsCallback);
+	ajaxPost(API_URL, JSON.stringify(createGetProductsParas("", "Enabled")), parseProductsCallback);
 }

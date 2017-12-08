@@ -22,6 +22,12 @@ funcList = {
 				"descCN": "产品类型, CPU,MEMORY,DISK",
 				"default": ""
 			},
+			"state": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "状态，空表示所有",
+				"default": ""
+			}
 		}
 	},
 	

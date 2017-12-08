@@ -24,6 +24,11 @@ def get_products(db, paras):
 	cond = "WHERE 1=1 "
 	if type:
 		cond += "AND P_Type='%s' " % type
+		
+	state = paras["state"]
+	if state:
+		cond += "AND P_State='%s' " % state
+		
 	cond += "ORDER BY P_CreateTime "
 	
 	ret = db.select(TB_PRODUCT, cond=cond)
