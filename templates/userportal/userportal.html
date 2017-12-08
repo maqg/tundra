@@ -360,14 +360,14 @@
 			<div id="appFormBody" class="modal-body">
 				<form class="form-horizontal" role="form">
 
-					<div class="form-group">
+					<div id="pricingAddNameDiv" class="form-group">
 						<label class="col-sm-2 control-label">名称</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control disabled" id="pricingAddName" value="" placeholder="名称【1-128】">
 						</div>
 					</div>
 
-                    <div class="form-group">
+                    <div id="pricingAddTypeDiv" class="form-group">
 	                    <label class="col-sm-2 control-label">报价方式</label>
 	                    <select id="pricingAddType" onchange="updatePricingAddForm();" title=""
                                 style="width: auto; left: 15px;" class="form-control col-sm-10">
@@ -384,15 +384,24 @@
 
 					<div id="pricingAddPointsDiv" class="form-group">
 						<label class="col-sm-2 control-label">点位数</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="pricingAddPoints" value="" placeholder="点位数">
+						<div class="col-sm-10" style="width: 120px;">
+							<input type="text" class="form-control" id="pricingAddPoints" value="40" placeholder="点位数">
+						</div>
+						<div id="pricingAddPointCpuDiv" style="position: absolute; left: 215px; width: 80px">
+							<input type="text" class="form-control" id="pricingAddPointCpu" value="" placeholder="CPU数">
+						</div>
+						<div id="pricingAddPointMemoryDiv" style="position: absolute; left: 305px; width: 80px">
+							<input type="text" class="form-control" id="pricingAddPointMemory" value="" placeholder="内存G">
+						</div>
+						<div id="pricingAddPointDiskDiv" style="position: absolute; left: 395px; width: 80px">
+							<input type="text" class="form-control" id="pricingAddPointDisk" value="" placeholder="磁盘G">
 						</div>
 					</div>
 
 					<div id="pricingAddHostCountDiv" class="form-group">
 						<label style="padding-left: 2px" class="col-sm-2 control-label">服务器数量</label>
-						<div class="col-sm-10">
-							<input type="text" class="form-control" id="pricingAddHostCount" value="" placeholder="物理主机数量">
+						<div class="col-sm-10" style="width: 140px">
+							<input type="text" class="form-control" id="pricingAddHostCount" value="1" placeholder="物理主机数量">
 						</div>
 					</div>
 
@@ -433,14 +442,27 @@
 						</select>
 					</div>
 
-					<div id="pricingAddInfrastructureDiv" class="form-group">
-						<label class="col-sm-2 control-label">硬件平台</label>
-						<select id="pricingAddInfrastructure" title="" style="width: auto; left: 15px;"
+					<div id="pricingAddUkeyDiv" class="form-group">
+						<label class="col-sm-2 control-label">UKEY</label>
+						<select id="pricingAddUkey" title="" style="width: auto; left: 15px;"
 						        class="form-control col-sm-10">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
 						</select>
+					</div>
+
+					<div id="pricingAddInfrastructureDiv" class="form-group">
+						<label class="col-sm-2 control-label">硬件平台</label>
+						<select id="pricingAddInfrastructure" title="" style="width: 375px; left: 15px;"
+						        class="form-control col-sm-10">
+							<option value="" selected>不使用</option>
+							<option value="1">型号1</option>
+							<option value="2">型号2</option>
+						</select>
+						<div id="pricingAddInfrastructureCountDiv" style="position: absolute; right: 15px; width: 85px">
+							<input type="text" class="form-control" id="pricingAddInfrastructureCount" value="" placeholder="服务器数">
+						</div>
 					</div>
 
 					<div id="pricingAddCpuDiv" class="form-group">
@@ -451,7 +473,7 @@
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
 						</select>
-						<div style="position: absolute; right: 20px; width: 80px">
+						<div style="position: absolute; right: 15px; width: 85px">
 							<input type="text" class="form-control" id="pricingAddCpuCount" value="" placeholder="数量">
 						</div>
 					</div>
@@ -464,7 +486,7 @@
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
 						</select>
-						<div style="position: absolute; right: 20px; width: 80px">
+						<div style="position: absolute; right: 15px; width: 85px">
 							<input type="text" class="form-control" id="pricingAddMemoryCount" value="" placeholder="数量">
 						</div>
 					</div>
@@ -477,7 +499,7 @@
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
 						</select>
-						<div style="position: absolute; right: 20px; width: 80px">
+						<div style="position: absolute; right: 15px; width: 85px">
 							<input type="text" class="form-control" id="pricingAddDiskCount" value="" placeholder="数量">
 						</div>
 					</div>
@@ -492,7 +514,33 @@
 						</select>
 					</div>
 
-					<div class="form-group">
+					<div id="pricingAddWifiRouterDiv" class="form-group">
+						<label class="col-sm-2 control-label">Wifi路由</label>
+						<select id="pricingAddWifiRouter" title="" style="width: 375px; left: 15px;"
+						        class="form-control col-sm-10">
+							<option value="" selected>不使用</option>
+							<option value="1">型号1</option>
+							<option value="2">型号2</option>
+						</select>
+						<div style="position: absolute; right: 15px; width: 85px">
+							<input type="text" class="form-control" id="pricingAddWifiRouterCount" value="" placeholder="数量">
+						</div>
+					</div>
+
+					<div id="pricingAddSwitchDiv" class="form-group">
+						<label class="col-sm-2 control-label">交换机</label>
+						<select id="pricingAddSwitch" title="" style="width: 375px; left: 15px;"
+						        class="form-control col-sm-10">
+							<option value="" selected>不使用</option>
+							<option value="1">型号1</option>
+							<option value="2">型号2</option>
+						</select>
+						<div style="position: absolute; right: 15px; width: 85px">
+							<input type="text" class="form-control" id="pricingAddSwitchCount" value="" placeholder="数量">
+						</div>
+					</div>
+
+					<div id="pricingAddDescDiv" class="form-group">
 						<label class="col-sm-2 control-label">描述</label>
 						<div class="col-sm-10">
 							<textarea class="form-control" id="pricingAddDesc" rows="4" placeholder="描述信息"></textarea>

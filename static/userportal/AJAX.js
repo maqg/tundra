@@ -1121,6 +1121,18 @@ g_fill_options = [
 	{
 		"type": "RAID",
 		"id": "#pricingAddRaid"
+	},
+	{
+		"type": "WIFIROUTER",
+		"id": "#pricingAddWifiRouter"
+	},
+	{
+		"type": "SWITCH",
+		"id": "#pricingAddSwitch"
+	},
+	{
+		"type": "UKEY",
+		"id": "#pricingAddUkey"
 	}
 ];
 
@@ -1183,7 +1195,12 @@ function parseProductsCallback(resultObj, paras) {
 	$("#modalAddPricing").modal("show");
 }
 
-function closeAllPricingForms() {
+function initPricingForms() {
+
+	document.getElementById("pricingAddTypeDiv").style.display = "block";
+	document.getElementById("pricingAddNameDiv").style.display = "block";
+	document.getElementById("pricingAddDescDiv").style.display = "block";
+
 	document.getElementById("pricingAddPointsDiv").style.display = "none";
 	document.getElementById("pricingAddThinClientDiv").style.display = "none";
 	document.getElementById("pricingAddMonitorDiv").style.display = "none";
@@ -1196,6 +1213,14 @@ function closeAllPricingForms() {
 	document.getElementById("pricingAddHostCountDiv").style.display = "none";
 	document.getElementById("pricingAddCpuCountDiv1").style.display = "none";
 
+	document.getElementById("pricingAddWifiRouterDiv").style.display = "none";
+	document.getElementById("pricingAddSwitchDiv").style.display = "none";
+	document.getElementById("pricingAddUkeyDiv").style.display = "none";
+
+	document.getElementById("pricingAddPointCpuDiv").style.display = "none";
+	document.getElementById("pricingAddPointMemoryDiv").style.display = "none";
+	document.getElementById("pricingAddPointDiskDiv").style.display = "none";
+
 	document.getElementById("pricingNextButton").style.display = "none";
 	document.getElementById("pricingButton").style.display = "inline-block";
 }
@@ -1204,7 +1229,7 @@ g_pricing_step = "step1";
 
 function updatePricingAddForm() {
 
-	closeAllPricingForms();
+	initPricingForms();
 
 	pricingType = getSelectedPricingAddType();
 	if (pricingType === PRICING_TYPE_THINCLIENT) {
@@ -1213,6 +1238,7 @@ function updatePricingAddForm() {
 		document.getElementById("pricingAddMonitorDiv").style.display = "block";
 		document.getElementById("pricingAddKeyMouseDiv").style.display = "block";
 	} else if (pricingType === PRICING_TYPE_SERVER) {
+		document.getElementById("pricingAddHostCountDiv").style.display = "block";
 		document.getElementById("pricingAddCpuDiv").style.display = "block";
 		document.getElementById("pricingAddMemoryDiv").style.display = "block";
 		document.getElementById("pricingAddDiskDiv").style.display = "block";
@@ -1228,20 +1254,158 @@ function updatePricingAddForm() {
 		document.getElementById("pricingButton").style.display = "none";
 		g_pricing_step = "step1";
 		$("#pricingNextButton").html("下一步");
+
+		document.getElementById("pricingAddDescDiv").style.display = "none";
+
+		document.getElementById("pricingAddPointsDiv").style.display = "block";
+		document.getElementById("pricingAddPointCpuDiv").style.display = "block";
+		document.getElementById("pricingAddPointMemoryDiv").style.display = "block";
+		document.getElementById("pricingAddPointDiskDiv").style.display = "block";
+
+		document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
+		document.getElementById("pricingAddInfrastructureCountDiv").style.display = "block";
+
+		document.getElementById("pricingAddCpuDiv").style.display = "block";
+		document.getElementById("pricingAddMemoryDiv").style.display = "block";
+		document.getElementById("pricingAddDiskDiv").style.display = "block";
+		document.getElementById("pricingAddRaidDiv").style.display = "block";
 	}
 }
 
 function pricingDeskNext() {
 
-	if (g_pricing_step === "step1") {
-		document.getElementById("pricingButton").style.display = "inline-block";
-		$("#pricingNextButton").html("上一步");
-		g_pricing_step = "step2";
+	pricingType = getSelectedPricingAddType();
+
+	if (pricingType === PRICING_TYPE_OCTDESK) {
+		if (g_pricing_step === "step1") {
+			document.getElementById("pricingButton").style.display = "inline-block";
+			$("#pricingNextButton").html("上一步");
+			g_pricing_step = "step2";
+
+			document.getElementById("pricingAddTypeDiv").style.display = "none";
+			document.getElementById("pricingAddNameDiv").style.display = "none";
+
+			document.getElementById("pricingAddPointsDiv").style.display = "none";
+			document.getElementById("pricingAddPointCpuDiv").style.display = "none";
+			document.getElementById("pricingAddPointMemoryDiv").style.display = "none";
+			document.getElementById("pricingAddPointDiskDiv").style.display = "none";
+
+			document.getElementById("pricingAddDescDiv").style.display = "none";
+
+			document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
+			document.getElementById("pricingAddInfrastructureCountDiv").style.display = "none";
+
+			document.getElementById("pricingAddCpuDiv").style.display = "none";
+			document.getElementById("pricingAddMemoryDiv").style.display = "none";
+			document.getElementById("pricingAddDiskDiv").style.display = "none";
+			document.getElementById("pricingAddRaidDiv").style.display = "none";
+			document.getElementById("pricingAddWifiRouterDiv").style.display = "none";
+			document.getElementById("pricingAddSwitchDiv").style.display = "none";
+
+			document.getElementById("pricingAddThinClientDiv").style.display = "block";
+			document.getElementById("pricingAddMonitorDiv").style.display = "block";
+			document.getElementById("pricingAddKeyMouseDiv").style.display = "block";
+			document.getElementById("pricingAddWifiRouterDiv").style.display = "block";
+			document.getElementById("pricingAddSwitchDiv").style.display = "block";
+			document.getElementById("pricingAddUkeyDiv").style.display = "block";
+			document.getElementById("pricingAddDescDiv").style.display = "block";
+
+			updatePricingMonitor();
+
+		} else {
+			document.getElementById("pricingButton").style.display = "none";
+			document.getElementById("pricingNextButton").style.display = "inline-block";
+			$("#pricingNextButton").html("下一步");
+			g_pricing_step = "step1";
+
+			document.getElementById("pricingAddThinClientDiv").style.display = "none";
+			document.getElementById("pricingAddMonitorDiv").style.display = "none";
+			document.getElementById("pricingAddKeyMouseDiv").style.display = "none";
+			document.getElementById("pricingAddWifiRouterDiv").style.display = "none";
+			document.getElementById("pricingAddSwitchDiv").style.display = "none";
+			document.getElementById("pricingAddUkeyDiv").style.display = "none";
+			document.getElementById("pricingAddDescDiv").style.display = "none";
+
+			document.getElementById("pricingAddTypeDiv").style.display = "block";
+			document.getElementById("pricingAddNameDiv").style.display = "block";
+
+			document.getElementById("pricingAddPointsDiv").style.display = "block";
+			document.getElementById("pricingAddPointCpuDiv").style.display = "block";
+			document.getElementById("pricingAddPointMemoryDiv").style.display = "block";
+			document.getElementById("pricingAddPointDiskDiv").style.display = "block";
+
+			document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
+			document.getElementById("pricingAddInfrastructureCountDiv").style.display = "block";
+
+			document.getElementById("pricingAddCpuDiv").style.display = "block";
+			document.getElementById("pricingAddMemoryDiv").style.display = "block";
+			document.getElementById("pricingAddDiskDiv").style.display = "block";
+			document.getElementById("pricingAddRaidDiv").style.display = "block";
+		}
 	} else {
-		document.getElementById("pricingButton").style.display = "none";
-		document.getElementById("pricingNextButton").style.display = "inline-block";
-		$("#pricingNextButton").html("下一步");
-		g_pricing_step = "step1";
+		if (g_pricing_step === "step1") {
+			document.getElementById("pricingButton").style.display = "inline-block";
+			$("#pricingNextButton").html("上一步");
+			g_pricing_step = "step2";
+
+			document.getElementById("pricingAddTypeDiv").style.display = "none";
+			document.getElementById("pricingAddNameDiv").style.display = "none";
+
+			document.getElementById("pricingAddPointsDiv").style.display = "none";
+			document.getElementById("pricingAddPointCpuDiv").style.display = "none";
+			document.getElementById("pricingAddPointMemoryDiv").style.display = "none";
+			document.getElementById("pricingAddPointDiskDiv").style.display = "none";
+
+			document.getElementById("pricingAddDescDiv").style.display = "none";
+
+			document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
+			document.getElementById("pricingAddInfrastructureCountDiv").style.display = "none";
+
+			document.getElementById("pricingAddCpuDiv").style.display = "none";
+			document.getElementById("pricingAddMemoryDiv").style.display = "none";
+			document.getElementById("pricingAddDiskDiv").style.display = "none";
+			document.getElementById("pricingAddRaidDiv").style.display = "none";
+			document.getElementById("pricingAddWifiRouterDiv").style.display = "none";
+			document.getElementById("pricingAddSwitchDiv").style.display = "none";
+
+			document.getElementById("pricingAddThinClientDiv").style.display = "block";
+			document.getElementById("pricingAddMonitorDiv").style.display = "block";
+			document.getElementById("pricingAddKeyMouseDiv").style.display = "block";
+			document.getElementById("pricingAddWifiRouterDiv").style.display = "block";
+			document.getElementById("pricingAddSwitchDiv").style.display = "block";
+			document.getElementById("pricingAddDescDiv").style.display = "block";
+
+			updatePricingMonitor();
+
+		} else {
+			document.getElementById("pricingButton").style.display = "none";
+			document.getElementById("pricingNextButton").style.display = "inline-block";
+			$("#pricingNextButton").html("下一步");
+			g_pricing_step = "step1";
+
+			document.getElementById("pricingAddThinClientDiv").style.display = "none";
+			document.getElementById("pricingAddMonitorDiv").style.display = "none";
+			document.getElementById("pricingAddKeyMouseDiv").style.display = "none";
+			document.getElementById("pricingAddWifiRouterDiv").style.display = "none";
+			document.getElementById("pricingAddSwitchDiv").style.display = "none";
+			document.getElementById("pricingAddDescDiv").style.display = "none";
+
+			document.getElementById("pricingAddTypeDiv").style.display = "block";
+			document.getElementById("pricingAddNameDiv").style.display = "block";
+
+			document.getElementById("pricingAddPointsDiv").style.display = "block";
+			document.getElementById("pricingAddPointCpuDiv").style.display = "block";
+			document.getElementById("pricingAddPointMemoryDiv").style.display = "block";
+			document.getElementById("pricingAddPointDiskDiv").style.display = "block";
+
+			document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
+			document.getElementById("pricingAddInfrastructureCountDiv").style.display = "block";
+
+			document.getElementById("pricingAddCpuDiv").style.display = "block";
+			document.getElementById("pricingAddMemoryDiv").style.display = "block";
+			document.getElementById("pricingAddDiskDiv").style.display = "block";
+			document.getElementById("pricingAddRaidDiv").style.display = "block";
+		}
 	}
 }
 
