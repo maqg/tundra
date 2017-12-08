@@ -233,29 +233,77 @@ funcList = {
 				"descCN": "点位数",
 				"default": 50
 			},
-			"withHardware": {
-				"type": PARAM_TYPE_BOOLEAN,
-				"desc": "",
-				"descCN": "是否有硬件",
-				"default": True
-			},
-			"disk": {
+			"pointCpu": {
 				"type": PARAM_TYPE_INT,
-				"desc": "Disk per Point",
-				"descCN": "每点位磁盘大小，单位G",
+				"desc": "Point Count",
+				"descCN": "每点位CPU数量",
+				"default": 2
+			},
+			"pointMemory": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "每点位内存G",
+				"default": 4
+			},
+			"pointDisk": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "每点位磁盘G",
 				"default": 100
 			},
-			"cpu": {
+			"infrastructure": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务器平台",
+				"default": ""
+			},
+			"infrastructureCount": {
 				"type": PARAM_TYPE_INT,
-				"desc": "VCPU per Point",
-				"descCN": "每点位CPU核心数",
+				"desc": "",
+				"descCN": "服务器平台数量",
+				"default": 0
+			},
+			"cpu": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "CPU类型",
+				"default": ""
+			},
+			"cpuCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "CPU数",
+				"default": 2
+			},
+			"disk": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "磁盘类型",
+				"default": ""
+			},
+			"diskCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "磁盘数",
 				"default": 2
 			},
 			"memory": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "内存类型",
+				"default": ""
+			},
+			"memoryCount": {
 				"type": PARAM_TYPE_INT,
-				"desc": "Memory per Point",
-				"descCN": "每点位内存数，单位M",
-				"default": 2048
+				"desc": "",
+				"descCN": "内存数",
+				"default": 16
+			},
+			"raid": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "RAID卡类型",
+				"default": ""
 			},
 			"thinClient": {
 				"type": PARAM_TYPE_STRING,
@@ -263,23 +311,11 @@ funcList = {
 				"descCN": "瘦终端类型，空表示无",
 				"default": ""
 			},
-			"thinClientCount": {
-				"type": PARAM_TYPE_INT,
-				"desc": "",
-				"descCN": "瘦客户机数量,0表示与点位数相同",
-				"default": 0
-			},
 			"monitor": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "Monitor Type",
 				"descCN": "显示器类型，空表示无",
 				"default": ""
-			},
-			"monitorCount": {
-				"type": PARAM_TYPE_INT,
-				"desc": "",
-				"descCN": "显示器数量,0表示与点位数相同",
-				"default": 0
 			},
 			"keyMouse": {
 				"type": PARAM_TYPE_STRING,
@@ -287,23 +323,154 @@ funcList = {
 				"descCN": "键鼠套装类型，空表示无",
 				"default": ""
 			},
-			"keyMouseCount": {
-				"type": PARAM_TYPE_INT,
-				"desc": "",
-				"descCN": "键鼠套装数量",
-				"default": 0
-			},
 			"ukey": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",
 				"descCN": "UKEY类型，空表示无",
 				"default": ""
 			},
-			"ukeyCount": {
+			"wifiRouter": {
+				"type": PARAM_TYPE_STRING,
+				"descCN": "无线路由器类型",
+				"default": ""
+			},
+			"wifiRouterCount": {
 				"type": PARAM_TYPE_INT,
 				"desc": "",
-				"descCN": "UKEY数量",
+				"descCN": "无线路由器数量",
 				"default": 0
+			},
+			"switch": {
+				"type": PARAM_TYPE_STRING,
+				"descCN": "交换机类型",
+				"default": ""
+			},
+			"switchCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "交换机数量",
+				"default": 0
+			},
+			"desc": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "其他补充说明",
+				"default": ""
+			},
+		}
+	},
+	
+	"APIQueryClassPrice": {
+		"name": "生成云课堂报价",
+		"serviceName": "pricing.pricing_web.web_query_classprice",
+		"paras": {
+			"name": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "客户名称",
+				"default": PARAM_NOT_NULL
+			},
+			"point": {
+				"type": PARAM_TYPE_INT,
+				"desc": "Point Count",
+				"descCN": "点位数",
+				"default": 50
+			},
+			"pointCpu": {
+				"type": PARAM_TYPE_INT,
+				"desc": "Point Count",
+				"descCN": "每点位CPU数量",
+				"default": 2
+			},
+			"pointMemory": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "每点位内存G",
+				"default": 4
+			},
+			"pointDisk": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "每点位磁盘G",
+				"default": 100
+			},
+			"infrastructure": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务器平台",
+				"default": ""
+			},
+			"infrastructureCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "服务器平台数量",
+				"default": 0
+			},
+			"cpu": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "CPU类型",
+				"default": ""
+			},
+			"cpuCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "CPU数",
+				"default": 2
+			},
+			"disk": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "磁盘类型",
+				"default": ""
+			},
+			"diskCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "磁盘数",
+				"default": 2
+			},
+			"memory": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "内存类型",
+				"default": ""
+			},
+			"memoryCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "内存数",
+				"default": 16
+			},
+			"raid": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "RAID卡类型",
+				"default": ""
+			},
+			"thinClient": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "Thin Client Type",
+				"descCN": "瘦终端类型，空表示无",
+				"default": ""
+			},
+			"monitor": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "Monitor Type",
+				"descCN": "显示器类型，空表示无",
+				"default": ""
+			},
+			"keyMouse": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "键鼠套装类型，空表示无",
+				"default": ""
+			},
+			"ukey": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "UKEY类型，空表示无",
+				"default": ""
 			},
 			"wifiRouter": {
 				"type": PARAM_TYPE_STRING,

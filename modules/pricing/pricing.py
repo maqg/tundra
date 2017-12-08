@@ -188,42 +188,90 @@ def get_queryresults(db, paras):
 
 
 DESK_PARAS = {
-	"name": "中国银行",
+	"name": "",
 	"point": 50,
-	"withHardware": False,
-	"disk": 100,
-	"cpu": 2,
-	"memory": 2048,
+	"pointCpu": 2,
+	"pointMemory": 4,
+	"pointDisk": 100,
+	"infrastructure": "",
+	"infrastructureCount": 0,
+	"cpu": "",
+	"cpuCount": 2,
+	"disk": "",
+	"diskCount": 2,
+	"memory": "",
+	"memoryCount": 16,
+	"raid": "",
 	"thinClient": "",
-	"thinClientCount": 0,
 	"monitor": "",
-	"monitorCount": 0,
 	"keyMouse": "",
-	"keyMouseCount": 0,
 	"ukey": "",
-	"ukeyCount": 0,
 	"wifiRouter": "",
 	"wifiRouterCount": 0,
 	"switch": "",
 	"switchCount": 0,
 	"desc": "",
-	"timeout": 0
 }
-def query_desk_price(db, paras):
+def query_allinone_price(db, paras, type=SOFTWARE_TYPE_OCTDESK):
 	
 	pricing = PricingResult(db)
 	
 	pricing.paras = paras
-	pricing.type = PRICING_TYPE_OCTDESK
+	pricing.type = type
 	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
-	pricing.withHareware = paras["withHardware"] and 1 or 0
+	pricing.desc = paras["desc"]
+
 	pricing.points = paras["point"]
+	pricing.pointCpu = paras["pointCpu"]
+	pricing.pointMemory = paras["pointMemory"]
+	pricing.pointDisk = paras["pointDisk"]
 	
-	pricing.pricing()
+	pricing.infrastructure = paras["infrastructure"]
+	pricing.infrastructureCount = paras["infrastructureCount"]
+	
+	pricing.cpu = paras["cpu"]
+	pricing.cpuCount = paras["cpuCount"]
+	
+	pricing.memory = paras["memory"]
+	pricing.memoryCount = paras["memoryCount"]
+	
+	pricing.disk = paras["disk"]
+	pricing.diskCount = paras["diskCount"]
+	
+	pricing.raid = paras["raid"]
+	pricing.raidCount = pricing.infrastructureCount
+	
+	pricing.thinClient = paras["thinClient"]
+	pricing.thinclientCount = pricing.points
+	
+	pricing.monitor = paras["monitor"]
+	pricing.monitorCount = pricing.points
+	
+	pricing.keyMouse = paras["keyMouse"]
+	pricing.keymouseCount = pricing.points
+	
+	pricing.ukey = paras["ukey"]
+	pricing.ukeyCount = pricing.points
+	
+	pricing.switch = paras["switch"]
+	pricing.switchCount = paras["switchCount"]
+	
+	pricing.wifiRouter = paras["wifiRouter"]
+	pricing.wifiRouterCount = paras["wifiRouterCount"]
+	
+	pricing.pricing(type)
 	
 	ret = pricing.add()
 	
 	return ret, pricing.toObj()
+
+
+def query_desk_price(db, paras):
+	return query_allinone_price(db, paras, SOFTWARE_TYPE_OCTDESK)
+
+
+def query_class_price(db, paras):
+	return query_allinone_price(db, paras, SOFTWARE_TYPE_OCTCLASS)
 
 
 THINCLIENT_PARAS = {

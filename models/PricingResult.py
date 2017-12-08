@@ -72,7 +72,10 @@ class PricingResult:
 		self.info = {}
 		self.price = 0
 		self.points = 0
-		self.withHareware = 1
+		
+		self.pointCpu = 0
+		self.pointMemory = 0
+		self.pointDisk = 0
 
 		self.thinClient = None
 		self.thinclientCount = 0
@@ -85,6 +88,9 @@ class PricingResult:
 
 		self.keyMouse = None
 		self.keymouseCount = 0
+		
+		self.ukey = None
+		self.ukeyCount = 0
 		
 		self.infrastructure = None
 		self.infrastructureCount = 0
@@ -102,6 +108,12 @@ class PricingResult:
 		
 		self.disk = None
 		self.diskCount = 0
+		
+		self.switch = None
+		self.switchCount = 0
+		
+		self.wifiRouter = None
+		self.wifiRouterCount = 0
 
 		self.desc = ""
 		self.createTime = 0
@@ -134,7 +146,6 @@ class PricingResult:
 			"ID": self.myId,
 			"QR_Name": self.name,
 			"QR_Type": self.type,
-			"QR_WithHardware": self.withHareware,
 			"QR_Price": self.price,
 			"QR_Points": self.points,
 			"QR_Info": transToStr(self.info),
@@ -152,10 +163,30 @@ class PricingResult:
 		
 		return OCT_SUCCESS
 	
-	def pricing(self):
-		if not self.withHareware:
-			self.price += self.points * 1000
-		return self.price
+	def pricing(self, type):
+		
+		self.pricing_software(type)
+		
+		self.info["points"] = self.points
+		self.info["pointCpu"] = self.pointCpu
+		self.info["pointMemory"] = self.pointMemory
+		self.info["pointDisk"] = self.pointDisk
+		
+		self.appendSummaryItem(getProduct(self.db, self.infrastructure), self.infrastructureCount)
+		self.appendSummaryItem(getProduct(self.db, self.cpu), self.cpuCount)
+		self.appendSummaryItem(getProduct(self.db, self.memory), self.memoryCount)
+		self.appendSummaryItem(getProduct(self.db, self.disk), self.diskCount)
+		
+		self.appendSummaryItem(getProduct(self.db, self.raid), self.raidCount)
+		self.appendSummaryItem(getProduct(self.db, self.ukey), self.ukeyCount)
+		self.appendSummaryItem(getProduct(self.db, self.switch), self.switchCount)
+		self.appendSummaryItem(getProduct(self.db, self.wifiRouter), self.wifiRouterCount)
+		
+		self.appendSummaryItem(getProduct(self.db, self.thinClient), self.points)
+		self.appendSummaryItem(getProduct(self.db, self.monitor), self.points)
+		self.appendSummaryItem(getProduct(self.db, self.keyMouse), self.points)
+		
+		self.info["price"] = self.price
 	
 	def appendSummaryItem(self, product, count):
 		if not product:

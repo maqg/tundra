@@ -2,7 +2,7 @@
 
 from modules.pricing.pricing import get_product_types, get_products, get_queryresults, query_desk_price, \
 	query_thinclient_price, update_product, remove_product, update_product_price, add_product, remove_pricing, \
-	query_server_price, query_platformsoft_price, query_desksoft_price, query_classsoft_price
+	query_server_price, query_platformsoft_price, query_desksoft_price, query_classsoft_price, query_class_price
 from utils.commonUtil import buildRetObj
 
 
@@ -43,6 +43,11 @@ def web_get_queryresults(db, env, arg):
 
 def web_query_deskprice(db, env, arg):
 	ret, data = query_desk_price(db, arg["paras"])
+	return buildRetObj(ret, data)
+
+
+def web_query_classprice(db, env, arg):
+	ret, data = query_class_price(db, arg["paras"])
 	return buildRetObj(ret, data)
 
 
