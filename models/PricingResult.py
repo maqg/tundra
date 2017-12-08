@@ -76,6 +76,9 @@ class PricingResult:
 
 		self.thinClient = None
 		self.thinclientCount = 0
+		
+		self.allinone = None
+		self.allinoneCount = 0
 
 		self.monitor = None
 		self.monitorCount = 0

@@ -1073,6 +1073,13 @@ function addPricing() {
 
 function updatePricingMonitor() {
 
+	var stype = $("#pricingAddThinClient option:selected").attr("stype");
+
+	if (stype === PRODUCT_TYPE_ALLINONE) {
+		document.getElementById("pricingAddMonitorDiv").style.display = "none";
+	} else {
+		document.getElementById("pricingAddMonitorDiv").style.display = "block";
+	}
 }
 
 g_products = {};
@@ -1080,6 +1087,7 @@ g_products = {};
 g_fill_options = [
 	{
 		"type": "ALLINONE",
+		"realType": "THINCLIENT",
 		"id": "#pricingAddThinClient"
 	},
 	{
@@ -1116,15 +1124,15 @@ g_fill_options = [
 	}
 ];
 
-function fillSelectOption(id, type) {
+function fillSelectOption(option) {
 
 	$str = "<option value='' selected>不使用</option>";
 
-	for (var i = 0; i < g_products[type].length; i++) {
-		item = g_products[type][i];
-		$str += "<option value='" + item.id + "'>" + item.name + "，价格：" + item.infoObj.price + "</option>";
+	for (var i = 0; i < g_products[option.type].length; i++) {
+		item = g_products[option.type][i];
+		$str += "<option stype='" + item.realType + "' value='" + item.id + "'>" + item.name + "，价格：" + item.infoObj.price + "</option>";
 	}
-	$(id).html($str);
+	$(option.id).html($str);
 }
 
 function parseProductsCallback(resultObj, paras) {
@@ -1147,6 +1155,12 @@ function parseProductsCallback(resultObj, paras) {
 
 	for (i = 0; i < dataObj.items.length; i++) {
 		item = dataObj.items[i];
+		if (item.type === PRODUCT_TYPE_ALLINONE) {
+			item.type = PRODUCT_TYPE_THINCIENT;
+			item["realType"] = PRODUCT_TYPE_ALLINONE;
+		} else {
+			item["realType"] = item.type;
+		}
 		if (g_products.hasOwnProperty(item.type)) {
 			g_products[item.type].push(item);
 		} else {
@@ -1156,8 +1170,10 @@ function parseProductsCallback(resultObj, paras) {
 	}
 
 	for (i = 0; i < g_fill_options.length; i++) {
-		option = g_fill_options[i];
-		fillSelectOption(option.id, option.type);
+		var option = g_fill_options[i];
+		if (option.type !== PRODUCT_TYPE_ALLINONE) {
+			fillSelectOption(option);
+		}
 	}
 
 	$("#pricingAddType").val(getSelectedPricingType());
@@ -1169,7 +1185,7 @@ function parseProductsCallback(resultObj, paras) {
 
 function closeAllPricingForms() {
 	document.getElementById("pricingAddPointsDiv").style.display = "none";
-	document.getElementById("pricingAddThinclientDiv").style.display = "none";
+	document.getElementById("pricingAddThinClientDiv").style.display = "none";
 	document.getElementById("pricingAddMonitorDiv").style.display = "none";
 	document.getElementById("pricingAddKeyMouseDiv").style.display = "none";
 	document.getElementById("pricingAddCpuDiv").style.display = "none";
@@ -1193,7 +1209,7 @@ function updatePricingAddForm() {
 	pricingType = getSelectedPricingAddType();
 	if (pricingType === PRICING_TYPE_THINCLIENT) {
 		document.getElementById("pricingAddPointsDiv").style.display = "block";
-		document.getElementById("pricingAddThinclientDiv").style.display = "block";
+		document.getElementById("pricingAddThinClientDiv").style.display = "block";
 		document.getElementById("pricingAddMonitorDiv").style.display = "block";
 		document.getElementById("pricingAddKeyMouseDiv").style.display = "block";
 	} else if (pricingType === PRICING_TYPE_SERVER) {
