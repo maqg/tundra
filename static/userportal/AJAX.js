@@ -1041,6 +1041,50 @@ function makeClassSoftPricingParas() {
 	return createAddPricingClassSoftParas(name, points, desc);
 }
 
+function mekeDeskPricingParas() {
+
+	var name = document.getElementById("pricingAddName").value;
+	var points = document.getElementById("pricingAddPoints").value;
+	var pointCpu = document.getElementById("pricingAddPointCpu").value;
+	var pointMemory = document.getElementById("pricingAddPointMemory").value;
+	var pointDisk = document.getElementById("pricingAddPointDisk").value;
+
+	var infra = document.getElementById("pricingAddInfrastructure").value;
+	var infraCount = document.getElementById("pricingAddInfrastructureCount").value;
+
+	var cpu = document.getElementById("pricingAddCpu").value;
+	var cpuCount = document.getElementById("pricingAddCpuCount").value;
+
+	var memory = document.getElementById("pricingAddMemory").value;
+	var memoryCount = document.getElementById("pricingAddMemoryCount").value;
+
+	var disk = document.getElementById("pricingAddDisk").value;
+	var diskCount = document.getElementById("pricingAddDiskCount").value;
+
+	var raid = document.getElementById("pricingAddRaid").value;
+	var thinClient = document.getElementById("pricingAddThinClient").value;
+	var keyMouse = document.getElementById("pricingAddKeyMouse").value;
+	var monitor = document.getElementById("pricingAddMonitor").value;
+
+	var switches = document.getElementById("pricingAddSwitch").value;
+	var switchCount = document.getElementById("pricingAddSwitchCount").value;
+	var wifiRouter = document.getElementById("pricingAddWifiRouter").value;
+	var wifiRouterCount = document.getElementById("pricingAddWifiRouterCount").value;
+
+	var desc = document.getElementById("pricingAddDesc").value;
+
+	if (pricingType === PRICING_TYPE_OCTDESK) {
+		var ukey = document.getElementById("pricingAddUkey").value;
+		return createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDisk,
+			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount,
+			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc, ukey);
+	} else {
+		return createAddPricingClassParas(name, points, pointCpu, pointMemory, pointDisk,
+			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount,
+			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc);
+	}
+}
+
 function addPricing() {
 	var paras;
 
@@ -1055,6 +1099,8 @@ function addPricing() {
 		paras = makeDeskSoftPricingParas();
 	} else if (pricingType === PRICING_TYPE_OCTCLASS_SOFT) {
 		paras = makeClassSoftPricingParas();
+	} else if (pricingType === PRICING_TYPE_OCTDESK || pricingType === PRICING_TYPE_OCTCLASS) {
+		paras = mekeDeskPricingParas();
 	}
 
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {

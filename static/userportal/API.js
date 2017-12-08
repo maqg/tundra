@@ -44,6 +44,8 @@ API_ADD_PRICING_SERVER = API_PREFIX + "pricing.APIQueryServerPrice";
 API_ADD_PRICING_PLATFORMSOFT = API_PREFIX + "pricing.APIQueryPlatformSoftPrice";
 API_ADD_PRICING_OCTDESKSOFT = API_PREFIX + "pricing.APIQueryDeskSoftPrice";
 API_ADD_PRICING_OCTCLASSSOFT = API_PREFIX + "pricing.APIQueryClassSoftPrice";
+API_ADD_PRICING_OCTDESK = API_PREFIX + "pricing.APIQueryDeskPrice";
+API_ADD_PRICING_OCTCLASS = API_PREFIX + "pricing.APIQueryClassPrice";
 
 
 // product
@@ -58,6 +60,83 @@ API_ADD_PRODUCT = API_PREFIX + "pricing.APIAddProduct";
 API_URL = "/api/";
 API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
+
+function  createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDisk,
+			infra, infraCount, cpu, cpuCount, memory, memoryCount, disk, diskCount,
+			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc, ukey) {
+	return {
+		"module": "pricing",
+		"api": API_ADD_PRICING_OCTDESK,
+		"paras": {
+			"name": name,
+			"point": points,
+			"pointCpu": pointCpu,
+			"pointMemory": pointMemory,
+			"pointDisk": pointDisk,
+			"infrastructure": infra,
+			"infrastructureCount": infraCount,
+			"cpu": cpu,
+			"cpuCount": cpuCount,
+			"disk": disk,
+			"diskCount": diskCount,
+			"memory": memory,
+			"memoryCount": memoryCount,
+			"raid": raid,
+			"thinClient": thinClient,
+			"monitor": monitor,
+			"keyMouse": keyMouse,
+			"ukey": ukey,
+			"switch": switches,
+			"switchCount": switchCount,
+			"wifiRouter": wifiRouter,
+			"wifiRouterCount": wifiRouterCount,
+			"desc": desc
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
+
+function  createAddPricingClassParas(name, points, pointCpu, pointMemory, pointDisk,
+			infra, infraCount, cpu, cpuCount, memory, memoryCount, disk, diskCount,
+			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc) {
+	return {
+		"module": "pricing",
+		"api": API_ADD_PRICING_OCTCLASS,
+		"paras": {
+			"name": name,
+			"point": points,
+			"pointCpu": pointCpu,
+			"pointMemory": pointMemory,
+			"pointDisk": pointDisk,
+			"infrastructure": infra,
+			"infrastructureCount": infraCount,
+			"cpu": cpu,
+			"cpuCount": cpuCount,
+			"disk": disk,
+			"diskCount": diskCount,
+			"memory": memory,
+			"memoryCount": memoryCount,
+			"raid": raid,
+			"thinClient": thinClient,
+			"monitor": monitor,
+			"keyMouse": keyMouse,
+			"switch": switches,
+			"switchCount": switchCount,
+			"wifiRouter": wifiRouter,
+			"wifiRouterCount": wifiRouterCount,
+			"desc": desc
+		},
+		"async": false,
+		"session": {
+			"uuid": API_UUID,
+			"skey": API_SKEY
+		}
+	};
+}
 
 function createAddPricingPlatformSoftParas(name, hostCount, cpuCount, desc) {
 	return {
