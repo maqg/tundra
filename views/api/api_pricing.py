@@ -382,24 +382,6 @@ funcList = {
 				"descCN": "点位数",
 				"default": 50
 			},
-			"pointCpu": {
-				"type": PARAM_TYPE_INT,
-				"desc": "Point Count",
-				"descCN": "每点位CPU数量",
-				"default": 2
-			},
-			"pointMemory": {
-				"type": PARAM_TYPE_INT,
-				"desc": "",
-				"descCN": "每点位内存G",
-				"default": 4
-			},
-			"pointDisk": {
-				"type": PARAM_TYPE_INT,
-				"desc": "",
-				"descCN": "每点位磁盘G",
-				"default": 100
-			},
 			"infrastructure": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",

@@ -100,8 +100,7 @@ function  createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDi
 	};
 }
 
-function  createAddPricingClassParas(name, points, pointCpu, pointMemory, pointDisk,
-			infra, infraCount, cpu, cpuCount, memory, memoryCount, disk, diskCount,
+function  createAddPricingClassParas(name, points, infra, infraCount, cpu, cpuCount, memory, memoryCount, disk, diskCount,
 			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc) {
 	return {
 		"module": "pricing",
@@ -109,9 +108,6 @@ function  createAddPricingClassParas(name, points, pointCpu, pointMemory, pointD
 		"paras": {
 			"name": name,
 			"point": points,
-			"pointCpu": pointCpu,
-			"pointMemory": pointMemory,
-			"pointDisk": pointDisk,
 			"infrastructure": infra,
 			"infrastructureCount": infraCount,
 			"cpu": cpu,
@@ -283,7 +279,7 @@ function createUpdateProductPriceParas(productId, price, costPrice, base, host, 
 	};
 }
 
-function createUpdateProductParas(productId, name, state, desc) {
+function createUpdateProductParas(productId, name, state, capacity, desc) {
 	return {
 		"module": "pricing",
 		"api": API_UPDATE_PRODUCT,
@@ -291,6 +287,7 @@ function createUpdateProductParas(productId, name, state, desc) {
 			"id": productId,
 			"name": name,
 			"state": state === "Enabled",
+			"capacity": capacity,
 			"desc": desc
 		},
 		"async": false,

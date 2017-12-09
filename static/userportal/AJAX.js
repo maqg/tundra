@@ -465,6 +465,13 @@ function raiseProductUpdate(item) {
 	document.getElementById("productDesc").value = item.desc;
 	document.getElementById("productState").value = item.state;
 	g_product = item;
+	if (item.type === PRODUCT_TYPE_CPU || item.type === PRODUCT_TYPE_MEMORY
+		|| item.type === PRODUCT_TYPE_DISK || item.type === PRODUCT_TYPE_SWITCH) {
+		document.getElementById("productCapacityDiv").style.display = "block";
+		document.getElementById("productCapacity").value = item.infoObj.capacity;
+	} else {
+		document.getElementById("productCapacityDiv").style.display = "none";
+	}
 	$("#modalEditProduct").modal("show");
 }
 
@@ -472,9 +479,10 @@ function updateProduct() {
 
 	var name = document.getElementById("productName").value;
 	var state = document.getElementById("productState").value;
+	var capacity = document.getElementById("productCapacity").value;
 	var desc = document.getElementById("productDesc").value;
 
-	paras = createUpdateProductParas(g_product.id, name, state, desc);
+	paras = createUpdateProductParas(g_product.id, name, state, capacity, desc);
 
 	ajaxPost(API_URL, JSON.stringify(paras), function (resultObj) {
 		var apiResponse = doResponseCheck(resultObj);
@@ -1079,8 +1087,7 @@ function mekeDeskPricingParas() {
 			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount,
 			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc, ukey);
 	} else {
-		return createAddPricingClassParas(name, points, pointCpu, pointMemory, pointDisk,
-			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount,
+		return createAddPricingClassParas(name, points, infra, infraCount, cpu, cpuCount, memory, memoryCount, disk, diskCount,
 			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc);
 	}
 }
@@ -1302,11 +1309,13 @@ function updatePricingAddForm() {
 		$("#pricingNextButton").html("下一步");
 
 		document.getElementById("pricingAddDescDiv").style.display = "none";
-
 		document.getElementById("pricingAddPointsDiv").style.display = "block";
-		document.getElementById("pricingAddPointCpuDiv").style.display = "block";
-		document.getElementById("pricingAddPointMemoryDiv").style.display = "block";
-		document.getElementById("pricingAddPointDiskDiv").style.display = "block";
+
+		if (pricingType === PRICING_TYPE_OCTDESK) {
+			document.getElementById("pricingAddPointCpuDiv").style.display = "block";
+			document.getElementById("pricingAddPointMemoryDiv").style.display = "block";
+			document.getElementById("pricingAddPointDiskDiv").style.display = "block";
+		}
 
 		document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
 		document.getElementById("pricingAddInfrastructureCountDiv").style.display = "block";
@@ -1398,10 +1407,6 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddNameDiv").style.display = "none";
 
 			document.getElementById("pricingAddPointsDiv").style.display = "none";
-			document.getElementById("pricingAddPointCpuDiv").style.display = "none";
-			document.getElementById("pricingAddPointMemoryDiv").style.display = "none";
-			document.getElementById("pricingAddPointDiskDiv").style.display = "none";
-
 			document.getElementById("pricingAddDescDiv").style.display = "none";
 
 			document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
@@ -1440,10 +1445,6 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddNameDiv").style.display = "block";
 
 			document.getElementById("pricingAddPointsDiv").style.display = "block";
-			document.getElementById("pricingAddPointCpuDiv").style.display = "block";
-			document.getElementById("pricingAddPointMemoryDiv").style.display = "block";
-			document.getElementById("pricingAddPointDiskDiv").style.display = "block";
-
 			document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
 			document.getElementById("pricingAddInfrastructureCountDiv").style.display = "block";
 

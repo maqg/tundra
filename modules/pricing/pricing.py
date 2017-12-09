@@ -138,6 +138,7 @@ def update_product(db, paras):
 	
 	product.name = paras["name"]
 	product.desc = paras["desc"]
+	product.infoObj["capacity"] = paras["capacity"] or 0
 	product.state = paras["state"] and "Enabled" or "Disabled"
 	
 	product.update()
@@ -225,11 +226,13 @@ def query_allinone_price(db, paras, type=SOFTWARE_TYPE_OCTDESK):
 	pricing.type = type
 	pricing.name = paras["name"] + "-报价-" + getCurrentStrDate()
 	pricing.desc = paras["desc"]
-
+	
 	pricing.points = paras["point"]
-	pricing.pointCpu = paras["pointCpu"]
-	pricing.pointMemory = paras["pointMemory"]
-	pricing.pointDisk = paras["pointDisk"]
+	
+	if type == SOFTWARE_TYPE_OCTDESK:
+		pricing.pointCpu = paras["pointCpu"]
+		pricing.pointMemory = paras["pointMemory"]
+		pricing.pointDisk = paras["pointDisk"]
 	
 	pricing.infrastructure = paras["infrastructure"]
 	pricing.infrastructureCount = paras["infrastructureCount"]
