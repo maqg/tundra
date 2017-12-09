@@ -9,7 +9,7 @@ from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TY
 	PRICING_TYPE_OCTCLASS_SOFT
 from models.Product import Product, getProduct, PRODUCT_TYPE_SOFTWARE, SOFTWARE_TYPE_OCTCLASS, SOFTWARE_TYPE_OCTDESK, \
 	SOFTWARE_TYPE_PLATFORM
-from utils.timeUtil import getCurrentStrDate
+from utils.timeUtil import getCurrentStrDate, get_current_time
 
 AUTHKEY_TIMEOUT = 24 * 30 * 60
 
@@ -174,7 +174,16 @@ def get_queryresults(db, paras):
 	
 	cond = "WHERE 1=1 "
 	if type:
-		cond += "AND QR_Type='%s'" % type
+		cond += "AND QR_Type='%s' " % type
+		
+	date = paras["date"]
+	if date:
+		now = get_current_time()
+		cond += "AND QR_CreateTime >= %ld " % (now - date * 24 * 60 * 60 * 1000);
+		
+	keyword = paras["keyword"]
+	if keyword:
+		cond += "AND QR_Name LIKE '%%%s%%' " % keyword
 	
 	ret = db.select(TB_QUERYRESULT, cond=cond)
 	if ret == -1:

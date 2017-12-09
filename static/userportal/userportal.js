@@ -52,16 +52,23 @@ function getSelectedPricingAddType() {
 	return getSelectedOption("#pricingAddType");
 }
 
+function getSelectedQueryDate() {
+	return getSelectedOption("#pricingQueryDate");
+}
+
 function updatePricingList() {
-	selected = getSelectedPricingType();
-	getAllQueryResults(selected);
+	var selected = getSelectedPricingType();
+	var date = getSelectedQueryDate();
+	var keywords = document.getElementById("pricingQueryKeyword").value;
+
+	getAllQueryResults(selected, date, keywords);
 }
 
 function switchToPricingPage() {
 	closeOtherPages("vm-manage");
 	closeOtherButtons("#vm-menu-button");
 
-	getAllQueryResults(getSelectedPricingType());
+	getAllQueryResults(getSelectedPricingType(), 7, "");
 
 	openPage("#vm-manage");
 }

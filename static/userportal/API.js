@@ -343,12 +343,14 @@ function createGetUserParas(userId) {
 	};
 }
 
-function createGetQueryResultsParas(type) {
+function createGetQueryResultsParas(type, date, keyword) {
 	return {
 		"module": "pricing",
 		"api": API_GET_QUERY_RESULTS,
 		"paras": {
-			"type": type
+			"type": type,
+			"date": date,
+			"keyword": keyword
 		},
 		"async": false,
 		"session": {

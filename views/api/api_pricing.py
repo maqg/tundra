@@ -207,6 +207,18 @@ funcList = {
 				"descCN": "产品类型, PLATFORM,OCTCLASS,OCTDESK",
 				"default": ""
 			},
+			"date": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "距当前的天数",
+				"default": 7
+			},
+			"keyword": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "查询关键字",
+				"default": ""
+			},
 		}
 	},
 	

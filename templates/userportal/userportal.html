@@ -156,7 +156,7 @@
 			<div style="float: right; display: block; right: 200px">
 				<label class="" style="position: absolute; width: auto; left: 114px;">报价方式：</label>
 				<select id="pricingtype" onchange="updatePricingList();" title=""
-				        style="position: absolute; left: 176px; width: auto; margin: 8px;" class="form-control">
+				        style="position: absolute; left: 176px; width: 150px; margin: 8px;" class="form-control">
 					<option value="OCTDESK" selected>云桌面-软硬一体</option>
 					<option value="OCTCLASS">云课堂-软硬一体</option>
 					<!--option value="PLATFORM">私有云-软硬一体</option-->
@@ -166,6 +166,15 @@
 					<option value="THINCLIENT">云终端-硬件</option>
 					<option value="SERVER">服务器-硬件</option>
 				</select>
+				<select style="position:absolute; width: 200px; left: 335px; margin: 8px" class="form-control" id="pricingQueryDate" title="" onchange="updatePricingList()">
+					<option value="65535">任意</option>
+					<option value="7" selected>最近一周</option>
+					<option value="30">最近一月</option>
+					<option value="30">最近三月</option>
+					<option value="365">最近一年</option>
+				</select>
+				<input title="" placeholder="请输入关键字" style="position: absolute; left: 545px; width: 200px; margin: 8px;" type="text" class="form-control" id="pricingQueryKeyword">
+				<input id="queryButton" style="position: absolute;width: 80px; left: 755px;margin: 8px" onclick="updatePricingList();" type="button" value="刷新" class="btn btn-primary">
 			</div>
 		</div>
 		<div>

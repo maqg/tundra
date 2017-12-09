@@ -812,8 +812,8 @@ function getProductList(type) {
 	ajaxPost(API_URL, JSON.stringify(createGetProductsParas(type, "")), getProductsCallback);
 }
 
-function getAllQueryResults(type) {
-	paras = createGetQueryResultsParas(type);
+function getAllQueryResults(type, date, keyword) {
+	paras = createGetQueryResultsParas(type, date, keyword);
 	ajaxPost(API_URL, JSON.stringify(paras), getQueryResultsCallback);
 }
 
@@ -1302,6 +1302,7 @@ function updatePricingAddForm() {
 		document.getElementById("pricingAddDiskDiv").style.display = "block";
 		document.getElementById("pricingAddRaidDiv").style.display = "block";
 		document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
+		document.getElementById("pricingAddInfrastructureCountDiv").style.display = "none";
 	} else if (pricingType === PRICING_TYPE_PLATFORM_SOFT) {
 		document.getElementById("pricingAddHostCountDiv").style.display = "block";
 		document.getElementById("pricingAddCpuCountDiv1").style.display = "block";
@@ -1492,6 +1493,10 @@ function updateAddCpuCount() {
 	if (cpu === "" || infra === "" || infraCount === "0") {
 		document.getElementById("pricingAddCpuCount").value = 0;
 	} else {
+		pricintType = getSelectedPricingAddType();
+		if (pricingType === PRICING_TYPE_SERVER) {
+			infraCount = document.getElementById("pricingAddHostCount").value
+		}
 		document.getElementById("pricingAddCpuCount").value = parseInt(infraCount) * 2;
 	}
 }
@@ -1515,7 +1520,7 @@ function updateAddMemoryCount() {
 			return;
 		}
 		document.getElementById("pricingAddMemoryCount").value = parseInt((points * pointMemory - capacity + 1) / capacity) + 1;
-	} else {
+	} else if (pricingType === PRICING_TYPE_OCTCLASS) {
 		capacity = parseInt($("#pricingAddMemory option:selected").attr("capacity"));
 		points = parseInt(document.getElementById("pricingAddPoints").value);
 		pointMemory = parseInt(document.getElementById("pricingAddPointMemory").value);
@@ -1542,7 +1547,7 @@ function updateAddDiskCount() {
 			return;
 		}
 		document.getElementById("pricingAddDiskCount").value = parseInt((points * pointDisk - capacity + 1) / capacity);
-	} else {
+	} else if (pricingType === PRICING_TYPE_OCTCLASS) {
 		document.getElementById("pricingAddDiskCount").value = 2;
 	}
 }
