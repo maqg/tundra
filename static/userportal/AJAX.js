@@ -466,7 +466,8 @@ function raiseProductUpdate(item) {
 	document.getElementById("productState").value = item.state;
 	g_product = item;
 	if (item.type === PRODUCT_TYPE_CPU || item.type === PRODUCT_TYPE_MEMORY
-		|| item.type === PRODUCT_TYPE_DISK || item.type === PRODUCT_TYPE_SWITCH) {
+		|| item.type === PRODUCT_TYPE_DISK || item.type === PRODUCT_TYPE_SWITCH
+		|| item.type === PRODUCT_TYPE_WIFIROUTER) {
 		document.getElementById("productCapacityDiv").style.display = "block";
 		document.getElementById("productCapacity").value = item.infoObj.capacity;
 	} else {
@@ -1544,4 +1545,38 @@ function updateAddDiskCount() {
 	} else {
 		document.getElementById("pricingAddDiskCount").value = 2;
 	}
+}
+
+function updateAddSwitchCount() {
+	var switches = document.getElementById("pricingAddSwitch").value;
+	if (switches === "") {
+		document.getElementById("pricingAddSwitchCount").value = 0;
+		return;
+	}
+
+	var points = parseInt(document.getElementById("pricingAddPoints").value);
+	var capacity = parseInt($("#pricingAddSwitch option:selected").attr("capacity"));
+	if (!capacity) {
+		document.getElementById("pricingAddSwitchCount").value = 0;
+		return;
+	}
+
+	document.getElementById("pricingAddSwitchCount").value = parseInt((points + capacity - 1) / capacity);
+}
+
+function updateAddWifiRouterCount() {
+	var switches = document.getElementById("pricingAddWifiRouter").value;
+	if (switches === "") {
+		document.getElementById("pricingAddWifiRouterCount").value = 0;
+		return;
+	}
+
+	var points = parseInt(document.getElementById("pricingAddPoints").value);
+	var capacity = parseInt($("#pricingAddWifiRouter option:selected").attr("capacity"));
+	if (!capacity) {
+		document.getElementById("pricingAddWifiRouterCount").value = 0;
+		return;
+	}
+
+	document.getElementById("pricingAddWifiRouterCount").value = parseInt((points + capacity - 1) / capacity);
 }

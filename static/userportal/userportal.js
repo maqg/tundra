@@ -108,7 +108,9 @@ function updateProductAddForm() {
 		return;
 	} else if (selectedProductType === PRODUCT_TYPE_MEMORY
 		|| selectedProductType === PRODUCT_TYPE_DISK
-		|| selectedProductType === PRODUCT_TYPE_MONITOR) {
+		|| selectedProductType === PRODUCT_TYPE_MONITOR
+		|| selectedProductType === PRODUCT_TYPE_WIFIROUTER
+		|| selectedProductType === PRODUCT_TYPE_SWITCH) {
 		document.getElementById("productAddCapacityDiv").style.display = "block";
 		document.getElementById("productAddCoresDiv").style.display = "none";
 		document.getElementById("productAddThreadsDiv").style.display = "none";
