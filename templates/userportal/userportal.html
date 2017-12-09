@@ -387,14 +387,14 @@
 						<div class="col-sm-10" style="width: 120px;">
 							<input type="text" class="form-control" id="pricingAddPoints" value="40" placeholder="点位数">
 						</div>
-						<div id="pricingAddPointCpuDiv" style="position: absolute; left: 215px; width: 80px">
-							<input type="text" class="form-control" id="pricingAddPointCpu" value="" placeholder="CPU数">
+						<div id="pricingAddPointCpuDiv" style="position: absolute; left: 215px; width: 100px">
+							<input type="text" class="form-control" id="pricingAddPointCpu" value="" placeholder="单点CPU">
 						</div>
-						<div id="pricingAddPointMemoryDiv" style="position: absolute; left: 305px; width: 80px">
-							<input type="text" class="form-control" id="pricingAddPointMemory" value="" placeholder="内存G">
+						<div id="pricingAddPointMemoryDiv" style="position: absolute; left: 325px; width: 100px">
+							<input type="text" class="form-control" id="pricingAddPointMemory" value="" placeholder="单点内存G">
 						</div>
-						<div id="pricingAddPointDiskDiv" style="position: absolute; left: 395px; width: 80px">
-							<input type="text" class="form-control" id="pricingAddPointDisk" value="" placeholder="磁盘G">
+						<div id="pricingAddPointDiskDiv" style="position: absolute; left: 435px; width: 100px">
+							<input type="text" class="form-control" id="pricingAddPointDisk" value="" placeholder="单点磁盘G">
 						</div>
 					</div>
 
@@ -455,7 +455,7 @@
 					<div id="pricingAddInfrastructureDiv" class="form-group">
 						<label class="col-sm-2 control-label">硬件平台</label>
 						<select id="pricingAddInfrastructure" title="" style="width: 375px; left: 15px;"
-						        class="form-control col-sm-10">
+						        class="form-control col-sm-10" onchange="updateInfrastructureCount()">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
@@ -468,7 +468,7 @@
 					<div id="pricingAddCpuDiv" class="form-group">
 						<label class="col-sm-2 control-label">CPU</label>
 						<select id="pricingAddCpu" title="" style="width: 375px; left: 15px;"
-						        class="form-control col-sm-10">
+						        class="form-control col-sm-10" onchange="updateAddCpuCount()">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
@@ -481,7 +481,7 @@
 					<div id="pricingAddMemoryDiv" class="form-group">
 						<label class="col-sm-2 control-label">内存</label>
 						<select id="pricingAddMemory" title="" style="width: 375px; left: 15px;"
-						        class="form-control col-sm-10">
+						        class="form-control col-sm-10" onchange="updateAddMemoryCount()">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
@@ -494,7 +494,7 @@
 					<div id="pricingAddDiskDiv" class="form-group">
 						<label class="col-sm-2 control-label">磁盘</label>
 						<select id="pricingAddDisk" title="" style="width: 375px; left: 15px;"
-						        class="form-control col-sm-10">
+						        class="form-control col-sm-10" onchange="updateAddDiskCount()">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>

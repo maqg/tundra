@@ -1195,7 +1195,11 @@ function fillSelectOption(option) {
 
 	for (var i = 0; i < g_products[option.type].length; i++) {
 		item = g_products[option.type][i];
-		$str += "<option stype='" + item.realType + "' value='" + item.id + "'>" + item.name + "，价格：" + item.infoObj.price + "</option>";
+		if (item.infoObj.hasOwnProperty("capacity")) {
+			$str += "<option capacity='" + item.infoObj.capacity + "' stype='" + item.realType + "' value='" + item.id + "'>" + item.name + "，价格：" + item.infoObj.price + "</option>";
+		} else {
+			$str += "<option stype='" + item.realType + "' value='" + item.id + "'>" + item.name + "，价格：" + item.infoObj.price + "</option>";
+		}
 	}
 	$(option.id).html($str);
 }
@@ -1458,4 +1462,86 @@ function pricingDeskNext() {
 
 function raisePricingAdd() {
 	ajaxPost(API_URL, JSON.stringify(createGetProductsParas("", "Enabled")), parseProductsCallback);
+}
+
+function updateInfrastructureCount() {
+	var pricingType = getSelectedPricingAddType();
+	var infra = document.getElementById("pricingAddInfrastructure").value;
+
+	if (infra === "") {
+		document.getElementById("pricingAddInfrastructureCount").value = 0;
+		return;
+	}
+
+	var points = parseInt(document.getElementById("pricingAddPoints").value);
+	if (pricingType !== PRICING_TYPE_OCTDESK) {
+		count = parseInt((points + 50 - 1) / 50);
+	} else {
+		count = parseInt((points + 40 - 1) / 40);
+	}
+
+	document.getElementById("pricingAddInfrastructureCount").value = count;
+}
+
+function updateAddCpuCount() {
+	var cpu = document.getElementById("pricingAddCpu").value;
+	var infra = document.getElementById("pricingAddInfrastructure").value;
+	var infraCount = document.getElementById("pricingAddInfrastructureCount").value;
+
+	if (cpu === "" || infra === "" || infraCount === "0") {
+		document.getElementById("pricingAddCpuCount").value = 0;
+	} else {
+		document.getElementById("pricingAddCpuCount").value = parseInt(infraCount) * 2;
+	}
+}
+
+
+function updateAddMemoryCount() {
+	var memory = document.getElementById("pricingAddMemory").value;
+	if (memory === "") {
+		document.getElementById("pricingAddMemoryCount").value = 0;
+		return;
+	}
+
+	var pricingType = getSelectedPricingAddType();
+	if (pricingType === PRICING_TYPE_OCTDESK) {
+		capacity = parseInt($("#pricingAddMemory option:selected").attr("capacity"));
+		points = parseInt(document.getElementById("pricingAddPoints").value);
+		pointMemory = parseInt(document.getElementById("pricingAddPointMemory").value);
+		if (!pointMemory) {
+			alert("每点位内存数必须制定。。");
+			document.getElementById("pricingAddMemory").value = "";
+			return;
+		}
+		document.getElementById("pricingAddMemoryCount").value = parseInt((points * pointMemory - capacity + 1) / capacity) + 1;
+	} else {
+		capacity = parseInt($("#pricingAddMemory option:selected").attr("capacity"));
+		points = parseInt(document.getElementById("pricingAddPoints").value);
+		pointMemory = parseInt(document.getElementById("pricingAddPointMemory").value);
+		document.getElementById("pricingAddMemoryCount").value = parseInt((points * 3 - capacity + 1) / capacity) + 1;
+	}
+}
+
+function updateAddDiskCount() {
+
+	var disk = document.getElementById("pricingAddDisk").value;
+	if (disk === "") {
+		document.getElementById("pricingAddDiskCount").value = 0;
+		return;
+	}
+
+	var pricingType = getSelectedPricingAddType();
+	if (pricingType === PRICING_TYPE_OCTDESK) {
+		capacity = parseInt($("#pricingAddDisk option:selected").attr("capacity"));
+		points = parseInt(document.getElementById("pricingAddPoints").value);
+		pointDisk = parseInt(document.getElementById("pricingAddPointDisk").value);
+		if (!pointDisk) {
+			alert("每点位磁盘数必须制定。。");
+			document.getElementById("pricingAddDisk").value = "";
+			return;
+		}
+		document.getElementById("pricingAddDiskCount").value = parseInt((points * pointDisk - capacity + 1) / capacity);
+	} else {
+		document.getElementById("pricingAddDiskCount").value = 2;
+	}
 }
