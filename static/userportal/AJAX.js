@@ -1281,6 +1281,17 @@ function initPricingForms() {
 
 	document.getElementById("pricingNextButton").style.display = "none";
 	document.getElementById("pricingButton").style.display = "inline-block";
+
+	document.getElementById("pricingAddInfrastructureCount").value = 0;
+	document.getElementById("pricingAddCpuCount").value = "";
+	document.getElementById("pricingAddMemoryCount").value = "";
+	document.getElementById("pricingAddDiskCount").value = "";
+	document.getElementById("pricingAddSwitchCount").value = "";
+	document.getElementById("pricingAddWifiRouterCount").value = "";
+
+	document.getElementById("pricingAddPointCpu").value = "";
+	document.getElementById("pricingAddPointMemory").value = "";
+	document.getElementById("pricingAddPointDisk").value = "";
 }
 
 g_pricing_step = "step1";
