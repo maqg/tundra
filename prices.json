@@ -236,6 +236,7 @@
 		"provider": "京东 飞鱼星",
 		"desc": "飞鱼星VE608W 1200M企业级无线路由器，无线带机量40",
 		"price": 500,
+		"capacity": 40,
 		"costPrice": 399 
 	  },
 	  {
@@ -244,6 +245,7 @@
 		"provider": "京东 飞鱼星",
 		"desc": "飞鱼星 VE984GW+ 1200M企业级无线路由器，无线带机量60",
 		"price": 750,
+		"capacity": 60,
 		"costPrice": 599 
 	  }
 	]
