@@ -287,6 +287,35 @@ function selectAllPricings(checked) {
 	}
 }
 
+function exportPricing(pricing, aLink) {
+
+	var str = "名称:" + pricing.name + "\n";
+	str += "总价:" + pricing.price + "\n";
+	str += "点位数:" + pricing.points + "\n\n";
+
+
+	str += "产品类型,名称,单价,容量,数量,总价\n";
+
+	for (var i = 0; i < pricing.info.items.length; i++) {
+
+		item = pricing.info.items[i];
+
+		str += item.typeName + "," + item.name + "," + item.price + ",";
+
+		if (item.hasOwnProperty("capacity") && item.capacity !== 0 && item.type !== PRODUCT_TYPE_MONITOR) {
+			str += item.count * item.capacity + ",";
+		} else {
+			str += "N/A,"
+		}
+		str	+= item.count + "," + item.totalPrice + "\n";
+	}
+
+	str = encodeURIComponent(str);
+	aLink.href = "data:text/csv;charset=utf-8,\ufeff" + str;
+	aLink.download = pricing.name + "-pricing.csv";
+
+}
+
 function initPricingOperation(vmTable) {
 	var trList = vmTable.children("tbody").children('tr');
 	trList.each(function () {
@@ -313,7 +342,7 @@ function initPricingOperation(vmTable) {
 			var $resume = $tr.children(".manager").children(".exportpricingbutton");
 			if ($resume !== null) {
 				$resume.click(function () {
-					alert("未完待续");
+					exportPricing($tr.data("dataObj"), this);
 				});
 			}
 
@@ -648,7 +677,7 @@ function printPricingLine(item, vmTable) {
 
 	vmItem += "<td class='manager'>";
 	vmItem += "<span class='detailpricingbutton commonbutton operationButton'>报价明细</span>";
-	vmItem += "<span class='exportpricingbutton commonbutton operationButton'>导出</span>";
+	vmItem += "<a download='pricing.csv' class='exportpricingbutton commonbutton operationButton'>导出</a>";
 	vmItem += "<span class='deletepricingbutton commonbutton operationButton'>删除</span>";
 	vmItem += "</td></tr>";
 
@@ -1482,11 +1511,16 @@ function updateInfrastructureCount() {
 	var infra = document.getElementById("pricingAddInfrastructure").value;
 
 	if (infra === "") {
-		document.getElementById("pricingAddInfrastructureCount").value = 0;
+		document.getElementById("pricingAddInfrastructureCount").value = "";
 		return;
 	}
 
 	var points = parseInt(document.getElementById("pricingAddPoints").value);
+	if (!points) {
+		alert("点位数必须制定。。");
+		document.getElementById("pricingAddInfrastructureCount").value = "";
+		return;
+	}
 	if (pricingType !== PRICING_TYPE_OCTDESK) {
 		count = parseInt((points + 50 - 1) / 50);
 	} else {
@@ -1523,7 +1557,14 @@ function updateAddMemoryCount() {
 	var pricingType = getSelectedPricingAddType();
 	if (pricingType === PRICING_TYPE_OCTDESK) {
 		capacity = parseInt($("#pricingAddMemory option:selected").attr("capacity"));
+
 		points = parseInt(document.getElementById("pricingAddPoints").value);
+		if (!points) {
+			alert("点位数必须制定。。");
+			document.getElementById("pricingAddMemory").value = "";
+			return;
+		}
+
 		pointMemory = parseInt(document.getElementById("pricingAddPointMemory").value);
 		if (!pointMemory) {
 			alert("每点位内存数必须制定。。");
@@ -1551,6 +1592,11 @@ function updateAddDiskCount() {
 	if (pricingType === PRICING_TYPE_OCTDESK) {
 		capacity = parseInt($("#pricingAddDisk option:selected").attr("capacity"));
 		points = parseInt(document.getElementById("pricingAddPoints").value);
+		if (!points) {
+			alert("点位数必须制定。。");
+			document.getElementById("pricingAddDisk").value = "";
+			return;
+		}
 		pointDisk = parseInt(document.getElementById("pricingAddPointDisk").value);
 		if (!pointDisk) {
 			alert("每点位磁盘数必须制定。。");
