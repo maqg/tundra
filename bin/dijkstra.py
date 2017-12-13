@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from utils.commonUtil import fileToObj
 
 EXAMPLE = """
 5
@@ -22,14 +23,45 @@ EXAMPLE = """
 
 MAXINT = 9999999
 
-stations = []
+lineList = []
+stationList = []
+stationListMap = {}
 
-def dijkstra():
-	distance = [] # 当前节点到源点的距离
-	prevNode = [] # 当前节点的前一节点
-	distances = [] # 两点间的长度
-	
+distance = [] # 当前节点到源点的距离
+prevNode = [] # 当前节点的前一节点
+distances = [] # 两点间的长度
+visited = []
+
+def dijkstra(station):
+	# init something
+	for i in range(0, len(stationList)):
+		visited.append(False)
+		distances.append(MAXINT)
+
+
 
 
 if __name__ == "__main__":
+	lineList = fileToObj("./subway.json")
+	i = 0
+
+	for line in lineList:
+		for station in line["stations"]:
+			oldStatoin = stationListMap.get(station["name"])
+			if oldStatoin:
+				oldStatoin["lineIds"].append(line["id"])
+			else:
+				station["lineIds"] = [line["id"]]
+				station["position"] = i
+				i = i + 1
+				stationListMap[station["name"]] = station
+				stationList.append(station)
+
+
+	station = stationListMap.get("五道口")
+	dijkstra(station)
+
+	print(distances)
+	print(visited)
+
 	print("Running in dijkstra")
