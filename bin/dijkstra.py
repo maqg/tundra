@@ -23,6 +23,8 @@ EXAMPLE = """
 源点到最后一个顶点的路径为: 1 -> 4 -> 3 -> 5
 """
 
+JICHANG_LINE_105 = 105
+
 MAXINT = 9999999
 
 lineList = []
@@ -39,14 +41,13 @@ def getShortest(total, visited, distances):
 		if not visited[i] and distances[i] < min:
 			min = distances[i]
 			shortest = i
-
+	
 	return shortest
 
 
 def dijkstra(station):
 	stationCount = len(stationList)
 	visited = []
-	distance = []  # 当前节点到源点的距离
 	prevNodes = {}  # 当前节点的前一节点
 	distances = []  # 到下一点的距离
 	
@@ -68,7 +69,7 @@ def dijkstra(station):
 		latest = getShortest(stationCount, visited, distances)
 		if latest == -1:
 			break
-
+		
 		visited[latest] = True
 		for i in range(0, stationCount):
 			dist = distanceMap.get("%d-%d" % (latest, i)) or MAXINT
@@ -76,9 +77,6 @@ def dijkstra(station):
 				distances[i] = distances[latest] + dist
 				prevNodes[i] = latest
 	
-	print(json.dumps(distances, indent=4))
-	print(json.dumps(prevNodes, indent=4))
-
 	return (distances, prevNodes)
 
 
@@ -98,15 +96,15 @@ def getNextStation(line, station):
 
 def getStationList(prevNodes, start, end):
 	pathList = []
-
+	
 	prevStation = prevNodes[end]
 	while prevStation != -1 and prevStation != start:
 		pathList.insert(0, stationList[prevStation])
 		prevStation = prevNodes[prevStation]
-
+	
 	pathList.insert(0, stationList[start])
 	pathList.append(stationList[end])
-
+	
 	return pathList
 
 
@@ -121,8 +119,12 @@ if __name__ == "__main__":
 				station["prevLength"] = 0
 			else:
 				station["prevLength"] = line["stations"][position - 1]["length"]
-
+	
 	for line in lineList:
+		
+		if line["id"] == JICHANG_LINE_105:
+			continue
+		
 		for station in line["stations"]:
 			oldStation = stationListMap.get(station["name"])
 			prevStation = getPrevStation(line, station)
@@ -143,7 +145,7 @@ if __name__ == "__main__":
 							"length": station["length"]
 						}
 					oldStation["subStations"].append(subStation)
-
+				
 				if prevStation:
 					oldPrevStation = stationListMap.get(prevStation["name"])
 					if oldPrevStation == prevStation:  # 前趋站点已加入队列
@@ -178,7 +180,7 @@ if __name__ == "__main__":
 							"length": station["length"]
 						}
 					station["subStations"].append(subStation)
-
+				
 				if prevStation:
 					oldPrevStation = stationListMap.get(prevStation["name"])
 					subStation = {
@@ -186,29 +188,30 @@ if __name__ == "__main__":
 						"length": station["prevLength"]
 					}
 					station["subStations"].append(subStation)
-
+	
 	stationCount = len(stationList)
-
+	
 	for station in stationList:
 		for subConfig in station["subStations"]:
 			subStation = stationList[subConfig["station"]]
-			length = subStation["length"]
+			length = subConfig["length"]
 			key = "%d-%d" % (station["position"], subStation["position"])
+			key2 = "%d-%d" % (subStation["position"], station["position"])
 			distanceMap[key] = length
-
-	print(stationCount)
-	print(json.dumps(distanceMap, indent=4))
-
-	station = stationListMap.get("天通苑北")
+			distanceMap[key2] = length
+	
+	print("共有站点%d个" % stationCount)
+	
+	station = stationListMap.get("温阳路")
 	print("name:%s, position:%d" % (station["name"], station["position"]))
-
-	station2 = stationListMap.get("上地")
+	
+	station2 = stationListMap.get("奥体中心")
 	print("name:%s, position:%d" % (station2["name"], station2["position"]))
-
+	
 	(distances, prevNodes) = dijkstra(station)
-
-	print("distance of %s and %s is %d" % (station["name"], station2["name"], distances[station2["position"]]))
+	
+	print("最短路径 of %s and %s is %d" % (station["name"], station2["name"], distances[station2["position"]]))
 	pathList = getStationList(prevNodes, station["position"], station2["position"])
-	print(json.dumps(pathList, indent=4))
-
-	print("Running in dijkstra")
+	
+	for path in pathList:
+		print("name: %s, length: %d" % (path["name"], path["length"]))
