@@ -96,15 +96,16 @@ def getNextStation(line, station):
 	return line["stations"][index + 1]
 
 
-def getStationList(prevNodes, position):
+def getStationList(prevNodes, start, end):
 	pathList = []
 
-	prevStation = prevNodes[position]
-	while prevStation != -1:
+	prevStation = prevNodes[end]
+	while prevStation != -1 and prevStation != start:
 		pathList.insert(0, stationList[prevStation])
 		prevStation = prevNodes[prevStation]
 
-	pathList.append(stationList[position])
+	pathList.insert(0, stationList[start])
+	pathList.append(stationList[end])
 
 	return pathList
 
@@ -201,13 +202,13 @@ if __name__ == "__main__":
 	station = stationListMap.get("天通苑北")
 	print("name:%s, position:%d" % (station["name"], station["position"]))
 
-	station2 = stationListMap.get("天通苑南")
+	station2 = stationListMap.get("上地")
 	print("name:%s, position:%d" % (station2["name"], station2["position"]))
 
 	(distances, prevNodes) = dijkstra(station)
 
 	print("distance of %s and %s is %d" % (station["name"], station2["name"], distances[station2["position"]]))
-	pathList = getStationList(prevNodes, station2["position"])
+	pathList = getStationList(prevNodes, station["position"], station2["position"])
 	print(json.dumps(pathList, indent=4))
 
 	print("Running in dijkstra")
