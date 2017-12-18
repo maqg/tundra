@@ -347,6 +347,30 @@ funcList = {
 				"descCN": "UKEY类型，空表示无",
 				"default": ""
 			},
+			"thinClientCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "瘦终端数量",
+				"default": 0
+			},
+			"monitorCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "显示器数量",
+				"default": 0
+			},
+			"keyMouseCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "键鼠套装数量",
+				"default": 0
+			},
+			"ukeyCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "UKEY数量",
+				"default": 0
+			},
 			"wifiRouter": {
 				"type": PARAM_TYPE_STRING,
 				"descCN": "无线路由器类型",
@@ -368,6 +392,12 @@ funcList = {
 				"desc": "",
 				"descCN": "交换机数量",
 				"default": 0
+			},
+			"service": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务类型",
+				"default": ""
 			},
 			"desc": {
 				"type": PARAM_TYPE_STRING,
@@ -466,6 +496,24 @@ funcList = {
 				"descCN": "键鼠套装类型，空表示无",
 				"default": ""
 			},
+			"thinClientCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "瘦终端数量",
+				"default": 0
+			},
+			"monitorCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "显示器数量",
+				"default": 0
+			},
+			"keyMouseCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "键鼠套装数量",
+				"default": 0
+			},
 			"ukey": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",
@@ -493,6 +541,12 @@ funcList = {
 				"desc": "",
 				"descCN": "交换机数量",
 				"default": 0
+			},
+			"service": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务类型",
+				"default": ""
 			},
 			"desc": {
 				"type": PARAM_TYPE_STRING,
@@ -535,6 +589,30 @@ funcList = {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",
 				"descCN": "键鼠套装类型，空表示无",
+				"default": ""
+			},
+			"thinClientCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "瘦终端数量",
+				"default": 0
+			},
+			"monitorCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "显示器数量",
+				"default": 0
+			},
+			"keyMouseCount": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "键鼠套装数量",
+				"default": 0
+			},
+			"service": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务类型",
 				"default": ""
 			},
 			"desc": {
@@ -610,6 +688,12 @@ funcList = {
 				"descCN": "RAID卡类型",
 				"default": ""
 			},
+			"service": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务类型",
+				"default": ""
+			},
 			"desc": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",
@@ -641,6 +725,12 @@ funcList = {
 				"descCN": "CPU数",
 				"default": 2
 			},
+			"service": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务类型",
+				"default": ""
+			},
 			"desc": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",
@@ -666,6 +756,12 @@ funcList = {
 				"descCN": "点位数",
 				"default": 50
 			},
+			"service": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务类型",
+				"default": ""
+			},
 			"desc": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",
@@ -690,6 +786,12 @@ funcList = {
 				"desc": "",
 				"descCN": "点位数",
 				"default": 50
+			},
+			"service": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "服务类型",
+				"default": ""
 			},
 			"desc": {
 				"type": PARAM_TYPE_STRING,

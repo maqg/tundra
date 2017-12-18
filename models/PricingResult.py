@@ -114,6 +114,8 @@ class PricingResult:
 		
 		self.wifiRouter = None
 		self.wifiRouterCount = 0
+		
+		self.service = None
 
 		self.desc = ""
 		self.createTime = 0
@@ -165,7 +167,7 @@ class PricingResult:
 	
 	def pricing(self, type):
 		
-		self.pricing_software(type)
+		self.pricing_software(type, withService=False)
 		
 		self.info["points"] = self.points
 		self.info["pointCpu"] = self.pointCpu
@@ -182,9 +184,11 @@ class PricingResult:
 		self.appendSummaryItem(getProduct(self.db, self.switch), self.switchCount)
 		self.appendSummaryItem(getProduct(self.db, self.wifiRouter), self.wifiRouterCount)
 		
-		self.appendSummaryItem(getProduct(self.db, self.thinClient), self.points)
-		self.appendSummaryItem(getProduct(self.db, self.monitor), self.points)
-		self.appendSummaryItem(getProduct(self.db, self.keyMouse), self.points)
+		self.appendSummaryItem(getProduct(self.db, self.thinClient), self.thinclientCount)
+		self.appendSummaryItem(getProduct(self.db, self.monitor), self.monitorCount)
+		self.appendSummaryItem(getProduct(self.db, self.keyMouse), self.keymouseCount)
+		
+		self.appendSummaryItem(getProduct(self.db, self.service), 1)
 		
 		self.info["price"] = self.price
 	
@@ -208,9 +212,10 @@ class PricingResult:
 	def pricing_thinclient(self):
 		self.info["points"] = self.points
 		self.info["items"] = []
-		self.appendSummaryItem(getProduct(self.db, self.thinClient), self.points)
-		self.appendSummaryItem(getProduct(self.db, self.monitor), self.points)
-		self.appendSummaryItem(getProduct(self.db, self.keyMouse), self.points)
+		self.appendSummaryItem(getProduct(self.db, self.thinClient), self.thinclientCount)
+		self.appendSummaryItem(getProduct(self.db, self.monitor), self.monitorCount)
+		self.appendSummaryItem(getProduct(self.db, self.keyMouse), self.keymouseCount)
+		self.appendSummaryItem(getProduct(self.db, self.service), 1)
 		self.info["price"] = self.price
 		
 	def pricing_server(self):
@@ -221,9 +226,11 @@ class PricingResult:
 		self.appendSummaryItem(getProduct(self.db, self.memory), self.memoryCount)
 		self.appendSummaryItem(getProduct(self.db, self.disk), self.diskCount)
 		self.appendSummaryItem(getProduct(self.db, self.raid), self.raidCount)
+		self.appendSummaryItem(getProduct(self.db, self.service), 1)
+
 		self.info["price"] = self.price
 		
-	def pricing_software(self, softwareType):
+	def pricing_software(self, softwareType, withService=True):
 		
 		self.info["points"] = self.points
 		self.info["items"] = []
@@ -280,6 +287,9 @@ class PricingResult:
 			}
 			self.price += platform.info.cpuPrice * self.cpuCount
 			self.info["items"].append(item)
+		
+		if withService:
+			self.appendSummaryItem(getProduct(self.db, self.service), 1)
 
 		self.info["price"] = self.price
 	

@@ -252,22 +252,24 @@ def query_allinone_price(db, paras, type=SOFTWARE_TYPE_OCTDESK):
 	pricing.raidCount = pricing.infrastructureCount
 	
 	pricing.thinClient = paras["thinClient"]
-	pricing.thinclientCount = pricing.points
+	pricing.thinclientCount = paras["thinClientCount"] or pricing.points
 	
 	pricing.monitor = paras["monitor"]
-	pricing.monitorCount = pricing.points
+	pricing.monitorCount = paras["monitorCount"] or pricing.points
 	
 	pricing.keyMouse = paras["keyMouse"]
-	pricing.keymouseCount = pricing.points
+	pricing.keymouseCount = paras["keyMouseCount"] or pricing.points
 	
-	pricing.ukey = paras["ukey"]
-	pricing.ukeyCount = pricing.points
+	pricing.ukey = paras.get("ukey")
+	pricing.ukeyCount = paras.get("ukeyCount") or pricing.points
 	
 	pricing.switch = paras["switch"]
 	pricing.switchCount = paras["switchCount"]
 	
 	pricing.wifiRouter = paras["wifiRouter"]
 	pricing.wifiRouterCount = paras["wifiRouterCount"]
+	
+	pricing.service = paras["service"]
 	
 	pricing.pricing(type)
 	
@@ -305,6 +307,9 @@ def query_thinclient_price(db, paras):
 	pricing.thinClient = paras["thinClient"]
 	pricing.monitor = paras["monitor"]
 	pricing.keyMouse = paras["keyMouse"]
+	pricing.thinclientCount = paras["thinClientCount"] or pricing.points
+	pricing.monitorCount = paras["monitorCount"] or pricing.points
+	pricing.keymouseCount = paras["keyMouseCount"] or pricing.points
 	pricing.desc = paras["desc"]
 
 	pricing.pricing_thinclient()
