@@ -1034,9 +1034,13 @@ function makeThinClientPricingParas() {
 	var thinclient = document.getElementById("pricingAddThinClient").value;
 	var monitor = document.getElementById("pricingAddMonitor").value;
 	var keymouse = document.getElementById("pricingAddKeyMouse").value;
+	var thinclientCount = document.getElementById("pricingAddThinClientCount").value;
+	var monitorCount = document.getElementById("pricingAddMonitorCount").value;
+	var keymouseCount = document.getElementById("pricingAddKeyMouseCount").value;
+	var service = document.getElementById("pricingAddService").value;
 	var desc = document.getElementById("pricingAddDesc").value;
 
-	return createAddPricingThinClientParas(name, points, thinclient, monitor, keymouse, desc);
+	return createAddPricingThinClientParas(name, points, thinclient, thinclientCount, monitor, monitorCount, keymouse, keymouseCount, service, desc);
 }
 
 function makeServerPricingParas() {
@@ -1050,33 +1054,37 @@ function makeServerPricingParas() {
 	var disk = document.getElementById("pricingAddDisk").value;
 	var diskCount = document.getElementById("pricingAddDiskCount").value;
 	var raid = document.getElementById("pricingAddRaid").value;
+	var service = document.getElementById("pricingAddService").value;
 	var desc = document.getElementById("pricingAddDesc").value;
 
 	return createAddPricingServerParas(name, points, infra, cpu, cpuCount,
-		memory, memoryCount, disk, diskCount, raid, desc);
+		memory, memoryCount, disk, diskCount, raid, service, desc);
 }
 
 function makePlatformSoftPricingParas() {
 	var name = document.getElementById("pricingAddName").value;
 	var hostCount = document.getElementById("pricingAddHostCount").value;
 	var cpuCount = document.getElementById("pricingAddCpuCount1").value;
+	var service = document.getElementById("pricingAddService").value;
 	var desc = document.getElementById("pricingAddDesc").value;
 
-	return createAddPricingPlatformSoftParas(name, hostCount, cpuCount, desc);
+	return createAddPricingPlatformSoftParas(name, hostCount, cpuCount, service, desc);
 }
 
 function makeDeskSoftPricingParas() {
 	var name = document.getElementById("pricingAddName").value;
 	var points = document.getElementById("pricingAddPoints").value;
 	var desc = document.getElementById("pricingAddDesc").value;
-	return createAddPricingDeskSoftParas(name, points, desc);
+	var service = document.getElementById("pricingAddService").value;
+	return createAddPricingDeskSoftParas(name, points, service, desc);
 }
 
 function makeClassSoftPricingParas() {
 	var name = document.getElementById("pricingAddName").value;
 	var points = document.getElementById("pricingAddPoints").value;
 	var desc = document.getElementById("pricingAddDesc").value;
-	return createAddPricingClassSoftParas(name, points, desc);
+	var service = document.getElementById("pricingAddService").value;
+	return createAddPricingClassSoftParas(name, points, service, desc);
 }
 
 function mekeDeskPricingParas() {
@@ -1103,22 +1111,30 @@ function mekeDeskPricingParas() {
 	var thinClient = document.getElementById("pricingAddThinClient").value;
 	var keyMouse = document.getElementById("pricingAddKeyMouse").value;
 	var monitor = document.getElementById("pricingAddMonitor").value;
+	var thinClientCount = document.getElementById("pricingAddThinClientCount").value;
+	var keyMouseCount = document.getElementById("pricingAddKeyMouseCount").value;
+	var monitorCount = document.getElementById("pricingAddMonitorCount").value;
 
 	var switches = document.getElementById("pricingAddSwitch").value;
 	var switchCount = document.getElementById("pricingAddSwitchCount").value;
 	var wifiRouter = document.getElementById("pricingAddWifiRouter").value;
 	var wifiRouterCount = document.getElementById("pricingAddWifiRouterCount").value;
 
+	var service = document.getElementById("pricingAddService").value;
 	var desc = document.getElementById("pricingAddDesc").value;
 
 	if (pricingType === PRICING_TYPE_OCTDESK) {
 		var ukey = document.getElementById("pricingAddUkey").value;
+		var ukeyCount = document.getElementById("pricingAddUkeyCount").value;
 		return createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDisk,
 			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount,
-			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc, ukey);
+			raid, thinClient, thinClientCount, monitor, monitorCount, keyMouse, keyMouseCount,
+			switches, switchCount, wifiRouter, wifiRouterCount, ukey, ukeyCount, service, desc);
 	} else {
-		return createAddPricingClassParas(name, points, infra, infraCount, cpu, cpuCount, memory, memoryCount, disk, diskCount,
-			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc);
+		return createAddPricingClassParas(name, points, infra, infraCount, cpu,
+			cpuCount, memory, memoryCount, disk, diskCount, raid,
+			thinClient, thinClientCount, monitor, monitorCount, keyMouse, keyMouseCount,
+			switches, switchCount, wifiRouter, wifiRouterCount, service, desc);
 	}
 }
 
@@ -1163,6 +1179,9 @@ function updatePricingMonitor() {
 	} else {
 		document.getElementById("pricingAddMonitorDiv").style.display = "block";
 	}
+
+	updateAddThinClientCount();
+
 }
 
 g_products = {};
@@ -1216,6 +1235,10 @@ g_fill_options = [
 	{
 		"type": "UKEY",
 		"id": "#pricingAddUkey"
+	},
+	{
+		"type": "SERVICE",
+		"id": "#pricingAddService"
 	}
 ];
 
@@ -1286,6 +1309,7 @@ function initPricingForms() {
 
 	document.getElementById("pricingAddTypeDiv").style.display = "block";
 	document.getElementById("pricingAddNameDiv").style.display = "block";
+	document.getElementById("pricingAddServiceDiv").style.display = "block";
 	document.getElementById("pricingAddDescDiv").style.display = "block";
 
 	document.getElementById("pricingAddPointsDiv").style.display = "none";
@@ -1355,6 +1379,7 @@ function updatePricingAddForm() {
 		$("#pricingNextButton").html("下一步");
 
 		document.getElementById("pricingAddDescDiv").style.display = "none";
+		document.getElementById("pricingAddServiceDiv").style.display = "none";
 		document.getElementById("pricingAddPointsDiv").style.display = "block";
 
 		if (pricingType === PRICING_TYPE_OCTDESK) {
@@ -1392,6 +1417,7 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddPointDiskDiv").style.display = "none";
 
 			document.getElementById("pricingAddDescDiv").style.display = "none";
+			document.getElementById("pricingAddServiceDiv").style.display = "none";
 
 			document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
 			document.getElementById("pricingAddInfrastructureCountDiv").style.display = "none";
@@ -1410,6 +1436,7 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddSwitchDiv").style.display = "block";
 			document.getElementById("pricingAddUkeyDiv").style.display = "block";
 			document.getElementById("pricingAddDescDiv").style.display = "block";
+			document.getElementById("pricingAddServiceDiv").style.display = "block";
 
 			updatePricingMonitor();
 
@@ -1426,6 +1453,7 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddSwitchDiv").style.display = "none";
 			document.getElementById("pricingAddUkeyDiv").style.display = "none";
 			document.getElementById("pricingAddDescDiv").style.display = "none";
+			document.getElementById("pricingAddServiceDiv").style.display = "none";
 
 			document.getElementById("pricingAddTypeDiv").style.display = "block";
 			document.getElementById("pricingAddNameDiv").style.display = "block";
@@ -1454,6 +1482,7 @@ function pricingDeskNext() {
 
 			document.getElementById("pricingAddPointsDiv").style.display = "none";
 			document.getElementById("pricingAddDescDiv").style.display = "none";
+			document.getElementById("pricingAddServiceDiv").style.display = "none";
 
 			document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
 			document.getElementById("pricingAddInfrastructureCountDiv").style.display = "none";
@@ -1470,6 +1499,7 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddKeyMouseDiv").style.display = "block";
 			document.getElementById("pricingAddWifiRouterDiv").style.display = "block";
 			document.getElementById("pricingAddSwitchDiv").style.display = "block";
+			document.getElementById("pricingAddServiceDiv").style.display = "block";
 			document.getElementById("pricingAddDescDiv").style.display = "block";
 
 			updatePricingMonitor();
@@ -1486,6 +1516,7 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddWifiRouterDiv").style.display = "none";
 			document.getElementById("pricingAddSwitchDiv").style.display = "none";
 			document.getElementById("pricingAddDescDiv").style.display = "none";
+			document.getElementById("pricingAddServiceDiv").style.display = "none";
 
 			document.getElementById("pricingAddTypeDiv").style.display = "block";
 			document.getElementById("pricingAddNameDiv").style.display = "block";
@@ -1641,4 +1672,48 @@ function updateAddWifiRouterCount() {
 	}
 
 	document.getElementById("pricingAddWifiRouterCount").value = parseInt((points + capacity - 1) / capacity);
+}
+
+function updateAddThinClientCount() {
+	var clients = document.getElementById("pricingAddThinClient").value;
+	if (clients === "") {
+		document.getElementById("pricingAddThinClientCount").value = 0;
+		return;
+	}
+
+	var points = parseInt(document.getElementById("pricingAddPoints").value);
+	document.getElementById("pricingAddThinClientCount").value = parseInt(points);
+}
+
+function updateAddMonitorCount() {
+	var monitors = document.getElementById("pricingAddMonitor").value;
+	if (monitors === "") {
+		document.getElementById("pricingAddMonitorCount").value = 0;
+		return;
+	}
+
+	var points = parseInt(document.getElementById("pricingAddPoints").value);
+	document.getElementById("pricingAddMonitorCount").value = parseInt(points);
+}
+
+function updateAddKeyMouseCount() {
+	var clients = document.getElementById("pricingAddKeyMouse").value;
+	if (clients === "") {
+		document.getElementById("pricingAddKeyMouseCount").value = 0;
+		return;
+	}
+
+	var points = parseInt(document.getElementById("pricingAddPoints").value);
+	document.getElementById("pricingAddKeyMouseCount").value = parseInt(points);
+}
+
+function updateAddUkeyCount() {
+	var clients = document.getElementById("pricingAddUkey").value;
+	if (clients === "") {
+		document.getElementById("pricingAddUkeyCount").value = 0;
+		return;
+	}
+
+	var points = parseInt(document.getElementById("pricingAddPoints").value);
+	document.getElementById("pricingAddUkeyCount").value = parseInt(points);
 }

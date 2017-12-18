@@ -62,8 +62,9 @@ API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
 
 function  createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDisk,
-			infra, infraCount, cpu, cpuCount, memory, memoryCount, disk, diskCount,
-			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc, ukey) {
+			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount,
+			raid, thinClient, thinClientCount, monitor, monitorCount, keyMouse, keyMouseCount,
+			switches, switchCount, wifiRouter, wifiRouterCount, ukey, ukeyCount, service, desc) {
 	return {
 		"module": "pricing",
 		"api": API_ADD_PRICING_OCTDESK,
@@ -86,10 +87,15 @@ function  createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDi
 			"monitor": monitor,
 			"keyMouse": keyMouse,
 			"ukey": ukey,
+			"thinClientCount": thinClientCount,
+			"monitorCount": monitorCount,
+			"keyMouseCount": keyMouseCount,
+			"ukeyCount": ukeyCount,
 			"switch": switches,
 			"switchCount": switchCount,
 			"wifiRouter": wifiRouter,
 			"wifiRouterCount": wifiRouterCount,
+			"service": service,
 			"desc": desc
 		},
 		"async": false,
@@ -100,8 +106,10 @@ function  createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDi
 	};
 }
 
-function  createAddPricingClassParas(name, points, infra, infraCount, cpu, cpuCount, memory, memoryCount, disk, diskCount,
-			raid, thinClient, monitor, keyMouse, switches, switchCount, wifiRouter, wifiRouterCount, desc) {
+function  createAddPricingClassParas(name, points, infra, infraCount, cpu,
+			cpuCount, memory, memoryCount, disk, diskCount, raid,
+			thinClient, thinClientCount, monitor, monitorCount, keyMouse, keyMouseCount,
+			switches, switchCount, wifiRouter, wifiRouterCount, service, desc) {
 	return {
 		"module": "pricing",
 		"api": API_ADD_PRICING_OCTCLASS,
@@ -120,10 +128,14 @@ function  createAddPricingClassParas(name, points, infra, infraCount, cpu, cpuCo
 			"thinClient": thinClient,
 			"monitor": monitor,
 			"keyMouse": keyMouse,
+			"thinClientCount": thinClientCount,
+			"monitorCount": monitorCount,
+			"keyMouseCount": keyMouseCount,
 			"switch": switches,
 			"switchCount": switchCount,
 			"wifiRouter": wifiRouter,
 			"wifiRouterCount": wifiRouterCount,
+			"service": service,
 			"desc": desc
 		},
 		"async": false,
@@ -134,7 +146,7 @@ function  createAddPricingClassParas(name, points, infra, infraCount, cpu, cpuCo
 	};
 }
 
-function createAddPricingPlatformSoftParas(name, hostCount, cpuCount, desc) {
+function createAddPricingPlatformSoftParas(name, hostCount, cpuCount, service, desc) {
 	return {
 		"module": "pricing",
 		"api": API_ADD_PRICING_PLATFORMSOFT,
@@ -142,6 +154,7 @@ function createAddPricingPlatformSoftParas(name, hostCount, cpuCount, desc) {
 			"name": name,
 			"cpuCount": cpuCount,
 			"hostCount": hostCount,
+			"service": service,
 			"desc": desc
 		},
 		"async": false,
@@ -152,13 +165,14 @@ function createAddPricingPlatformSoftParas(name, hostCount, cpuCount, desc) {
 	};
 }
 
-function createAddPricingDeskSoftParas(name, points, desc) {
+function createAddPricingDeskSoftParas(name, points, servive, desc) {
 	return {
 		"module": "pricing",
 		"api": API_ADD_PRICING_OCTDESKSOFT,
 		"paras": {
 			"name": name,
 			"point": points,
+			"service": servive,
 			"desc": desc
 		},
 		"async": false,
@@ -169,13 +183,14 @@ function createAddPricingDeskSoftParas(name, points, desc) {
 	};
 }
 
-function createAddPricingClassSoftParas(name, poitns, desc) {
+function createAddPricingClassSoftParas(name, poitns, service, desc) {
 	return {
 		"module": "pricing",
 		"api": API_ADD_PRICING_OCTCLASSSOFT,
 		"paras": {
 			"name": name,
 			"point": poitns,
+			"service": service,
 			"desc": desc
 		},
 		"async": false,
@@ -186,7 +201,7 @@ function createAddPricingClassSoftParas(name, poitns, desc) {
 	};
 }
 
-function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory, memoryCount, disk, diskCount, raid, desc) {
+function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory, memoryCount, disk, diskCount, raid, service, desc) {
 	return {
 		"module": "pricing",
 		"api": API_ADD_PRICING_SERVER,
@@ -201,6 +216,7 @@ function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory,
 			"memory": memory,
 			"memoryCount": memoryCount,
 			"raid": raid,
+			"service": service,
 			"desc": desc
 		},
 		"async": false,
@@ -211,7 +227,8 @@ function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory,
 	};
 }
 
-function createAddPricingThinClientParas(name, points, thinclient, monitor, keymouse, desc) {
+function createAddPricingThinClientParas(name, points, thinclient, thinclientCount, monitor,
+                                         monitorCount, keymouse, keymouseCount, service, desc) {
 	return {
 		"module": "pricing",
 		"api": API_ADD_PRICING_THINCLIENT,
@@ -221,6 +238,10 @@ function createAddPricingThinClientParas(name, points, thinclient, monitor, keym
 			"thinClient": thinclient,
 			"monitor": monitor,
 			"keyMouse": keymouse,
+			"thinClientCount": thinclientCount,
+			"monitorCount": monitorCount,
+			"keyMouseCount": keymouseCount,
+			"service": service,
 			"desc": desc
 		},
 		"async": false,

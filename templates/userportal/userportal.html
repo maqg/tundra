@@ -423,42 +423,54 @@
 
 					<div id="pricingAddThinClientDiv" class="form-group">
 						<label class="col-sm-2 control-label">终端机</label>
-						<select id="pricingAddThinClient" title="" style="width: auto; left: 15px;"
+						<select id="pricingAddThinClient" title="" style="width: 375px; left: 15px;"
 						        class="form-control col-sm-10" onchange="updatePricingMonitor()">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
 						</select>
+						<div style="position: absolute; right: 15px; width: 85px">
+							<input type="text" class="form-control" id="pricingAddThinClientCount" value="" placeholder="数量">
+						</div>
 					</div>
 
 					<div id="pricingAddMonitorDiv" class="form-group">
 						<label class="col-sm-2 control-label">显示器</label>
-						<select id="pricingAddMonitor" title="" style="width: auto; left: 15px;"
-						        class="form-control col-sm-10">
+						<select id="pricingAddMonitor" title="" style="width: 375px; left: 15px;"
+						        class="form-control col-sm-10" onchange="updateAddMonitorCount()">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
 						</select>
+						<div style="position: absolute; right: 15px; width: 85px">
+							<input type="text" class="form-control" id="pricingAddMonitorCount" value="" placeholder="数量">
+						</div>
 					</div>
 
 					<div id="pricingAddKeyMouseDiv" class="form-group">
 						<label class="col-sm-2 control-label">键鼠套装</label>
-						<select id="pricingAddKeyMouse" title="" style="width: auto; left: 15px;"
-						        class="form-control col-sm-10">
+						<select id="pricingAddKeyMouse" title="" style="width: 375px; left: 15px;"
+						        class="form-control col-sm-10" onchange="updateAddKeyMouseCount()">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
 						</select>
+						<div style="position: absolute; right: 15px; width: 85px">
+							<input type="text" class="form-control" id="pricingAddKeyMouseCount" value="" placeholder="数量">
+						</div>
 					</div>
 
 					<div id="pricingAddUkeyDiv" class="form-group">
 						<label class="col-sm-2 control-label">UKEY</label>
-						<select id="pricingAddUkey" title="" style="width: auto; left: 15px;"
-						        class="form-control col-sm-10">
+						<select id="pricingAddUkey" title="" style="width: 375px; left: 15px;"
+						        class="form-control col-sm-10" onchange="updateAddUkeyCount()">
 							<option value="" selected>不使用</option>
 							<option value="1">型号1</option>
 							<option value="2">型号2</option>
 						</select>
+						<div style="position: absolute; right: 15px; width: 85px">
+							<input type="text" class="form-control" id="pricingAddUkeyCount" value="" placeholder="数量">
+						</div>
 					</div>
 
 					<div id="pricingAddInfrastructureDiv" class="form-group">
@@ -547,6 +559,14 @@
 						<div style="position: absolute; right: 15px; width: 85px">
 							<input type="text" class="form-control" id="pricingAddSwitchCount" value="" placeholder="数量">
 						</div>
+					</div>
+
+					<div id="pricingAddServiceDiv" class="form-group">
+						<label class="col-sm-2 control-label">售后服务</label>
+						<select id="pricingAddService" title="" style="width: 375px; left: 15px;"
+						        class="form-control col-sm-10">
+							<option value="" selected>不使用</option>
+						</select>
 					</div>
 
 					<div id="pricingAddDescDiv" class="form-group">
