@@ -235,6 +235,9 @@ def query_allinone_price(db, paras, type=SOFTWARE_TYPE_OCTDESK):
 		pricing.pointCpu = paras["pointCpu"]
 		pricing.pointMemory = paras["pointMemory"]
 		pricing.pointDisk = paras["pointDisk"]
+		
+		pricing.disk1 = paras["disk1"]
+		pricing.disk1Count = paras["disk1Count"]
 	
 	pricing.infrastructure = paras["infrastructure"]
 	pricing.infrastructureCount = paras["infrastructureCount"]
@@ -353,6 +356,9 @@ def query_server_price(db, paras):
 	
 	pricing.disk = paras["disk"]
 	pricing.diskCount = paras["diskCount"]
+	
+	pricing.disk1 = paras["disk1"]
+	pricing.disk1Count = paras["disk1Count"]
 	
 	pricing.raid = paras["raid"]
 	pricing.raidCount = pricing.points

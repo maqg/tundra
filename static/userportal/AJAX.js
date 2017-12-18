@@ -1053,12 +1053,14 @@ function makeServerPricingParas() {
 	var memoryCount = document.getElementById("pricingAddMemoryCount").value;
 	var disk = document.getElementById("pricingAddDisk").value;
 	var diskCount = document.getElementById("pricingAddDiskCount").value;
+	var disk1 = document.getElementById("pricingAddDisk1").value;
+	var disk1Count = document.getElementById("pricingAddDisk1Count").value;
 	var raid = document.getElementById("pricingAddRaid").value;
 	var service = document.getElementById("pricingAddService").value;
 	var desc = document.getElementById("pricingAddDesc").value;
 
 	return createAddPricingServerParas(name, points, infra, cpu, cpuCount,
-		memory, memoryCount, disk, diskCount, raid, service, desc);
+		memory, memoryCount, disk, diskCount, disk1, disk1Count, raid, service, desc);
 }
 
 function makePlatformSoftPricingParas() {
@@ -1126,8 +1128,10 @@ function mekeDeskPricingParas() {
 	if (pricingType === PRICING_TYPE_OCTDESK) {
 		var ukey = document.getElementById("pricingAddUkey").value;
 		var ukeyCount = document.getElementById("pricingAddUkeyCount").value;
+		var disk1 = document.getElementById("pricingAddDisk1").value;
+		var disk1Count = document.getElementById("pricingAddDisk1Count").value;
 		return createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDisk,
-			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount,
+			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount, disk1, disk1Count,
 			raid, thinClient, thinClientCount, monitor, monitorCount, keyMouse, keyMouseCount,
 			switches, switchCount, wifiRouter, wifiRouterCount, ukey, ukeyCount, service, desc);
 	} else {
@@ -1255,6 +1259,10 @@ function fillSelectOption(option) {
 		}
 	}
 	$(option.id).html($str);
+
+	if (option.type === "DISK") {
+		$("#pricingAddDisk1").html($str);
+	}
 }
 
 function parseProductsCallback(resultObj, paras) {
@@ -1319,6 +1327,7 @@ function initPricingForms() {
 	document.getElementById("pricingAddCpuDiv").style.display = "none";
 	document.getElementById("pricingAddMemoryDiv").style.display = "none";
 	document.getElementById("pricingAddDiskDiv").style.display = "none";
+	document.getElementById("pricingAddDisk1Div").style.display = "none";
 	document.getElementById("pricingAddRaidDiv").style.display = "none";
 	document.getElementById("pricingAddInfrastructureDiv").style.display = "none";
 	document.getElementById("pricingAddHostCountDiv").style.display = "none";
@@ -1339,6 +1348,7 @@ function initPricingForms() {
 	document.getElementById("pricingAddCpuCount").value = "";
 	document.getElementById("pricingAddMemoryCount").value = "";
 	document.getElementById("pricingAddDiskCount").value = "";
+	document.getElementById("pricingAddDisk1Count").value = "";
 	document.getElementById("pricingAddSwitchCount").value = "";
 	document.getElementById("pricingAddWifiRouterCount").value = "";
 
@@ -1364,6 +1374,7 @@ function updatePricingAddForm() {
 		document.getElementById("pricingAddCpuDiv").style.display = "block";
 		document.getElementById("pricingAddMemoryDiv").style.display = "block";
 		document.getElementById("pricingAddDiskDiv").style.display = "block";
+		document.getElementById("pricingAddDisk1Div").style.display = "block";
 		document.getElementById("pricingAddRaidDiv").style.display = "block";
 		document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
 		document.getElementById("pricingAddInfrastructureCountDiv").style.display = "none";
@@ -1386,6 +1397,7 @@ function updatePricingAddForm() {
 			document.getElementById("pricingAddPointCpuDiv").style.display = "block";
 			document.getElementById("pricingAddPointMemoryDiv").style.display = "block";
 			document.getElementById("pricingAddPointDiskDiv").style.display = "block";
+			document.getElementById("pricingAddDisk1Div").style.display = "block";
 		}
 
 		document.getElementById("pricingAddInfrastructureDiv").style.display = "block";
@@ -1425,6 +1437,7 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddCpuDiv").style.display = "none";
 			document.getElementById("pricingAddMemoryDiv").style.display = "none";
 			document.getElementById("pricingAddDiskDiv").style.display = "none";
+			document.getElementById("pricingAddDisk1Div").style.display = "none";
 			document.getElementById("pricingAddRaidDiv").style.display = "none";
 			document.getElementById("pricingAddWifiRouterDiv").style.display = "none";
 			document.getElementById("pricingAddSwitchDiv").style.display = "none";
@@ -1469,6 +1482,7 @@ function pricingDeskNext() {
 			document.getElementById("pricingAddCpuDiv").style.display = "block";
 			document.getElementById("pricingAddMemoryDiv").style.display = "block";
 			document.getElementById("pricingAddDiskDiv").style.display = "block";
+			document.getElementById("pricingAddDisk1Div").style.display = "block";
 			document.getElementById("pricingAddRaidDiv").style.display = "block";
 		}
 	} else {
@@ -1602,12 +1616,12 @@ function updateAddMemoryCount() {
 			document.getElementById("pricingAddMemory").value = "";
 			return;
 		}
-		document.getElementById("pricingAddMemoryCount").value = parseInt((points * pointMemory - capacity + 1) / capacity) + 1;
+		document.getElementById("pricingAddMemoryCount").value = parseInt((points * pointMemory + capacity - 1) / capacity) + 1;
 	} else if (pricingType === PRICING_TYPE_OCTCLASS) {
 		capacity = parseInt($("#pricingAddMemory option:selected").attr("capacity"));
 		points = parseInt(document.getElementById("pricingAddPoints").value);
 		pointMemory = parseInt(document.getElementById("pricingAddPointMemory").value);
-		document.getElementById("pricingAddMemoryCount").value = parseInt((points * 3 - capacity + 1) / capacity) + 1;
+		document.getElementById("pricingAddMemoryCount").value = parseInt((points * 3 + capacity - 1) / capacity) + 1;
 	}
 }
 
@@ -1621,22 +1635,38 @@ function updateAddDiskCount() {
 
 	var pricingType = getSelectedPricingAddType();
 	if (pricingType === PRICING_TYPE_OCTDESK) {
-		capacity = parseInt($("#pricingAddDisk option:selected").attr("capacity"));
+		document.getElementById("pricingAddDiskCount").value = 3;
+	} else if (pricingType === PRICING_TYPE_OCTCLASS) {
+		document.getElementById("pricingAddDiskCount").value = 2;
+	}
+}
+
+function updateAddDisk1Count() {
+
+	var disk = document.getElementById("pricingAddDisk1").value;
+	if (disk === "") {
+		document.getElementById("pricingAddDisk1Count").value = 0;
+		return;
+	}
+
+	var pricingType = getSelectedPricingAddType();
+	if (pricingType === PRICING_TYPE_OCTDESK) {
+		capacity = parseInt($("#pricingAddDisk1 option:selected").attr("capacity"));
 		points = parseInt(document.getElementById("pricingAddPoints").value);
 		if (!points) {
 			alert("点位数必须制定。。");
-			document.getElementById("pricingAddDisk").value = "";
+			document.getElementById("pricingAddDisk1").value = "";
 			return;
 		}
 		pointDisk = parseInt(document.getElementById("pricingAddPointDisk").value);
 		if (!pointDisk) {
 			alert("每点位磁盘数必须制定。。");
-			document.getElementById("pricingAddDisk").value = "";
+			document.getElementById("pricingAddDisk1").value = "";
 			return;
 		}
-		document.getElementById("pricingAddDiskCount").value = parseInt((points * pointDisk - capacity + 1) / capacity);
+		document.getElementById("pricingAddDisk1Count").value = parseInt((points * pointDisk + capacity - 1) / capacity);
 	} else if (pricingType === PRICING_TYPE_OCTCLASS) {
-		document.getElementById("pricingAddDiskCount").value = 2;
+		document.getElementById("pricingAddDisk1Count").value = 2;
 	}
 }
 

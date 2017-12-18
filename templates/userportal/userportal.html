@@ -513,7 +513,7 @@
 					</div>
 
 					<div id="pricingAddDiskDiv" class="form-group">
-						<label class="col-sm-2 control-label">磁盘</label>
+						<label class="col-sm-2 control-label">系统磁盘</label>
 						<select id="pricingAddDisk" title="" style="width: 375px; left: 15px;"
 						        class="form-control col-sm-10" onchange="updateAddDiskCount()">
 							<option value="" selected>不使用</option>
@@ -522,6 +522,19 @@
 						</select>
 						<div style="position: absolute; right: 15px; width: 85px">
 							<input type="text" class="form-control" id="pricingAddDiskCount" value="" placeholder="数量">
+						</div>
+					</div>
+
+					<div id="pricingAddDisk1Div" class="form-group">
+						<label class="col-sm-2 control-label">数据磁盘</label>
+						<select id="pricingAddDisk1" title="" style="width: 375px; left: 15px;"
+						        class="form-control col-sm-10" onchange="updateAddDisk1Count()">
+							<option value="" selected>不使用</option>
+							<option value="1">型号1</option>
+							<option value="2">型号2</option>
+						</select>
+						<div style="position: absolute; right: 15px; width: 85px">
+							<input type="text" class="form-control" id="pricingAddDisk1Count" value="" placeholder="数量">
 						</div>
 					</div>
 

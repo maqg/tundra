@@ -62,7 +62,7 @@ API_UUID = "00000000000000000000000000000000";
 API_SKEY = "";
 
 function  createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDisk,
-			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount,
+			infra, infraCount, cpu,cpuCount, memory, memoryCount, disk, diskCount, disk1, disk1Count,
 			raid, thinClient, thinClientCount, monitor, monitorCount, keyMouse, keyMouseCount,
 			switches, switchCount, wifiRouter, wifiRouterCount, ukey, ukeyCount, service, desc) {
 	return {
@@ -80,6 +80,8 @@ function  createAddPricingDeskParas(name, points, pointCpu, pointMemory, pointDi
 			"cpuCount": cpuCount,
 			"disk": disk,
 			"diskCount": diskCount,
+			"disk1": disk1,
+			"disk1Count": disk1Count,
 			"memory": memory,
 			"memoryCount": memoryCount,
 			"raid": raid,
@@ -201,7 +203,8 @@ function createAddPricingClassSoftParas(name, poitns, service, desc) {
 	};
 }
 
-function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory, memoryCount, disk, diskCount, raid, service, desc) {
+function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory, memoryCount,
+                                     disk, diskCount, disk1, disk1Count, raid, service, desc) {
 	return {
 		"module": "pricing",
 		"api": API_ADD_PRICING_SERVER,
@@ -213,6 +216,8 @@ function createAddPricingServerParas(name, points, infra, cpu, cpuCount, memory,
 			"cpuCount": cpuCount,
 			"disk": disk,
 			"diskCount": diskCount,
+			"disk1": disk1,
+			"disk1Count": disk1Count,
 			"memory": memory,
 			"memoryCount": memoryCount,
 			"raid": raid,

@@ -109,6 +109,9 @@ class PricingResult:
 		self.disk = None
 		self.diskCount = 0
 		
+		self.disk1 = None
+		self.disk1Count = 0
+		
 		self.switch = None
 		self.switchCount = 0
 		
@@ -178,6 +181,7 @@ class PricingResult:
 		self.appendSummaryItem(getProduct(self.db, self.cpu), self.cpuCount)
 		self.appendSummaryItem(getProduct(self.db, self.memory), self.memoryCount)
 		self.appendSummaryItem(getProduct(self.db, self.disk), self.diskCount)
+		self.appendSummaryItem(getProduct(self.db, self.disk1), self.disk1Count)
 		
 		self.appendSummaryItem(getProduct(self.db, self.raid), self.raidCount)
 		self.appendSummaryItem(getProduct(self.db, self.ukey), self.ukeyCount)
@@ -225,6 +229,7 @@ class PricingResult:
 		self.appendSummaryItem(getProduct(self.db, self.cpu), self.cpuCount)
 		self.appendSummaryItem(getProduct(self.db, self.memory), self.memoryCount)
 		self.appendSummaryItem(getProduct(self.db, self.disk), self.diskCount)
+		self.appendSummaryItem(getProduct(self.db, self.disk1), self.disk1Count)
 		self.appendSummaryItem(getProduct(self.db, self.raid), self.raidCount)
 		self.appendSummaryItem(getProduct(self.db, self.service), 1)
 

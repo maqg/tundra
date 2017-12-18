@@ -305,6 +305,18 @@ funcList = {
 				"descCN": "磁盘数",
 				"default": 2
 			},
+			"disk1": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "磁盘类型",
+				"default": ""
+			},
+			"disk1Count": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "磁盘数",
+				"default": 2
+			},
 			"memory": {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",
@@ -668,6 +680,18 @@ funcList = {
 				"type": PARAM_TYPE_INT,
 				"desc": "",
 				"descCN": "磁盘数",
+				"default": 2
+			},
+			"disk1": {
+				"type": PARAM_TYPE_STRING,
+				"desc": "",
+				"descCN": "数据盘磁盘类型",
+				"default": PARAM_NOT_NULL
+			},
+			"disk1Count": {
+				"type": PARAM_TYPE_INT,
+				"desc": "",
+				"descCN": "数据磁盘数",
 				"default": 2
 			},
 			"memory": {
