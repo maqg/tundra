@@ -4,11 +4,11 @@ from conf.dbconfig import TB_PRODUCT, TB_QUERYRESULT
 from core import dbmysql
 from core.err_code import DB_ERR, OCT_SUCCESS, SEGMENT_NOT_EXIST, INVALID_PARAS
 from core.log import ERROR
-from models.PricingResult import PricingResult, PRICING_TYPE_OCTDESK, PRICING_TYPE_THINCLIENT, \
+from models.PricingResult import PricingResult, PRICING_TYPE_THINCLIENT, \
 	getPricingResult, PRICING_TYPE_SERVER, PRICING_TYPE_PLATFORM_SOFT, PRICING_TYPE_OCTDESK_SOFT, \
 	PRICING_TYPE_OCTCLASS_SOFT
 from models.Product import Product, getProduct, PRODUCT_TYPE_SOFTWARE, SOFTWARE_TYPE_OCTCLASS, SOFTWARE_TYPE_OCTDESK, \
-	SOFTWARE_TYPE_PLATFORM
+	SOFTWARE_TYPE_PLATFORM, PRODUCT_TYPES
 from utils.timeUtil import getCurrentStrDate, get_current_time
 
 AUTHKEY_TIMEOUT = 24 * 30 * 60
@@ -53,20 +53,13 @@ def get_products(db, paras):
 
 def get_product_types(db, paras):
 	items = []
-	
-	cond = "WHERE 1=1 GROUP BY P_Type"
-	ret = db.select(TB_PRODUCT, cond=cond)
-	if ret == -1:
-		ERROR("get user list error")
-		return (DB_ERR, None)
-	
-	for dur in db.cur:
-		obj = dbmysql.row_to_dict(TB_PRODUCT, dur)
-		product = Product(db, dbObj=obj)
-		product.loadFromObj()
-		
-		items.append(product.toProductTypeObj())
-	
+	for (k, v) in PRODUCT_TYPES.items():
+		items.append(
+			{
+				"type": k,
+				"name": v,
+			}
+		)
 	return (OCT_SUCCESS, items)
 
 

@@ -295,5 +295,19 @@
 		"pointPrice": 1000
 	  }
 	]
+  },
+  "SERVICE": {
+	"name": "售后服务",
+	"products": [
+	  {
+		"id": "service-001",
+		"name": "三年售后服务",
+		"provider": "Octopus Link",
+		"model": "",
+		"desc": "",
+		"price": 5000,
+		"costPrice": 5000
+	  }
+	]
   }
 }
