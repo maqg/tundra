@@ -686,7 +686,7 @@ funcList = {
 				"type": PARAM_TYPE_STRING,
 				"desc": "",
 				"descCN": "数据盘磁盘类型",
-				"default": PARAM_NOT_NULL
+				"default": ""
 			},
 			"disk1Count": {
 				"type": PARAM_TYPE_INT,
