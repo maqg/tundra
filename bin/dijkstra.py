@@ -45,6 +45,14 @@ def getShortest(total, visited, distances):
 	return shortest
 
 
+def getDistance(start, end):
+	dis = distanceMap.get("%d-%d" % (start, end))
+	if dis == None:
+		return MAXINT
+	else:
+		return distanceMap.get("%d-%d" % (start, end))
+
+
 def dijkstra(station):
 	stationCount = len(stationList)
 	visited = []
@@ -59,7 +67,7 @@ def dijkstra(station):
 		distances.append(MAXINT)
 	
 	for i in range(0, stationCount):
-		distances[i] = distanceMap.get("%d-%d" % (start, i)) or MAXINT
+		distances[i] = getDistance(start, i)
 		if i != start and distances[i] < MAXINT:
 			prevNodes[i] = start
 		else:
@@ -72,7 +80,7 @@ def dijkstra(station):
 		
 		visited[latest] = True
 		for i in range(0, stationCount):
-			dist = distanceMap.get("%d-%d" % (latest, i)) or MAXINT
+			dist = getDistance(latest, i)
 			if not visited[i] and dist != MAXINT and distances[latest] + dist < distances[i]:
 				distances[i] = distances[latest] + dist
 				prevNodes[i] = latest
@@ -199,13 +207,15 @@ if __name__ == "__main__":
 			key2 = "%d-%d" % (subStation["position"], station["position"])
 			distanceMap[key] = length
 			distanceMap[key2] = length
+			distanceMap["%d-%d" % (station["position"], station["position"])] = 0
+			distanceMap["%d-%d" % (subStation["position"], subStation["position"])] = 0
 	
 	print("共有站点%d个" % stationCount)
 	
-	station = stationListMap.get("温阳路")
+	station = stationListMap.get("苹果园")
 	print("name:%s, position:%d" % (station["name"], station["position"]))
 	
-	station2 = stationListMap.get("奥体中心")
+	station2 = stationListMap.get("苹果园")
 	print("name:%s, position:%d" % (station2["name"], station2["position"]))
 	
 	(distances, prevNodes) = dijkstra(station)
