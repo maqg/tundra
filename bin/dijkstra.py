@@ -152,7 +152,6 @@ if __name__ == "__main__":
 							"station": index,
 							"length": station["length"]
 						}
-						index = index + 1
 					oldStation["subStations"].append(subStation)
 				
 				if prevStation:
@@ -172,11 +171,9 @@ if __name__ == "__main__":
 				station["lineIds"] = [line["id"]]
 				station["subStations"] = []
 				
-				if not station.get("position"):
-					station["position"] = index
-					index = index + 1
-				else:
-					print(station)
+				station["position"] = index
+				index = index + 1
+
 				stationListMap[station["name"]] = station
 				stationList.append(station)
 				
@@ -192,7 +189,6 @@ if __name__ == "__main__":
 							"station": index,
 							"length": station["length"]
 						}
-						index = index + 1
 					station["subStations"].append(subStation)
 				
 				if prevStation:
