@@ -106,7 +106,7 @@ def getStationList(prevNodes, start, end):
 	pathList = []
 	
 	prevStation = prevNodes[end]
-	while prevStation != -1 and prevStation != start:
+	while prevStation != -1:
 		pathList.insert(0, stationList[prevStation])
 		prevStation = prevNodes[prevStation]
 	
@@ -118,7 +118,7 @@ def getStationList(prevNodes, start, end):
 
 if __name__ == "__main__":
 	lineList = fileToObj("./subway.json")
-	i = 0
+	index = 0
 	
 	for line in lineList:
 		for station in line["stations"]:
@@ -149,9 +149,10 @@ if __name__ == "__main__":
 						}
 					else:
 						subStation = {
-							"station": oldStation["position"] + 1,
+							"station": index,
 							"length": station["length"]
 						}
+						index = index + 1
 					oldStation["subStations"].append(subStation)
 				
 				if prevStation:
@@ -170,8 +171,12 @@ if __name__ == "__main__":
 			else:  # 该站点首次被录入
 				station["lineIds"] = [line["id"]]
 				station["subStations"] = []
-				station["position"] = i
-				i = i + 1
+				
+				if not station.get("position"):
+					station["position"] = index
+					index = index + 1
+				else:
+					print(station)
 				stationListMap[station["name"]] = station
 				stationList.append(station)
 				
@@ -184,9 +189,10 @@ if __name__ == "__main__":
 						}
 					else:  # 该下一跳站点尚未被录入
 						subStation = {
-							"station": station["position"] + 1,
+							"station": index,
 							"length": station["length"]
 						}
+						index = index + 1
 					station["subStations"].append(subStation)
 				
 				if prevStation:
@@ -215,7 +221,7 @@ if __name__ == "__main__":
 	station = stationListMap.get("苹果园")
 	print("name:%s, position:%d" % (station["name"], station["position"]))
 	
-	station2 = stationListMap.get("苹果园")
+	station2 = stationListMap.get("立水桥")
 	print("name:%s, position:%d" % (station2["name"], station2["position"]))
 	
 	(distances, prevNodes) = dijkstra(station)
